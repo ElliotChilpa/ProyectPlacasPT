@@ -7,8 +7,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.MainController">
    <children>
-      <Label fx:id="printmessage" layoutX="419.0" layoutY="91.0" prefHeight="18.0" prefWidth="166.0" text="Label" />
+      <Label fx:id="printmessage" layoutX="419.0" layoutY="93.0" prefHeight="18.0" prefWidth="166.0" text="Label" />
       <TextFlow fx:id="textflow" layoutX="20.0" layoutY="60.0" prefHeight="200.0" prefWidth="374.0" />
-      <Button layoutX="207.0" layoutY="289.0" mnemonicParsing="false" onAction="#onReadFile" prefHeight="26.0" prefWidth="185.0" text="Enviar Mensaje" />
+      <Button layoutX="56.0" layoutY="284.0" mnemonicParsing="false" onAction="#onReadFile" prefHeight="26.0" prefWidth="185.0" text="Enviar Mensaje" />
+      <Button layoutX="446.0" layoutY="284.0" mnemonicParsing="false" onAction="#abrirRFID" text="Ventana RFID" />
    </children>
 </AnchorPane>

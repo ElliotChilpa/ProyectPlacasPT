@@ -2,10 +2,16 @@ package com.placaspt.ui;
 
 import com.placaspt.logic.RaspSSH;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainController {
     @FXML private Label printmessage;
@@ -48,5 +54,26 @@ public class MainController {
             textflow.getChildren().add(texto);
         }
     }
+    @FXML
+    void abrirRFID() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/placaspt/ui/rfid.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Lector RFID - COM4");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Cerrar esta ventana (main.fxml)
+            Stage thisStage = (Stage) printmessage.getScene().getWindow();
+            thisStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 }

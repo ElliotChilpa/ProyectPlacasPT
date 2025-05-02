@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias" />
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="realizamos un cambio en el workspace.xml para ver como se comporta.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/rfid.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/rfid.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +55,7 @@
   "keyToString": {
     "Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "6e3e6bec",
+    "git-widget-placeholder": "9e918d32",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -94,7 +100,7 @@
       <workItem from="1745426389430" duration="2131000" />
       <workItem from="1745609782473" duration="3000" />
       <workItem from="1745865396561" duration="1565000" />
-      <workItem from="1746062342080" duration="8273000" />
+      <workItem from="1746062342080" duration="12002000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -104,7 +110,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746110786657</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="realizamos un cambio en el workspace.xml para ver como se comporta.">
+      <option name="closed" value="true" />
+      <created>1746111498174</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1746111498174</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,7 +127,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Este commit puede que no funciones pero regrese a la versíón estable probemos" />
     <MESSAGE value="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias" />
-    <option name="LAST_COMMIT_MESSAGE" value="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias" />
+    <MESSAGE value="realizamos un cambio en el workspace.xml para ver como se comporta." />
+    <option name="LAST_COMMIT_MESSAGE" value="realizamos un cambio en el workspace.xml para ver como se comporta." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
