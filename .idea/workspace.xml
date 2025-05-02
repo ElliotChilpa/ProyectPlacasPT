@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Agregamos el RS232RFID funcional, el RFIDController funcional y la vista rfid fxml funcional.">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se creo la rama rfid-integracion">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +97,7 @@
       <workItem from="1745426389430" duration="2131000" />
       <workItem from="1745609782473" duration="3000" />
       <workItem from="1745865396561" duration="1565000" />
-      <workItem from="1746062342080" duration="12403000" />
+      <workItem from="1746062342080" duration="13102000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -122,7 +123,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746148855691</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Se creo la rama rfid-integracion">
+      <option name="closed" value="true" />
+      <created>1746149772495</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1746149772495</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,7 +142,8 @@
     <MESSAGE value="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias" />
     <MESSAGE value="realizamos un cambio en el workspace.xml para ver como se comporta." />
     <MESSAGE value="Agregamos el RS232RFID funcional, el RFIDController funcional y la vista rfid fxml funcional." />
-    <option name="LAST_COMMIT_MESSAGE" value="Agregamos el RS232RFID funcional, el RFIDController funcional y la vista rfid fxml funcional." />
+    <MESSAGE value="Se creo la rama rfid-integracion" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se creo la rama rfid-integracion" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
