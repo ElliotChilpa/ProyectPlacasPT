@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="549.0" prefWidth="673.0" spacing="15" stylesheets="@login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.LoginController_2">
+
+    <padding>
+        <Insets bottom="30" left="30" right="30" top="30" />
+    </padding>
+
+    <!-- Título -->
+    <Label styleClass="titulo" text="INICIO DE SESIÓN" />
+
+    <!-- Ícono de usuario -->
+    <ImageView fitHeight="80" fitWidth="80">
+        <image>
+            <Image url="https://img.icons8.com/ios-filled/100/000000/user.png" />
+        </image>
+    </ImageView>
+
+    <!-- Campos -->
+    <TextField fx:id="userField" maxWidth="250" promptText="USUARIO" />
+    <PasswordField fx:id="passField" maxWidth="250" promptText="CONTRASEÑA" />
+    <Button onAction="#handleLogin" styleClass="boton" text="OK" />
+    <Label fx:id="messageLabel" styleClass="mensaje" />
+</VBox>

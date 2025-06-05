@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.placaspt.ui.ConfiguracionController"
+      spacing="20" alignment="TOP_CENTER" style="-fx-background-color: #f6f6f6;">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Título -->
+    <Label text="Configuración de Horario" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+    <!-- Campo horario -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Horario de acceso permitido" />
+        <TextField fx:id="horarioField" editable="false" promptText="12:00pm - 3:00pm" />
+        <Button text="EDITAR" onAction="#editarHorario" />
+    </HBox>
+
+    <!-- Campo ID -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="ID Usuario Temporal" />
+        <TextField fx:id="idField" promptText="1233-52" />
+        <Button text="BUSCAR" onAction="#buscarUsuario" />
+    </HBox>
+
+    <!-- Campo placas -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Placas" />
+        <TextField fx:id="placasField" promptText="NJM-5505" />
+    </HBox>
+
+    <!-- Botones Guardar / Cancelar -->
+    <HBox spacing="20" alignment="CENTER">
+        <Button text="GUARDAR" style="-fx-background-color: black; -fx-text-fill: white;" onAction="#guardar" />
+        <Button fx:id="cancelarButton" text="CANCELAR" style="-fx-background-color: #ccc;" onAction="#cancelar" />
+
+    </HBox>
+
+</VBox>

@@ -1,0 +1,63 @@
+.root {
+    -fx-background-color: white;
+}
+
+.menu-title {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15;
+    -fx-font-size: 13px;
+}
+
+.menu-selected {
+    -fx-background-color: #222;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 15;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 13px;
+}
+
+.volver-button {
+    -fx-background-color: #dddddd;
+    -fx-text-fill: #000000;
+    -fx-font-size: 13px;
+    -fx-padding: 5 15;
+    -fx-background-radius: 5;
+}
+ /*
+.logout-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 5 15;
+    -fx-alignment: CENTER_LEFT;
+}*/
+
+VBox {
+    -fx-background-color: linear-gradient(to bottom, #1e3c72, #2a5298);
+}
+
+/* Botones principales centrados */
+.main-button {
+    -fx-pref-width: 120;
+    -fx-pref-height: 50;
+    -fx-font-size: 13px;
+    -fx-background-color: #e0e0e0;
+    -fx-background-radius: 5;
+    -fx-border-width: 0;
+}
+
+/* Elimina cualquier borde o fondo del contenedor de botones */
+HBox {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+}

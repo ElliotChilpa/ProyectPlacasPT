@@ -11,7 +11,7 @@ public class MainPlacasPT extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println(getClass().getResource("/com/placaspt/ui/login.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/placaspt/ui/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/placaspt/ui/Tru.fxml"));
         Parent root = loader.load();
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Placas PT");

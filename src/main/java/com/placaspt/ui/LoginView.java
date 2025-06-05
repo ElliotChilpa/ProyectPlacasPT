@@ -21,14 +21,14 @@ public class LoginView {
 
         //Acciones del Boton
         loginButton.setOnAction(e -> {
-           String username = userField.getText();
-           String password = passField.getText();
-           boolean valid = AuthManager.validate(username, password);
-           if (valid) {
-               messageLabel.setText("Acceso Correcto");
-           }else {
-               messageLabel.setText("Usuario o Contraseña Incorrecto");
-           }
+            String username = userField.getText();
+            String password = passField.getText();
+            boolean valid = AuthManager.validate(username, password);
+            if (valid) {
+                messageLabel.setText("Acceso Correcto");
+            }else {
+                messageLabel.setText("Usuario o Contraseña Incorrecto");
+            }
         });
 
         // Layout

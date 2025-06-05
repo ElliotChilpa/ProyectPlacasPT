@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.placaspt.ui.EstacionamientoController"
+      spacing="20"
+      alignment="TOP_CENTER"
+      style="-fx-background-color: #f6f6f6;"
+      padding="20">
+
+    <!-- Encabezado -->
+    <Label text="Gestión del Estacionamiento"
+           style="-fx-font-size: 22px; -fx-font-weight: bold;" />
+
+    <!-- Fila de búsqueda -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Buscar por ID:" />
+        <TextField fx:id="searchField"
+                   promptText="Ingrese ID de usuario"
+                   onKeyReleased="#buscar"
+                   prefWidth="200" />
+    </HBox>
+
+    <!-- Tabla de registros -->
+    <TableView fx:id="tablaEstacionamiento"
+               prefHeight="400"
+               prefWidth="800">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="100" />
+            <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150" />
+            <TableColumn fx:id="colEstado" text="Estado" prefWidth="100" />
+            <TableColumn fx:id="colPlacas" text="Placas" prefWidth="120" />
+            <TableColumn fx:id="colTipo" text="Tipo" prefWidth="100" />
+            <TableColumn fx:id="colHorario" text="Horario" prefWidth="130" />
+        </columns>
+    </TableView>
+
+    <!-- Botón para volver -->
+    <Button text="Volver"
+            onAction="#volverAlDashboard"
+            style="-fx-background-color: #dcdcdc; -fx-font-weight: bold;" />
+
+</VBox>
