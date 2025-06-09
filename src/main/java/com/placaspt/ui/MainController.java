@@ -1,11 +1,11 @@
 package com.placaspt.ui;
 
+import com.placaspt.database.UsuarioDAO;
 import com.placaspt.logic.RaspSSH;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -53,6 +53,11 @@ public class MainController {
             texto.setStyle("-fx-font-family: 'Consolas'; -fx-font-size: 13;");
             textflow.getChildren().add(texto);
         }
+    }
+    @FXML
+    void leerUsuarioDB() {
+        printmessage.setText("Hola ejemplo 1");
+        UsuarioDAO.listarUsuarios();
     }
     @FXML
     void abrirRFID() {

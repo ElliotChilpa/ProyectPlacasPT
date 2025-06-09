@@ -1,5 +1,6 @@
 package com.placaspt.ui;
 
+import com.placaspt.database.DAORFID;
 import com.placaspt.logic.RS232RFID;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -32,6 +33,9 @@ public class RFIDController {
             lector.escuchar(datos -> Platform.runLater(() -> {
                 System.out.println("Lectura RFID: " + datos);
                 etiquetaLectura.setText("Lectura: " + datos);
+
+                // Aquí prueba insertar datos pero tambien en RS232RFID cuando se lea.
+                DAORFID.insertarLectura(datos);
             }));
         } else {
             etiquetaLectura.setText("No se pudo abrir COM4");

@@ -11,5 +11,6 @@
       <TextFlow fx:id="textflow" layoutX="20.0" layoutY="60.0" prefHeight="200.0" prefWidth="374.0" />
       <Button layoutX="56.0" layoutY="284.0" mnemonicParsing="false" onAction="#onReadFile" prefHeight="26.0" prefWidth="185.0" text="Enviar Mensaje" />
       <Button layoutX="446.0" layoutY="284.0" mnemonicParsing="false" onAction="#abrirRFID" text="Ventana RFID" />
+      <Button layoutX="300.0" layoutY="284.0" mnemonicParsing="false" onAction="#leerUsuarioDB" text="LeerUsuario" />
    </children>
 </AnchorPane>
