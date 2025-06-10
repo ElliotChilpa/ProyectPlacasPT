@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se creo la rama rfid-integracion">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/RegistroRFIDDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/TarjetaRFIDDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/DAORFID.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/LoginView.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,21 +57,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainPlacasPT.executor": "Run",
-    "Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "rfid-integracion",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainPlacasPT.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;rfid-integracion&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ellio\OneDrive\Escritorio\UPIITA\placasPT\ProyectPlacasPT\src\main\resources\com\placaspt\ui" />
@@ -107,6 +108,7 @@
       <workItem from="1745609782473" duration="3000" />
       <workItem from="1745865396561" duration="1565000" />
       <workItem from="1746062342080" duration="13102000" />
+      <workItem from="1749569058690" duration="8248000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -140,7 +142,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746149772495</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100">
+      <option name="closed" value="true" />
+      <created>1749457108778</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749457108779</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,7 +162,8 @@
     <MESSAGE value="realizamos un cambio en el workspace.xml para ver como se comporta." />
     <MESSAGE value="Agregamos el RS232RFID funcional, el RFIDController funcional y la vista rfid fxml funcional." />
     <MESSAGE value="Se creo la rama rfid-integracion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se creo la rama rfid-integracion" />
+    <MESSAGE value="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
