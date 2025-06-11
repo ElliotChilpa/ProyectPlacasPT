@@ -4,15 +4,29 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.LoginController">
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="fondo_login" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.LoginController">
    <children>
-      <TextField fx:id="userField" layoutX="175.0" layoutY="92.0" />
-      <PasswordField fx:id="passField" layoutX="175.0" layoutY="149.0" />
-      <Button layoutX="219.0" layoutY="187.0" mnemonicParsing="false" onAction="#onLoginClick" text="Ingresar" />
-      <Label fx:id="messageLabel" layoutX="236.0" layoutY="232.0" text="Label" />
-      <Label layoutX="175.0" layoutY="62.0" prefHeight="18.0" prefWidth="47.0" text="Usuario:" />
-      <Label layoutX="175.0" layoutY="124.0" prefHeight="18.0" prefWidth="73.0" text="Contraseña:" />
+      <TextField fx:id="userField" layoutX="206.0" layoutY="154.0" promptText="Usuario" />
+      <PasswordField fx:id="passField" layoutX="209.0" layoutY="221.0" promptText="*******" />
+      <Button layoutX="226.0" layoutY="269.0" mnemonicParsing="false" onAction="#onLoginClick" prefHeight="26.0" prefWidth="110.0" text="Ingresar" />
+      <Label fx:id="messageLabel" layoutX="204.0" layoutY="27.0" styleClass="label_titulo" text="INICIO DE SESIÓN" textAlignment="CENTER">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="209.0" layoutY="124.0" prefHeight="18.0" prefWidth="47.0" text="Usuario:" />
+      <Label layoutX="209.0" layoutY="191.0" prefHeight="18.0" prefWidth="73.0" text="Contraseña:" />
+      <Button layoutX="227.0" layoutY="312.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="109.0" text="Crear Usuario" />
+      <ImageView fitHeight="68.0" fitWidth="65.0" layoutX="251.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons/icon_usuario.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
