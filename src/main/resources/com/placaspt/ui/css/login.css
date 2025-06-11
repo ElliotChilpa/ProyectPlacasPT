@@ -1,8 +1,7 @@
 /* login.css */
 
-/* Aplica al AnchorPane raíz */
-.root-pane {
-    /* degradado de azul oscuro a azul más claro */
+/* Fondo degradado para el contenedor raíz */
+.fondo_login {
     -fx-background-color: linear-gradient(
             from 0% 0% to 100% 100%,
             #1f3b6f,
@@ -10,19 +9,39 @@
     );
 }
 
-/* Centrar y dar sombra ligera a la imagen de usuario */
+/* Título grande y blanco */
+.label_titulo {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Sombra para la imagen */
 .image-view {
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.6) , 8, 0.5 , 0 , 2 );
 }
 
-/* Estilo genérico para campos de texto */
+/* Campos de texto y contraseña */
 .text-field, .password-field {
-    -fx-background-radius: 5px;
+    /* Fondo casi blanco para buen contraste */
+    -fx-background-color: rgba(255,255,255,0.9);
+    /* Borde blanco suave y un poco más grueso */
+    -fx-border-color: rgba(255,255,255,0.8);
+    -fx-border-width: 2px;
     -fx-border-radius: 5px;
-    -fx-border-color: rgba(255,255,255,0.4);
-    -fx-prompt-text-fill: rgba(255,255,255,0.7);
-    -fx-text-fill: white;
-    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-background-radius: 5px;
+    /* Padding interno para que no queden pegados al borde */
+    -fx-padding: 8px 12px;
+    /* Texto y prompt en oscuro para legibilidad */
+    -fx-text-fill: #000000;
+    -fx-prompt-text-fill: rgba(0,0,0,0.5);
+    /* Un tamaño de fuente ligeramente mayor */
+    -fx-font-size: 14px;
+}
+
+/* Borde más brillante al enfocar */
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #ffffff;
 }
 
 /* Botones estilizados */
@@ -31,6 +50,7 @@
     -fx-background-color: #5a7fb1;
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-padding: 8px 20px;
 }
 .button:hover {
     -fx-background-color: #486494;

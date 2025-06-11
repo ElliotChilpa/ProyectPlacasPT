@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/login.css" afterDir="false" />
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/login.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/login.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -149,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749457108779</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos">
+      <option name="closed" value="true" />
+      <created>1749628849186</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1749628849186</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,7 +170,8 @@
     <MESSAGE value="Agregamos el RS232RFID funcional, el RFIDController funcional y la vista rfid fxml funcional." />
     <MESSAGE value="Se creo la rama rfid-integracion" />
     <MESSAGE value="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100" />
+    <MESSAGE value="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
