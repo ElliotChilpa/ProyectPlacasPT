@@ -1,0 +1,28 @@
+/* sidebar.css */
+.side-bar {
+    -fx-background-color: #2b3e50;
+    -fx-padding: 20;
+}
+
+.menu-title {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 10 0;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #bdc3c7;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 8 12;
+}
+
+.menu-button:hover {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+}
+
+.menu-button:focused {
+    -fx-background-color: #1abc9c;
+    -fx-text-fill: white;
+}

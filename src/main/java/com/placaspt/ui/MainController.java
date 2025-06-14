@@ -2,11 +2,15 @@ package com.placaspt.ui;
 
 import com.placaspt.database.UsuarioDAO;
 import com.placaspt.logic.RaspSSH;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button; // Agregamos esta clase para prueba de menú.
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane; // Agregamos esta clase para prueba de menú lateral.
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -14,8 +18,55 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainController {
+    // Estó es para el Menú
+    @FXML private StackPane contentArea;
+    @FXML private Button btnUsuarios;
+    @FXML private Button btnEstacionamiento;
+    @FXML private Button btnConfiguraciones;
+
     @FXML private Label printmessage;
     @FXML private TextFlow textflow;
+
+    /*@FXML
+    public void initialize() {
+        // Carga por defecto la sección Usuarios
+        showUsuarios();
+    }*/
+
+    // Control para abrir vista de usuarios
+    @FXML
+    private void showUsuarios(ActionEvent event) {
+        loadView("/com/placaspt/ui/UsuariosView.fxml");
+    }
+
+    // Control para abrir vista de Estacionamiento
+    @FXML
+    private void showEstacionamiento(ActionEvent event) {
+        loadView("/com/placaspt/ui/estacionamientoView.fxml");
+    }
+
+    // Control para abrir vista de Configuraciones.
+    @FXML
+    private void showConfiguraciones(ActionEvent event) {
+        loadView("/com/placaspt/ui/configuracionesView.fxml");
+    }
+
+    // Control para cerrar sesion
+    @FXML
+    private void logout(ActionEvent event) {
+        try {
+            Parent loginRoot = FXMLLoader.load(
+                    getClass().getResource("/com/placaspt/ui/login.fxml")
+            );
+            Stage stage = (Stage)((javafx.scene.Node)event.getSource())
+                    .getScene().getWindow();
+            stage.setScene(new Scene(loginRoot));
+            //stage.setTitle("Login");
+        } catch (Exception e) {
+            e.printStackTrace();
+            // aquí podrías poner un Alert de error
+        }
+    }
 
     @FXML void onReadFile() {
         //Simulación de lectura de archivo en raspberry
@@ -77,4 +128,17 @@ public class MainController {
             e.printStackTrace();
         }
     }
+    // ////////////////////////// ESTAS DOS FUNCIONES SON PARA BARRA LATERAL.
+    private void loadView(String fxmlPath) {
+        try {
+            // Carga la vista FXML
+            Node view = FXMLLoader.load(getClass().getResource(fxmlPath));
+            // Reemplaza el contenido actual
+            contentArea.getChildren().setAll(view);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Puedes mostrar un diálogo de error si falla la carga
+        }
+    }
+
 }

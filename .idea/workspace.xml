@@ -4,10 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se actualizo el login.fxml y se comento para darle orde, se agregaron id en el fxml para oder identificarlo en el css, en el css se crearon clases de estilo para botones, cuadros de texto, titulos">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/ConfiguracionesController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/UsuariosView.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/configuracionesView.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/sidebar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,22 +63,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainPlacasPT.executor": "Run",
-    "Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "rfid-integracion",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainPlacasPT.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;rfid-integracion&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ellio\OneDrive\Escritorio\UPIITA\placasPT\ProyectPlacasPT\src\main\resources\com\placaspt\ui" />
@@ -108,6 +116,10 @@
       <workItem from="1745865396561" duration="1565000" />
       <workItem from="1746062342080" duration="13102000" />
       <workItem from="1749569058690" duration="8248000" />
+      <workItem from="1749659230538" duration="4675000" />
+      <workItem from="1749691342752" duration="5538000" />
+      <workItem from="1749744153670" duration="4288000" />
+      <workItem from="1749880969344" duration="3203000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
