@@ -4,17 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se actualizo el login.fxml y se comento para darle orde, se agregaron id en el fxml para oder identificarlo en el css, en el css se crearon clases de estilo para botones, cuadros de texto, titulos">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/ConfiguracionesController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/UsuariosView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/configuracionesView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/main.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/sidebar.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" afterDir="false" />
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/ConfiguracionesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/ConfiguracionesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/UsuariosView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/UsuariosView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/configuracionesView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/configuracionesView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/menu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +116,7 @@
       <workItem from="1749659230538" duration="4675000" />
       <workItem from="1749691342752" duration="5538000" />
       <workItem from="1749744153670" duration="4288000" />
-      <workItem from="1749880969344" duration="3203000" />
+      <workItem from="1749880969344" duration="6009000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -169,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749628849186</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar.">
+      <option name="closed" value="true" />
+      <created>1749884410504</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749884410504</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,7 +188,8 @@
     <MESSAGE value="Se creo la rama rfid-integracion" />
     <MESSAGE value="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100" />
     <MESSAGE value="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos" />
+    <MESSAGE value="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -7,15 +7,26 @@
             #1f3b6f,      /* azul oscuro */
             #3c6ab3       /* azul medio */
     );
-    -fx-padding: 20px;    /* separación interior */
+    -fx-padding: 10px;    /* separación interior */
+}
+
+/* Sombra para la imagen */
+.image-menu {
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.6) , 8, 0.5 , 0 , 2 );
+}
+/* el nuevo HBox que sólo contiene la imagen */
+.image-container {
+    -fx-alignment: center;     /* aquí centramos la imagen */
 }
 
 /* Título del menú */
 .menu-title {
+    -fx-alignment: CENTER;
     -fx-text-fill: white;
-    -fx-font-size: 18px;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-padding: 0 0 10px 0;  /* margen inferior */
+
 }
 
 /* Botones del menú */
