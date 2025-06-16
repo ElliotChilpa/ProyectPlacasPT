@@ -9,9 +9,25 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ConfiguracionesController {
+public class ConfiguracionesController implements MainAware {
+    // ESTO ES PARA ABRIR SUB-CONTROLADORES
+    private MainController mainController;
     @FXML private Label estadoRFID;
 
+    // ESTO ES PARA ABRIR SUB-Controladores
+    @Override
+    public void setMainController(MainController main) {
+        this.mainController = main;
+    }
+
+
+    @FXML
+    private void abrirRFID() {
+        // Ahora puedo recargar el contentArea sin cerrar la ventana principal:
+        mainController.loadView("/com/placaspt/ui/rfid.fxml");
+    }
+
+    /*
     @FXML
     void abrirRFID() {
         try {
@@ -29,5 +45,5 @@ public class ConfiguracionesController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

@@ -129,8 +129,21 @@ public class MainController {
         }
     }
     // ////////////////////////// ESTAS DOS FUNCIONES SON PARA BARRA LATERAL.
-    private void loadView(String fxmlPath) {
+    // Cambiamos a publico para los siguientes menús
+    public void loadView(String fxmlPath) {
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent view = loader.load();
+            // inyecta referencia a este MainController si el sub-controlador la necesita
+            Object subController = loader.getController();
+            if (subController instanceof MainAware) {
+                ((MainAware)subController).setMainController(this);
+            }
+            contentArea.getChildren().setAll(view);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        /** try {
             // Carga la vista FXML
             Node view = FXMLLoader.load(getClass().getResource(fxmlPath));
             // Reemplaza el contenido actual
@@ -138,7 +151,8 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
             // Puedes mostrar un diálogo de error si falla la carga
-        }
+        } */
+
     }
 
 }
