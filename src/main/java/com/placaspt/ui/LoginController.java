@@ -43,4 +43,27 @@ public class LoginController {
         }
         messageLabel.setText(valid ? "Bienvenido" : "Usuario o contraseña incorrectos");
     }
+
+    @FXML
+    private void crearAdmin() {
+        try
+        {
+            System.out.println(getClass().getResource("/com/placaspt/ui/newUserAdmin.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/placaspt/ui/newUserAdmin.fxml"));
+            Parent root = loader.load();
+
+            Stage stage= new Stage();
+            stage.setTitle("Crear Usuario Admin");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Cerramos ventana antigua.
+            Stage thisStage = (Stage) userField.getScene().getWindow();
+            thisStage.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+    }
 }

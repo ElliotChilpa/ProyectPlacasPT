@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class RFIDController {
-
     @FXML private Label etiquetaLectura;
     @FXML private Button btnIniciar;
 
@@ -64,6 +63,7 @@ public class RFIDController {
             etiquetaLectura.setText("No se pudo abrir COM4");
         }
     }
+
     @FXML
     void volverAlMain() {
         try {
