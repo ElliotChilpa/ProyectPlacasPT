@@ -14,11 +14,20 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RFIDController {
+// Tenemos que implemenatar la interfaz para el historial de pestañas y poder regresar.
+public class RFIDController implements MainAware {
+    // Esto es para inyectar controlador para boton atas
+    private MainController mainController;
     @FXML private Label etiquetaLectura;
     @FXML private Button btnIniciar;
 
     private final RS232RFID lector = new RS232RFID();
+
+    // Esto es para inyectar controlador4 para regresar atras
+    @Override
+    public void setMainController(MainController main) {
+        this.mainController = main;
+    }
 
     @FXML
     public void initialize() {
@@ -65,6 +74,11 @@ public class RFIDController {
     }
 
     @FXML
+    private void onBack() {
+        mainController.goBack();
+    }
+    /*
+    @FXML
     void volverAlMain() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/placaspt/ui/main.fxml"));
@@ -82,7 +96,8 @@ public class RFIDController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
+
 
 }
 

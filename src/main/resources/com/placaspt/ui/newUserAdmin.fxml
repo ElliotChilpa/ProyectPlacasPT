@@ -8,21 +8,21 @@
 <AnchorPane fx:id="rootPaneNewUserAdmin" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.NewUserAdmin">
    <children>
       <Label fx:id="labelNewAdmin" layoutX="243.0" layoutY="22.0" text="Nuevo Administrador" />
-      <TextField layoutX="54.0" layoutY="80.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="claveMaestraField" layoutX="54.0" layoutY="80.0" prefHeight="25.0" prefWidth="200.0" />
       <Button layoutX="269.0" layoutY="345.0" mnemonicParsing="false" onAction="#volverAlLogin" text="Regresar" />
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="256.0" layoutY="303.0" mnemonicParsing="false" text="Crear Usuario" />
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="256.0" layoutY="303.0" mnemonicParsing="false" onAction="#crearUsuario" text="Crear Usuario" />
       <Label layoutX="75.0" layoutY="63.0" text="Clave Maestra" />
       <Label layoutX="76.0" layoutY="114.0" text="Nombre" />
-      <TextField layoutX="54.0" layoutY="131.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="adminName" layoutX="54.0" layoutY="131.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="80.0" layoutY="166.0" text="Correo" />
-      <TextField layoutX="54.0" layoutY="188.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField layoutX="316.0" layoutY="188.0" prefHeight="25.0" prefWidth="187.0" />
+      <TextField fx:id="adminEmail" layoutX="54.0" layoutY="188.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="adminPhone" layoutX="316.0" layoutY="188.0" prefHeight="25.0" prefWidth="187.0" />
       <Label layoutX="315.0" layoutY="166.0" text="Telefono" />
-      <TextField layoutX="316.0" layoutY="131.0" prefHeight="25.0" prefWidth="187.0" />
+      <TextField fx:id="adminSurname" layoutX="316.0" layoutY="131.0" prefHeight="25.0" prefWidth="187.0" />
       <Label layoutX="316.0" layoutY="114.0" text="Apellido" />
-      <TextField layoutX="54.0" layoutY="247.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="adminPassword" layoutX="54.0" layoutY="247.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="80.0" layoutY="221.0" text="Contraseña" />
       <Label layoutX="315.0" layoutY="221.0" text="Confirmar Contraseña" />
-      <TextField layoutX="316.0" layoutY="247.0" prefHeight="25.0" prefWidth="187.0" />
+      <TextField fx:id="confirmAdminPassword" layoutX="316.0" layoutY="247.0" prefHeight="25.0" prefWidth="187.0" />
    </children>
 </AnchorPane>

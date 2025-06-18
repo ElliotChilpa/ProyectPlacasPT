@@ -1,5 +1,6 @@
 package com.placaspt.ui;
 
+import com.placaspt.logic.AdministradorPOJO;
 import com.placaspt.logic.AuthManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,10 +19,13 @@ public class LoginController {
     private void onLoginClick() {
         String username = userField.getText();
         String password = passField.getText();
-        Boolean valid = AuthManager.validate(username, password);
+        AdministradorPOJO adminLogin = AuthManager.login(username, password);
+        //Boolean valid = AuthManager.validate(username, password);
 
-        if (valid) {
+        if (adminLogin != null) {
             try{
+                // Primera linea para imprimir bienvenida.
+                System.out.println("Bienvenido, " + adminLogin.getNombre());
                 System.out.println(getClass().getResource("/com/placaspt/ui/main.fxml"));
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/placaspt/ui/main.fxml"));
                 Parent root = loader.load();
@@ -41,7 +45,7 @@ public class LoginController {
         }else {
             messageLabel.setText("Usuario o contraseña Incorrecta");
         }
-        messageLabel.setText(valid ? "Bienvenido" : "Usuario o contraseña incorrectos");
+        //messageLabel.setText(valid ? "Bienvenido" : "Usuario o contraseña incorrectos");
     }
 
     @FXML

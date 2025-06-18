@@ -16,9 +16,12 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class MainController {
     // Estó es para el Menú
+    // Esto tambiés es para un historial de pestañas
     @FXML private StackPane contentArea;
     @FXML private Button btnUsuarios;
     @FXML private Button btnEstacionamiento;
@@ -26,6 +29,8 @@ public class MainController {
 
     @FXML private Label printmessage;
     @FXML private TextFlow textflow;
+    // Pila donde apilamos las vistas anteriores
+    private final Deque<Node> history = new ArrayDeque<>();
 
     /*@FXML
     public void initialize() {
@@ -130,6 +135,7 @@ public class MainController {
     }
     // ////////////////////////// ESTAS DOS FUNCIONES SON PARA BARRA LATERAL.
     // Cambiamos a publico para los siguientes menús
+    /*
     public void loadView(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -151,8 +157,44 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
             // Puedes mostrar un diálogo de error si falla la carga
-        } */
+        } //**
 
+    }*/
+    /**
+     * Carga una nueva vista, guardando la actual en el historial
+     */
+    public void loadView(String fxmlPath) {
+        try {
+            // Si ya hay algo cargado, lo guardamos antes de reemplazar
+            if (!contentArea.getChildren().isEmpty()) {
+                history.push(contentArea.getChildren().get(0));
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Node view = loader.load();
+
+            // Inyectar MainController si el controlador implementa MainAware
+            Object ctrl = loader.getController();
+            if (ctrl instanceof MainAware) {
+                ((MainAware)ctrl).setMainController(this);
+            }
+
+            contentArea.getChildren().setAll(view);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * Vuelve a la vista anterior sacándola de la pila
+     */
+    public void goBack() {
+        if (!history.isEmpty()) {
+            Node previous = history.pop();
+            contentArea.getChildren().setAll(previous);
+        }
+    }
+
+    // ////////////////////////// ESTA FUNCIÓN ES PARA UN HISTORIAL DE PESTAÑAS.
 
 }

@@ -27,4 +27,33 @@ public class AdministradorDAO {
             return false;
         }
     }
+    public static AdministradorPOJO validarCredenciales(String correo, String clave) {
+        String sql = "SELECT * FROM Administrador WHERE Correo = ? AND Clave = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, correo);
+            stmt.setString(2, clave);
+
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                // Si hay coincidencia, devolver el objeto Administrador
+                return new AdministradorPOJO(
+                        rs.getInt("ID_Administrador"),
+                        rs.getString("Nombre"),
+                        rs.getString("Apellido"),
+                        rs.getString("Correo"),
+                        rs.getString("Telefono"),
+                        rs.getString("Clave")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // Si no se encontró nada
+        return null;
+    }
+
 }

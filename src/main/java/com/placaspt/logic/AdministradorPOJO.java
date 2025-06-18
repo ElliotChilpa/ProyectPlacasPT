@@ -18,7 +18,7 @@ public class AdministradorPOJO {
     }
 
     // Constructor con ID (para leer desde base de datos)
-    /*
+
     public AdministradorPOJO(int id, String nombre, String apellido, String correo, String telefono, String clave) {
         this.id = id;
         this.nombre = nombre;
@@ -26,7 +26,7 @@ public class AdministradorPOJO {
         this.correo = correo;
         this.telefono = telefono;
         this.clave = clave;
-    }*/
+    }
 
     // Getters y Setters
     public int getId() { return id; }

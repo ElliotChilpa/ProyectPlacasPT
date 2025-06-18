@@ -4,15 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Add sub-controladores en configuracionescontroller para poder abrir RFIDController">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AdministradorDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AdministradorPOJO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/NewUserAdmin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/newUserAdmin.fxml" afterDir="false" />
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Add controladores para crear nuevo usuario administrador y poder regresar al loggin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AdministradorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AdministradorPOJO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AdministradorPOJO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AuthManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AuthManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/NewUserAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/NewUserAdmin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/newUserAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/newUserAdmin.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/placaspt/logic/AuthManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/placaspt/logic/AuthManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +123,8 @@
       <workItem from="1750004804275" duration="3507000" />
       <workItem from="1750096491331" duration="2642000" />
       <workItem from="1750123626746" duration="4526000" />
-      <workItem from="1750176426238" duration="4178000" />
+      <workItem from="1750176426238" duration="10704000" />
+      <workItem from="1750227317725" duration="4105000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -195,7 +198,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750103083849</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Add controladores para crear nuevo usuario administrador y poder regresar al loggin">
+      <option name="closed" value="true" />
+      <created>1750180741202</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1750180741202</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,7 +223,8 @@
     <MESSAGE value="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar." />
     <MESSAGE value="add configuración ventanaRFID" />
     <MESSAGE value="Add sub-controladores en configuracionescontroller para poder abrir RFIDController" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add sub-controladores en configuracionescontroller para poder abrir RFIDController" />
+    <MESSAGE value="Add controladores para crear nuevo usuario administrador y poder regresar al loggin" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add controladores para crear nuevo usuario administrador y poder regresar al loggin" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
