@@ -27,6 +27,9 @@ public class MainController {
     @FXML private Button btnEstacionamiento;
     @FXML private Button btnConfiguraciones;
 
+    // Boton para cerra sesión
+    //@FXML private Button btnLogout;
+
     @FXML private Label printmessage;
     @FXML private TextFlow textflow;
     // Pila donde apilamos las vistas anteriores
@@ -37,28 +40,47 @@ public class MainController {
         // Carga por defecto la sección Usuarios
         showUsuarios();
     }*/
+    /*
+     Para quitar la clase "active en el css" para ver los botones seleccionados
+     */
+    // Helper: quita la clase 'active' de todos
+    private void clearActive() {
+        btnUsuarios.getStyleClass().remove("active");
+        btnEstacionamiento.getStyleClass().remove("active");
+        btnConfiguraciones.getStyleClass().remove("active");
+        //btnLogout.getStyleClass().remove("active");
+    }
+    // Helper: marca sólo este botón como activo
+    private void setActive(Button b) {
+        clearActive();
+        b.getStyleClass().add("active");
+    }
 
     // Control para abrir vista de usuarios
     @FXML
     private void showUsuarios(ActionEvent event) {
+        setActive(btnUsuarios);
         loadView("/com/placaspt/ui/UsuariosView.fxml");
     }
 
     // Control para abrir vista de Estacionamiento
     @FXML
     private void showEstacionamiento(ActionEvent event) {
+        setActive(btnEstacionamiento);
         loadView("/com/placaspt/ui/estacionamientoView.fxml");
     }
 
     // Control para abrir vista de Configuraciones.
     @FXML
     private void showConfiguraciones(ActionEvent event) {
+        setActive(btnConfiguraciones);
         loadView("/com/placaspt/ui/configuracionesView.fxml");
     }
 
     // Control para cerrar sesion
     @FXML
     private void logout(ActionEvent event) {
+        //setActive(btnLogout);
         try {
             Parent loginRoot = FXMLLoader.load(
                     getClass().getResource("/com/placaspt/ui/login.fxml")

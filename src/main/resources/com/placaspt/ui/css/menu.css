@@ -39,16 +39,25 @@
     -fx-padding: 10px 15px;
     -fx-background-radius: 5px;
 }
+/* Se Agrego esta función para activar botones que esten activos y se vean mas claros*/
+/* Cuando un botón tiene la clase 'active', le damos un fondo más claro */
+.menu-button.active {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
 
 /* Efecto hover */
 .menu-button:hover {
     -fx-background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Efecto cuando el botón está activo/focused */
+/* Efecto cuando el botón está activo/focused
+    Se quito porque cuando se recargaba se autofocuseava botones
+*/
+/*
 .menu-button:focused, .menu-button:armed {
     -fx-background-color: rgba(255, 255, 255, 0.3);
 }
+ */
 
 /* Área de contenido */
 .content-area {
