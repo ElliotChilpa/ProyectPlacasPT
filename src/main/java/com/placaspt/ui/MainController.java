@@ -97,7 +97,8 @@ public class MainController {
 
     @FXML void onReadFile() {
         //Simulación de lectura de archivo en raspberry
-        String host = "192.168.100.2"; // 🧠 IP de tu Raspberry
+        //String host = "192.168.100.2"; // IP de tu Raspberry
+        String host = "192.168.100.254"; // IP de tu Raspberry
         String user = "placasPT";            // Usuario SSH
         String pass = "8586";     // Contraseña SSH
         String archivo = "/home/placasPT/credenciales.txt"; // Ruta real del archivo

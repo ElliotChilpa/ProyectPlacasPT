@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Modificación de loadview y goback para poder tener historial de navegación y poder regresar a una vista anterior.">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/agregarUsuarios.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/menu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/UsuariosView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/UsuariosView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/rfid.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/rfid.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +122,8 @@
       <workItem from="1750096491331" duration="2642000" />
       <workItem from="1750123626746" duration="4526000" />
       <workItem from="1750176426238" duration="10704000" />
-      <workItem from="1750227317725" duration="5671000" />
+      <workItem from="1750227317725" duration="6986000" />
+      <workItem from="1750271760876" duration="22210000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -207,7 +213,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750231678571</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral">
+      <option name="closed" value="true" />
+      <created>1750233099162</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1750233099162</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -226,7 +240,8 @@
     <MESSAGE value="Add sub-controladores en configuracionescontroller para poder abrir RFIDController" />
     <MESSAGE value="Add controladores para crear nuevo usuario administrador y poder regresar al loggin" />
     <MESSAGE value="Modificación de loadview y goback para poder tener historial de navegación y poder regresar a una vista anterior." />
-    <option name="LAST_COMMIT_MESSAGE" value="Modificación de loadview y goback para poder tener historial de navegación y poder regresar a una vista anterior." />
+    <MESSAGE value="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
