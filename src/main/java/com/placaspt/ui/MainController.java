@@ -1,6 +1,6 @@
 package com.placaspt.ui;
 
-import com.placaspt.database.UsuarioDAO;
+import com.placaspt.database.UsuariosDAO;
 import com.placaspt.logic.RaspSSH;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -133,11 +133,16 @@ public class MainController {
             textflow.getChildren().add(texto);
         }
     }
+
+    /**
+     * Esta seccion del codigo era un ejemplo de como utilizar un DAO para leer una lista de usuarios.
+     */
+    /**
     @FXML
     void leerUsuarioDB() {
         printmessage.setText("Hola ejemplo 1");
-        UsuarioDAO.listarUsuarios();
-    }
+        UsuariosDAO.listarUsuarios();
+    }*/
     @FXML
     void abrirRFID() {
         try {

@@ -1,11 +1,10 @@
 // src/main/java/com/placaspt/ui/UsuariosController.java
 package com.placaspt.ui;
 
-import com.placaspt.database.UsuarioDAO;
+import com.placaspt.database.UsuariosDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 
 /**
  * Controlador de la vista de Usuarios.
@@ -66,12 +65,14 @@ public class UsuariosController implements MainAware {
     /**
      * Ejemplo de método que lee de la base de datos
      * y muestra algo en un Label.
+     * Este metodo lo utilizamos con un DAO mas sencillo.
      */
+    /**
     @FXML
     void leerUsuarioDB() {
         usuarioBD.setText("Este es un ejemplo 1111");
-        UsuarioDAO.listarUsuarios();
-    }
+        UsuariosDAO.listarUsuarios();
+    }*/
 
 
     /**

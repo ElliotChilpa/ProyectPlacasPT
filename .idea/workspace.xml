@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/agregarUsuarios.fxml" afterDir="false" />
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se modifico estructura del codigo RFIDController para limpiarlo de basura antigua.&#10;Se agrgo la vista agregarusuarios y su controladro y está funcional con boton de regreso.&#10;Tambien se modifico el codigo de UsuariosController para comentar el codigo">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/UsuariosPOJO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/UsuariosView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/UsuariosView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/rfid.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/rfid.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/agregarUsuarios.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/agregarUsuarios.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +123,7 @@
       <workItem from="1750123626746" duration="4526000" />
       <workItem from="1750176426238" duration="10704000" />
       <workItem from="1750227317725" duration="6986000" />
-      <workItem from="1750271760876" duration="22210000" />
+      <workItem from="1750271760876" duration="34758000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -221,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750233099162</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Se modifico estructura del codigo RFIDController para limpiarlo de basura antigua.&#10;Se agrgo la vista agregarusuarios y su controladro y está funcional con boton de regreso.&#10;Tambien se modifico el codigo de UsuariosController para comentar el codigo">
+      <option name="closed" value="true" />
+      <created>1750314424420</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1750314424420</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,7 +249,8 @@
     <MESSAGE value="Add controladores para crear nuevo usuario administrador y poder regresar al loggin" />
     <MESSAGE value="Modificación de loadview y goback para poder tener historial de navegación y poder regresar a una vista anterior." />
     <MESSAGE value="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral" />
+    <MESSAGE value="Se modifico estructura del codigo RFIDController para limpiarlo de basura antigua.&#10;Se agrgo la vista agregarusuarios y su controladro y está funcional con boton de regreso.&#10;Tambien se modifico el codigo de UsuariosController para comentar el codigo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Se modifico estructura del codigo RFIDController para limpiarlo de basura antigua.&#10;Se agrgo la vista agregarusuarios y su controladro y está funcional con boton de regreso.&#10;Tambien se modifico el codigo de UsuariosController para comentar el codigo" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
