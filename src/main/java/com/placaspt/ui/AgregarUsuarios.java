@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 // Para agregar archivo DNI usuario Temporal.
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -24,7 +25,7 @@ public class AgregarUsuarios implements MainAware{
     // Controladores FXML para el archivo FXML NOTA: Cambiar nombres mas entendibles.
     @FXML private RadioButton rbUsuarioFijo;
     @FXML private RadioButton rbUsuarioTemporal;
-    @FXML private AnchorPane paneUsuarioTemporal;
+    @FXML private GridPane paneUsuarioTemporal;
 
     @FXML private TextField usuarioNombreTf;
     @FXML private TextField usuarioApellidosTf;
