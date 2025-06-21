@@ -38,7 +38,7 @@ public class UsuariosController implements MainAware {
      */
 
     @FXML
-    private void onAgregarUsuarios() {
+    private void onNuevoUsuario() {
         mainController.loadView("/com/placaspt/ui/agregarUsuarios.fxml");
     }
 

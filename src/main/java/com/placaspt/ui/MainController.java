@@ -80,20 +80,25 @@ public class MainController {
     // Control para cerrar sesion
     @FXML
     private void logout(ActionEvent event) {
-        //setActive(btnLogout);
         try {
             Parent loginRoot = FXMLLoader.load(
                     getClass().getResource("/com/placaspt/ui/login.fxml")
             );
-            Stage stage = (Stage)((javafx.scene.Node)event.getSource())
+            // Obtén el Stage existente
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource())
                     .getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
-            //stage.setTitle("Login");
-        } catch (Exception e) {
+            // Para reutiliza la misma Scene y cambia solo el root
+            Scene scene = stage.getScene();
+            scene.setRoot(loginRoot);
+            // (Opcional) asegura que siga maximizada
+            stage.setMaximized(true);
+            stage.setTitle("Placas PT – Login");
+
+        } catch (IOException e) {
             e.printStackTrace();
-            // aquí podrías poner un Alert de error
         }
     }
+
 
     @FXML void onReadFile() {
         //Simulación de lectura de archivo en raspberry
