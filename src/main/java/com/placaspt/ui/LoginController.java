@@ -1,11 +1,10 @@
 package com.placaspt.ui;
 
-import com.placaspt.logic.AdministradorPOJO;
+import com.placaspt.model.AdministradorPOJO;
 import com.placaspt.logic.AuthManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import com.placaspt.MainPlacasPT;

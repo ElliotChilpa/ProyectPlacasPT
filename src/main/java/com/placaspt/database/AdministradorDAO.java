@@ -1,6 +1,6 @@
 package com.placaspt.database;
 
-import com.placaspt.logic.AdministradorPOJO;
+import com.placaspt.model.AdministradorPOJO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

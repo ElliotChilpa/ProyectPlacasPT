@@ -1,4 +1,4 @@
-package com.placaspt.logic;
+package com.placaspt.model;
 
 public class AdministradorPOJO {
     private int id;

@@ -30,7 +30,7 @@ public class UsuariosDAO {
 */
 package com.placaspt.database;
 
-import com.placaspt.logic.UsuariosPOJO;
+import com.placaspt.model.UsuariosPOJO;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -151,6 +151,20 @@ public class UsuariosDAO {
             e.printStackTrace();
         }
         return lista;
+    }
+
+    public boolean existeUsuarioFijo(int idUsuario) {
+        String sql = "SELECT 1 FROM UsuarioFijo WHERE FK_Usuario = ? LIMIT 1";
+        try (Connection c = DatabaseConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // Podrías agregar métodos como buscarPorId(int id), actualizarUsuario(...), eliminarUsuario(int id)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<DialogPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.placaspt.ui.AddTarjetaRFIDDialogController">
+
+<content>
+    <GridPane hgap="10" vgap="10">
+        <padding>
+            <Insets top="20" right="20" bottom="10" left="20"/>
+        </padding>
+
+        <!-- ID de la tarjeta -->
+        <Label text="ID Tarjeta:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="tfRfidId" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <!-- Fecha de inicio -->
+        <Label text="Fecha Inicio:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dpInicio" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <!-- Fecha de fin -->
+        <Label text="Fecha Fin:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dpFin" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <!-- Activa -->
+        <Label text="Activa:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <CheckBox fx:id="chkActiva" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    </GridPane>
+</content>
+
+<buttonTypes>
+    <ButtonType fx:id="btnGuardar" text="Guardar" buttonData="OK_DONE"/>
+    <ButtonType fx:id="btnCancelar" text="Cancelar" buttonData="CANCEL_CLOSE"/>
+</buttonTypes>
+</DialogPane>

@@ -1,4 +1,4 @@
-package com.placaspt.logic;
+package com.placaspt.model;
 
 import java.time.LocalDate;
 

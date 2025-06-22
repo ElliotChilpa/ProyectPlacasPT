@@ -65,9 +65,13 @@ public class RFIDController implements MainAware {
     private void manejarLectura(String datos) {
         etiquetaLectura.setText("Lectura: " + datos);
         System.out.println("Lectura RFID: " + datos);
+        // En tu controller, dentro del método donde lo usas:
 
+        // Esta parte ed de ejemplo porque tenía que instanciar TarjetaRFIDDAO()
+        TarjetaRFIDDAO dao = new TarjetaRFIDDAO();
         try {
-            if (TarjetaRFIDDAO.existeTag(datos)) {
+            if (dao.existeTag(datos)) {
+            //if (TarjetaRFIDDAO.existeTag(datos)) {
                 // Usuario fijo con ID 1 (ajustar según tu lógica)
                 RegistroRFIDDAO.insertarRegistro(datos, 1, "EXITO", "Tarjeta reconocida");
                 System.out.println("RFID: " + datos + " Reconocido");

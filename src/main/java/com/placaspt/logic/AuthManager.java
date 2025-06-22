@@ -1,6 +1,7 @@
 package com.placaspt.logic;
 
 import com.placaspt.database.AdministradorDAO;
+import com.placaspt.model.AdministradorPOJO;
 
 public class AuthManager {
     public static AdministradorPOJO login(String correo, String clave) {

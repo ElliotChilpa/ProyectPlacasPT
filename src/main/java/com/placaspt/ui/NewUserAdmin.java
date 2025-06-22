@@ -1,7 +1,7 @@
 package com.placaspt.ui;
 
 import com.placaspt.database.AdministradorDAO;
-import com.placaspt.logic.AdministradorPOJO;
+import com.placaspt.model.AdministradorPOJO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

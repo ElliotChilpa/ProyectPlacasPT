@@ -4,10 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Modificación de funciones primarias, para abrir siempre pantalla completa, modificación de vista de UsuariosView.fxml por el momento todo esta funcionando muy bien..">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Modificación de vista y controlador para agregara Usuarios.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/VehiculoDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/TarjetaRFIDPOJO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/UsuarioViewDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/VehiculoPOJO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AddTarjetaRFIDDialogController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AddVehiculoDialogController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/AddVehiculoDialog.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/addTarjetaRFIDDialog.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AdministradorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/TarjetaRFIDDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/TarjetaRFIDDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AdministradorPOJO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/AdministradorPOJO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AuthManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AuthManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/UsuariosPOJO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/UsuariosPOJO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/agregarUsuarios.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/agregarUsuarios.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/NewUserAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/NewUserAdmin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,27 +72,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainPlacasPT.executor": "Run",
-    "Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "rfid-integracion",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainPlacasPT.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;rfid-integracion&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ellio\OneDrive\Escritorio\UPIITA\placasPT\ProyectPlacasPT\src\main\resources\com\placaspt\ui" />
@@ -124,6 +141,7 @@
       <workItem from="1750176426238" duration="10704000" />
       <workItem from="1750227317725" duration="6986000" />
       <workItem from="1750271760876" duration="34758000" />
+      <workItem from="1750546265535" duration="11997000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -237,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750486203609</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Modificación de vista y controlador para agregara Usuarios.">
+      <option name="closed" value="true" />
+      <created>1750527623876</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1750527623876</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -259,7 +285,8 @@
     <MESSAGE value="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral" />
     <MESSAGE value="Se modifico estructura del codigo RFIDController para limpiarlo de basura antigua.&#10;Se agrgo la vista agregarusuarios y su controladro y está funcional con boton de regreso.&#10;Tambien se modifico el codigo de UsuariosController para comentar el codigo" />
     <MESSAGE value="Modificación de funciones primarias, para abrir siempre pantalla completa, modificación de vista de UsuariosView.fxml por el momento todo esta funcionando muy bien.." />
-    <option name="LAST_COMMIT_MESSAGE" value="Modificación de funciones primarias, para abrir siempre pantalla completa, modificación de vista de UsuariosView.fxml por el momento todo esta funcionando muy bien.." />
+    <MESSAGE value="Modificación de vista y controlador para agregara Usuarios." />
+    <option name="LAST_COMMIT_MESSAGE" value="Modificación de vista y controlador para agregara Usuarios." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

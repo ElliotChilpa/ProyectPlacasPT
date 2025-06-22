@@ -1,7 +1,7 @@
 package com.placaspt.ui;
 
 import com.placaspt.database.UsuariosDAO;
-import com.placaspt.logic.UsuariosPOJO;
+import com.placaspt.model.UsuariosPOJO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 // Esta librería se agrego en initialize por sí queremos eliminarla
