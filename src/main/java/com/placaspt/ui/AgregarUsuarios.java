@@ -154,5 +154,4 @@ public class AgregarUsuarios implements MainAware{
                 .showAndWait();
         mainController.goBack();
     }
-
 }
