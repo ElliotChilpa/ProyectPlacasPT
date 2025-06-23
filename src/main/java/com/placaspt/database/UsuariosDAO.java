@@ -38,16 +38,12 @@ import java.util.List;
 
 public class UsuariosDAO {
 
-    /**
-     * Inserta un nuevo usuario en la tabla Usuario.
-     * @return el ID generado (AUTO_INCREMENT) o -1 en error.
-     */
+    /** Inserta un nuevo Usuario y devuelve su ID o -1 en error. */
     public int insertarUsuario(UsuariosPOJO u) {
         String sql = """
             INSERT INTO Usuario 
               (Nombres, Apellidos, Correo, Telefono, Fecha_Registro, FK_ID_Administrador)
             VALUES (?, ?, ?, ?, ?, ?)""";
-
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -58,25 +54,25 @@ public class UsuariosDAO {
             ps.setDate(5, Date.valueOf(u.getFechaRegistro()));
             ps.setInt(6, u.getFkAdministrador());
 
-            int affected = ps.executeUpdate();
-            if (affected == 0) return -1;
-
+            if (ps.executeUpdate() == 0) return -1;
             try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
+                return rs.next() ? rs.getInt(1) : -1;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         }
-        return -1;
     }
 
     /**
-     * Inserta un registro en UsuarioFijo para el usuario dado.
+     * Inserta un UsuarioFijo solo si no existía ya (se asume índice único en FK_Usuario).
+     * Devuelve true solo si realmente se insertó.
      */
     public boolean insertarUsuarioFijo(int idUsuario) {
-        String sql = "INSERT INTO UsuarioFijo (FK_Usuario) VALUES (?)";
+        String sql = """
+            INSERT IGNORE INTO UsuarioFijo (FK_Usuario)
+            VALUES (?)
+        """;
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idUsuario);
@@ -88,13 +84,7 @@ public class UsuariosDAO {
     }
 
     /**
-     * Inserta un registro en UsuarioTemporal con media-blobs y fechas.
-     * @param idUsuario       FK al Usuario creado
-     * @param actividad       texto de la actividad a realizar
-     * @param fechaInicio     fecha de inicio de visita
-     * @param fechaFin        fecha de fin de visita
-     * @param documentoBLOB   la foto del DNI como Blob
-     * @return true si insertó, false si falló
+     * Inserta un UsuarioTemporal.
      */
     public boolean insertarUsuarioTemporal(int idUsuario,
                                            String actividad,
@@ -103,13 +93,9 @@ public class UsuariosDAO {
                                            Blob documentoBLOB) {
         String sql = """
             INSERT INTO UsuarioTemporal
-              (Actividad_Realizar,
-               Documento_DNI,
-               Fecha_Inicio,
-               Fecha_Fin,
-               FK_Usuario)
+              (Actividad_Realizar, Documento_DNI,
+               Fecha_Inicio, Fecha_Fin, FK_Usuario)
             VALUES (?, ?, ?, ?, ?)""";
-
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -117,8 +103,7 @@ public class UsuariosDAO {
             ps.setBlob(2, documentoBLOB);
             ps.setDate(3, Date.valueOf(fechaInicio));
             ps.setDate(4, Date.valueOf(fechaFin));
-            ps.setInt   (5, idUsuario);
-
+            ps.setInt(5, idUsuario);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,9 +111,7 @@ public class UsuariosDAO {
         }
     }
 
-    /**
-     * Lee todos los usuarios.
-     */
+    /** Lista todos los Usuarios. */
     public List<UsuariosPOJO> listarUsuarios() {
         List<UsuariosPOJO> lista = new ArrayList<>();
         String sql = "SELECT * FROM Usuario";
@@ -153,10 +136,11 @@ public class UsuariosDAO {
         return lista;
     }
 
+    /** Devuelve true si existe un registro en UsuarioFijo para este Usuario. */
     public boolean existeUsuarioFijo(int idUsuario) {
         String sql = "SELECT 1 FROM UsuarioFijo WHERE FK_Usuario = ? LIMIT 1";
-        try (Connection c = DatabaseConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idUsuario);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
@@ -167,5 +151,25 @@ public class UsuariosDAO {
         }
     }
 
-    // Podrías agregar métodos como buscarPorId(int id), actualizarUsuario(...), eliminarUsuario(int id)
+    /**
+     * Devuelve el PK de UsuarioFijo para un Usuario dado,
+     * o -1 si no existe.
+     */
+    public int obtenerIdUsuarioFijo(int idUsuario) {
+        String sql = "SELECT ID_Usuario_Fijo FROM UsuarioFijo WHERE FK_Usuario = ? LIMIT 1";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("ID_Usuario_Fijo");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    // Opcional: buscarPorId, actualizarUsuario, eliminarUsuario...
 }

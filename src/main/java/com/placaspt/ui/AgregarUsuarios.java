@@ -138,7 +138,6 @@ public class AgregarUsuarios implements MainAware{
                 return;
             }
         } else {
-            dao.insertarUsuarioFijo(idUsuario);
             // — Usuario fijo —
             boolean okFijo = dao.insertarUsuarioFijo(idUsuario);
             if (!okFijo) {

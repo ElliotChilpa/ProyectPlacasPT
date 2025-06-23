@@ -2,31 +2,33 @@ package com.placaspt.ui;
 
 import com.placaspt.model.TarjetaRFIDPOJO;
 import com.placaspt.database.TarjetaRFIDDAO;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 
 import java.time.LocalDate;
 
-public class AddTarjetaRFIDDialogController {
+public class AddTarjetaRFIDDialogController implements MainAware {
 
-    @FXML private DialogPane dialogPane;
-    @FXML private TextField   tfRfidId;
-    @FXML private DatePicker  dpInicio;
-    @FXML private DatePicker  dpFin;
-    @FXML private CheckBox    chkActiva;
+    @FXML private AnchorPane     root;
+    @FXML private TextField      tfRfidId;
+    @FXML private DatePicker     dpInicio;
+    @FXML private DatePicker     dpFin;
+    @FXML private CheckBox       chkActiva;
 
+    private MainController       mainController;
     private final TarjetaRFIDDAO dao = new TarjetaRFIDDAO();
-    private int usuarioFijoId;
-    private TarjetaRFIDPOJO existing;  // si no es null, estamos en modo edición
+    private int                  usuarioFijoId;
+    private TarjetaRFIDPOJO      existing;  // null => alta
+
+    @Override
+    public void setMainController(MainController main) {
+        this.mainController = main;
+    }
 
     /**
-     * Debes llamar a este método justo después de cargar el FXML,
-     * antes de mostrar el diálogo.
-     *
-     * @param usuarioFijoId El ID del usuario fijo al que asignar/editar la tarjeta
-     * @param existing      La tarjeta existente (null para alta)
+     * Init data: ID usuario fijo y objeto existente (o null).
      */
     public void initData(int usuarioFijoId, TarjetaRFIDPOJO existing) {
         this.usuarioFijoId = usuarioFijoId;
@@ -35,82 +37,64 @@ public class AddTarjetaRFIDDialogController {
 
     @FXML
     public void initialize() {
-        // Configurar el botón "Guardar" para que valide antes de cerrar:
-        Button btnGuardar = (Button) dialogPane.lookupButton(ButtonType.OK);
-        btnGuardar.addEventFilter(ActionEvent.ACTION, e -> {
-            if (!onGuardarTarjeta()) {
-                e.consume();
-            }
-        });
-
-        // Si hay una tarjeta existente, precargamos sus valores:
+        // Si editamos, precargamos
         if (existing != null) {
             tfRfidId.setText(existing.getIdRfid());
-            tfRfidId.setDisable(true);  // no permitir cambiar el ID
+            tfRfidId.setDisable(true);
             dpInicio.setValue(existing.getFechaInicio());
-            dpFin.   setValue(existing.getFechaFin());
+            dpFin.setValue(existing.getFechaFin());
             chkActiva.setSelected(existing.isActiva());
         } else {
-            // Valores por defecto para alta:
             dpInicio.setValue(LocalDate.now());
             chkActiva.setSelected(true);
         }
     }
 
     /**
-     * Valida los datos de la UI, llama al DAO para insertar o actualizar.
-     * @return true si todo salió bien (y el diálogo puede cerrar), false si hay error.
+     * Salvamos o actualizamos la tarjeta y volvemos a la vista Usuarios.
      */
-    private boolean onGuardarTarjeta() {
+
+    @FXML
+    private void onGuardarTarjeta() {
+        System.out.println("Guardando para UsuarioFijoId=" + usuarioFijoId);
         String idRfid = tfRfidId.getText().trim();
         LocalDate inicio = dpInicio.getValue();
         LocalDate fin    = dpFin.getValue();
         boolean activa   = chkActiva.isSelected();
 
-        // 1) Validaciones básicas
-        if (idRfid.isEmpty() || inicio == null || fin == null) {
+        if (idRfid.isEmpty() || inicio == null || fin == null || fin.isBefore(inicio)) {
             new Alert(Alert.AlertType.WARNING,
-                    "Debes completar ID, Fecha Inicio y Fecha Fin.").showAndWait();
-            return false;
-        }
-        if (fin.isBefore(inicio)) {
-            new Alert(Alert.AlertType.WARNING,
-                    "La Fecha Fin no puede ser anterior a la Fecha Inicio.").showAndWait();
-            return false;
+                    "Completa correctamente todos los campos.").showAndWait();
+            return;
         }
 
-        // 2) Construir el POJO
-        // Nota: sustituye el "1" por tu ID de administrador actual si lo gestionas dinámicamente
-        TarjetaRFIDPOJO tarjeta = new TarjetaRFIDPOJO(
-                idRfid,
-                inicio,
-                fin,
-                activa,
-                /*fkAdministrador=*/1,
-                usuarioFijoId
+        // Prueba para ver que usuario fijo puede agregar rfid
+        System.out.println("FK_UsuarioFijo = " + usuarioFijoId);
+
+        TarjetaRFIDPOJO dto = new TarjetaRFIDPOJO(
+                idRfid, inicio, fin, activa, /*fkAdmin*/ 1, usuarioFijoId
         );
 
-        // 3) Insertar o actualizar según corresponda
-        boolean ok;
-        if (existing != null) {
-            ok = dao.actualizarTarjeta(tarjeta);
-        } else {
-            ok = dao.insertarTarjeta(tarjeta);
-        }
+        boolean ok = (existing != null)
+                ? dao.actualizarTarjeta(dto)
+                : dao.insertarTarjeta(dto);
 
-        // 4) Manejo de error
         if (!ok) {
             new Alert(Alert.AlertType.ERROR,
-                    "Ocurrió un error al guardar la tarjeta RFID.").showAndWait();
+                    "Error al guardar la tarjeta RFID.").showAndWait();
+            return;
         }
-        return ok;
+
+        // Regresamos a la vista de usuarios
+        mainController.loadView("/com/placaspt/ui/UsuariosView.fxml");
     }
 
-    /**
-     * Método opcional para cerrar manualmente el diálogo.
-     */
-    public void closeDialog() {
-        Stage stage = (Stage) dialogPane.getScene().getWindow();
-        stage.close();
+    /** Simplemente vuelve a la vista usuarios sin guardar
+     * */
+
+
+    @FXML
+    private void onCancelar() {
+        mainController.loadView("/com/placaspt/ui/UsuariosView.fxml");
     }
 }

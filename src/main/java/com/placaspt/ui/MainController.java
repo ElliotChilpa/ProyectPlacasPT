@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button; // Agregamos esta clase para prueba de menú.
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane; // Agregamos esta clase para prueba de menú lateral.
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -20,6 +21,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class MainController {
+    // Esto es una ruta para identificar el pane como contenedor central.
+
     // Estó es para el Menú
     // Esto tambiés es para un historial de pestañas
     @FXML private StackPane contentArea;
@@ -193,6 +196,15 @@ public class MainController {
         } //**
 
     }*/
+
+    /**
+     * Sustituye el centro de la aplicación por el nodo que le pases.
+     */
+    public void setContent(Node content) {
+        //root.setCenter(content);
+        contentArea.getChildren().setAll(content);
+    }
+
     /**
      * Carga una nueva vista, guardando la actual en el historial
      */
