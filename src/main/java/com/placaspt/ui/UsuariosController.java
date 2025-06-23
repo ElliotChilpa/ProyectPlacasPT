@@ -107,10 +107,14 @@ public class UsuariosController implements MainAware {
         colAccion.setCellFactory(col -> new TableCell<UsuarioViewDTO, Void>() {
             private final HBox container = new HBox(8);
             private final Button btnEditar = new Button("✎");
-            private final Button btnRfid   = new Button("📶");
+            //private final Button btnRfid   = new Button("📶");
+            private final Button btnRfid   = new Button();
             private final Button btnVeh    = new Button("🚗");
 
             {
+                // Esta función es nueva para poder Editar RFID
+                container.getChildren().addAll(btnEditar, btnRfid, btnVeh);
+
                 btnEditar.setOnAction(e -> {
                     UsuarioViewDTO u = getTableView().getItems().get(getIndex());
                     editarUsuario(u);
@@ -123,7 +127,7 @@ public class UsuariosController implements MainAware {
                     UsuarioViewDTO u = getTableView().getItems().get(getIndex());
                     onAsignarVehiculo(u.getId());
                 });
-                container.getChildren().addAll(btnEditar, btnRfid, btnVeh);
+                //container.getChildren().addAll(btnEditar, btnRfid, btnVeh);
             }
 
             @Override
@@ -133,9 +137,19 @@ public class UsuariosController implements MainAware {
                     setGraphic(null);
                 } else {
                     UsuarioViewDTO u = getTableView().getItems().get(getIndex());
-                    btnRfid.setVisible("Fijo".equals(u.getTipo()));
+                    // Esto es para asignar propiedades al boton RFID
+                    //btnRfid.setVisible("Fijo".equals(u.getTipo()));
                     // opcional: btnVeh.setVisible("Fijo".equals(u.getTipo()));
+                    boolean tieneRfid = !u.getRfid().isEmpty();
+
+                    // Texto y tooltip dinámico
+                    btnRfid.setText(tieneRfid ? "Editar RFID / " : "📶");
+                    btnRfid.setTooltip(new Tooltip(tieneRfid ? "Editar RFID" : "Asignar RFID"));
+
+                    // Sólo mostrar para fijos
+                    btnRfid.setVisible("Fijo".equals(u.getTipo()));
                     setGraphic(container);
+                    //setGraphic(container);
                 }
             }
         });
@@ -165,6 +179,7 @@ public class UsuariosController implements MainAware {
             // 3) Inicializa el controller ANTES de mostrar
             AddTarjetaRFIDDialogController ctrl = loader.getController();
             ctrl.setMainController(mainController);
+            // Esto es para verificar si el id de usuario exist ID de usuarioFIjo
             TarjetaRFIDPOJO existente =
                     rfidDAO.buscarPorUsuarioFijo(idUsuarioFijo);
             ctrl.initData(idUsuarioFijo, existente);
