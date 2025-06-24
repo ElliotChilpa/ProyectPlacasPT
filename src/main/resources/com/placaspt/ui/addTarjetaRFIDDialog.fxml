@@ -47,7 +47,7 @@
                 <RowConstraints />
             </rowConstraints>
         </GridPane>
-      <Button id="btnCancelarRFID" layoutX="30.0" layoutY="201.0" mnemonicParsing="false" onAction="#onCancelar" prefHeight="26.0" prefWidth="121.0" text="Cancelar" />
+      <Button id="btnCancelarRFID" layoutX="30.0" layoutY="201.0" mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="121.0" text="Cancelar" />
       <Button id="btnGuardarRFID" layoutX="193.0" layoutY="201.0" mnemonicParsing="false" onAction="#onGuardarTarjeta" prefHeight="26.0" prefWidth="122.0" text="Guardar" />
     </children>
 </AnchorPane>

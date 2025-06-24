@@ -1,55 +1,124 @@
 package com.placaspt.model;
 
-/**
- * POJO que mapea la tabla Vehiculo.
- */
 public class VehiculoPOJO {
-    private int idVehiculo;
+
+    private Integer idVehiculo;               // PK autoincremental
     private String marca;
     private String modelo;
     private int anio;
     private String color;
-    private int fkIdPlaca;
-    private Integer fkUsuarioFijo;     // null si no es fijo
-    private Integer fkUsuarioTemporal; // null si no es temporal
-    private int fkAdministrador;
 
-    // Constructor completo
-    public VehiculoPOJO(int idVehiculo,
-                        String marca,
-                        String modelo,
-                        int anio,
-                        String color,
-                        int fkIdPlaca,
-                        Integer fkUsuarioFijo,
-                        Integer fkUsuarioTemporal,
-                        int fkAdministrador) {
-        this.idVehiculo       = idVehiculo;
-        this.marca            = marca;
-        this.modelo           = modelo;
-        this.anio             = anio;
-        this.color            = color;
-        this.fkIdPlaca        = fkIdPlaca;
-        this.fkUsuarioFijo    = fkUsuarioFijo;
-        this.fkUsuarioTemporal= fkUsuarioTemporal;
-        this.fkAdministrador  = fkAdministrador;
+    private String fkIdPlaca;                 // puede ser null
+    private Integer fkIdUsuarioFijo;          // puede ser null
+    private Integer fkIdUsuarioTemporal;      // puede ser null
+    private int fkIdAdministrador;
+
+    // ────────────────────────────────────────────────
+    // CONSTRUCTORES
+    // ────────────────────────────────────────────────
+
+    // Constructor para inserción (sin ID aún)
+    public VehiculoPOJO(String marca, String modelo, int anio, String color,
+                        String fkIdPlaca, Integer fkIdUsuarioFijo, Integer fkIdUsuarioTemporal,
+                        int fkIdAdministrador) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.anio = anio;
+        this.color = color;
+        this.fkIdPlaca = fkIdPlaca;
+        this.fkIdUsuarioFijo = fkIdUsuarioFijo;
+        this.fkIdUsuarioTemporal = fkIdUsuarioTemporal;
+        this.fkIdAdministrador = fkIdAdministrador;
     }
 
-    // Getters
-    public int getIdVehiculo()        { return idVehiculo; }
-    public String getMarca()          { return marca;      }
-    public String getModelo()         { return modelo;     }
-    public int getAnio()              { return anio;       }
-    public String getColor()          { return color;      }
-    public int getFkIdPlaca()         { return fkIdPlaca;  }
-    public Integer getFkUsuarioFijo() { return fkUsuarioFijo; }
-    public Integer getFkUsuarioTemporal() { return fkUsuarioTemporal; }
-    public int getFkAdministrador()   { return fkAdministrador; }
+    // Constructor para lectura con ID
+    public VehiculoPOJO(int idVehiculo, String marca, String modelo, int anio, String color,
+                        String fkIdPlaca, Integer fkIdUsuarioFijo, Integer fkIdUsuarioTemporal,
+                        int fkIdAdministrador) {
+        this.idVehiculo = idVehiculo;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.anio = anio;
+        this.color = color;
+        this.fkIdPlaca = fkIdPlaca;
+        this.fkIdUsuarioFijo = fkIdUsuarioFijo;
+        this.fkIdUsuarioTemporal = fkIdUsuarioTemporal;
+        this.fkIdAdministrador = fkIdAdministrador;
+    }
 
-    /**
-     * Conveniencia para la vista: devuelve la placa como String.
-     */
-    public String getPlaca() {
-        return String.valueOf(fkIdPlaca);
+    // ────────────────────────────────────────────────
+    // GETTERS Y SETTERS
+    // ────────────────────────────────────────────────
+
+    public Integer getIdVehiculo() {
+        return idVehiculo;
+    }
+
+    public void setIdVehiculo(Integer idVehiculo) {
+        this.idVehiculo = idVehiculo;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getFkIdPlaca() {
+        return fkIdPlaca;
+    }
+
+    public void setFkIdPlaca(String fkIdPlaca) {
+        this.fkIdPlaca = fkIdPlaca;
+    }
+
+    public Integer getFkIdUsuarioFijo() {
+        return fkIdUsuarioFijo;
+    }
+
+    public void setFkIdUsuarioFijo(Integer fkIdUsuarioFijo) {
+        this.fkIdUsuarioFijo = fkIdUsuarioFijo;
+    }
+
+    public Integer getFkIdUsuarioTemporal() {
+        return fkIdUsuarioTemporal;
+    }
+
+    public void setFkIdUsuarioTemporal(Integer fkIdUsuarioTemporal) {
+        this.fkIdUsuarioTemporal = fkIdUsuarioTemporal;
+    }
+
+    public int getFkIdAdministrador() {
+        return fkIdAdministrador;
+    }
+
+    public void setFkIdAdministrador(int fkIdAdministrador) {
+        this.fkIdAdministrador = fkIdAdministrador;
     }
 }

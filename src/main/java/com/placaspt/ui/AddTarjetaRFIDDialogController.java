@@ -66,49 +66,7 @@ public class AddTarjetaRFIDDialogController implements MainAware {
     public void initialize() {
 
     }
-    /*@FXML
-    public void initialize() {
-        // Si editamos, precargamos
-        if (existing != null) {
-            tfRfidId.setText(existing.getIdRfid());
-            tfRfidId.setDisable(true);
-            dpInicio.setValue(existing.getFechaInicio());
-            dpFin.setValue(existing.getFechaFin());
-            chkActiva.setSelected(existing.isActiva());
-        } else {
-            dpInicio.setValue(LocalDate.now());
-            chkActiva.setSelected(true);
-        }
-    }*/
 
-    /**
-     * Salvamos o actualizamos la tarjeta y volvemos a la vista Usuarios.
-     */
-    /*
-    @FXML
-    private void onGuardarTarjeta() {
-        // ... validaciones ...
-        TarjetaRFIDPOJO dto = new TarjetaRFIDPOJO(
-                tfRfidId.getText().trim(),
-                dpInicio.getValue(),
-                dpFin.getValue(),
-                chkActiva.isSelected(),
-                /*fkAdmin* /1,
-                usuarioFijoId
-        );
-
-        boolean ok = existing == null
-                ? dao.insertarTarjeta(dto)
-                : dao.actualizarTarjeta(dto);
-
-        if (!ok) {
-            new Alert(Alert.AlertType.ERROR,
-                    "Error al guardar la tarjeta RFID.").showAndWait();
-            return;
-        }
-        //mainController.onCancelar();  // o loadView("UsuariosView.fxml")
-        mainController.loadView("/com/placaspt/ui/UsuariosView.fxml");
-    }*/
 
     /**
      * Salvamos o actualizamos la tarjeta y volvemos a la vista Usuarios.
@@ -149,7 +107,7 @@ public class AddTarjetaRFIDDialogController implements MainAware {
 
 
     @FXML
-    private void onCancelar() {
+    private void goBack() {
         mainController.loadView("/com/placaspt/ui/UsuariosView.fxml");
     }
 }

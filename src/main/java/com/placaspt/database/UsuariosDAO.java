@@ -171,5 +171,17 @@ public class UsuariosDAO {
         return -1;
     }
 
+    public int obtenerIdUsuarioTemporal(int idUsuario) {
+        String sql = "SELECT ID_Usuario_Temporal FROM UsuarioTemporal WHERE FK_Usuario = ? LIMIT 1";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("ID_Usuario_Temporal");
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return -1;
+    }
+
     // Opcional: buscarPorId, actualizarUsuario, eliminarUsuario...
 }
