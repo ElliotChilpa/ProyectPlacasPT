@@ -290,6 +290,30 @@ public class UsuariosDAO {
         }
     }
 
+    /**
+     * Dado un ID_Usuario_Fijo devuelve el ID_Usuario (FK_Usuario),
+     * o -1 si no existe.
+     */
+    public int obtenerUsuarioBasePorFijo(int idUsuarioFijo) {
+        String sql = """
+          SELECT FK_Usuario
+            FROM UsuarioFijo
+           WHERE ID_Usuario_Fijo = ?
+           LIMIT 1
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuarioFijo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("FK_Usuario");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
     // Opcional: buscarPorId, actualizarUsuario, eliminarUsuario...
 }

@@ -4,12 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="En este commit ya agregamos Vehiculos Y tambien podemos agregar Placas">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/UsuarioTemporalPOJO.java" afterDir="false" />
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="En este commit ya funciona todo lo que tenga que ver con la vista usuarios editar, agregar, etc">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/RegistroPlacaDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/AccesoViewDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/RegistroRFIDDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/RegistroRFIDDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/TarjetaRFIDDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/TarjetaRFIDDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RS232RFID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RS232RFID.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/RFIDController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/rfid.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/rfid.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +138,8 @@
       <workItem from="1750546265535" duration="14392000" />
       <workItem from="1750623510059" duration="26273000" />
       <workItem from="1750706066598" duration="24954000" />
-      <workItem from="1750800706130" duration="8257000" />
+      <workItem from="1750800706130" duration="26191000" />
+      <workItem from="1750874598509" duration="7541000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -291,7 +301,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750762978488</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="En este commit ya funciona todo lo que tenga que ver con la vista usuarios editar, agregar, etc">
+      <option name="closed" value="true" />
+      <created>1750810064088</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1750810064088</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +336,8 @@
     <MESSAGE value="Porfín funciona asignar RFID a los usuarios fijos, falta asignarle vehiculos." />
     <MESSAGE value="Con este commit ya se puede editar RFID y RFID esta funcionando al 100" />
     <MESSAGE value="En este commit ya agregamos Vehiculos Y tambien podemos agregar Placas" />
-    <option name="LAST_COMMIT_MESSAGE" value="En este commit ya agregamos Vehiculos Y tambien podemos agregar Placas" />
+    <MESSAGE value="En este commit ya funciona todo lo que tenga que ver con la vista usuarios editar, agregar, etc" />
+    <option name="LAST_COMMIT_MESSAGE" value="En este commit ya funciona todo lo que tenga que ver con la vista usuarios editar, agregar, etc" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
