@@ -29,7 +29,6 @@
             <Button fx:id="btnUsuarios" onAction="#showUsuarios" prefHeight="41.0" prefWidth="202.0" styleClass="menu-button" text="Usuarios" />
             <Button fx:id="btnEstacionamiento" onAction="#showEstacionamiento" prefHeight="41.0" prefWidth="174.0" styleClass="menu-button" text="Estacionamiento" />
             <Button fx:id="btnConfiguraciones" onAction="#showConfiguraciones" prefHeight="41.0" prefWidth="186.0" styleClass="menu-button" text="Configuraciones" />
-         <Button mnemonicParsing="false" text="Recargar RFID" />
 
             <Region VBox.vgrow="ALWAYS" />
 
