@@ -30,6 +30,7 @@ public class UsuariosDAO {
 */
 package com.placaspt.database;
 
+import com.placaspt.model.UsuarioTemporalPOJO;
 import com.placaspt.model.UsuariosPOJO;
 import java.sql.*;
 import java.time.LocalDate;
@@ -182,6 +183,113 @@ public class UsuariosDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return -1;
     }
+
+    // en com.placaspt.database.UsuariosDAO
+    public UsuariosPOJO buscarPorId(int idUsuario) {
+        String sql = "SELECT * FROM Usuario WHERE ID_Usuario = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new UsuariosPOJO(
+                            rs.getInt("ID_Usuario"),
+                            rs.getString("Nombres"),
+                            rs.getString("Apellidos"),
+                            rs.getString("Correo"),
+                            rs.getString("Telefono"),
+                            rs.getDate("Fecha_Registro").toLocalDate(),
+                            rs.getInt("FK_ID_Administrador")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean actualizarUsuario(UsuariosPOJO u) {
+        String sql = """
+        UPDATE Usuario SET
+          Nombres = ?, Apellidos = ?, Correo = ?, Telefono = ?
+        WHERE ID_Usuario = ?
+    """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, u.getNombres());
+            ps.setString(2, u.getApellidos());
+            ps.setString(3, u.getCorreo());
+            ps.setString(4, u.getTelefono());
+            ps.setInt(5, u.getId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Devuelve el subregistro de UsuarioTemporal para un usuario dado,
+     * o null si no existe.
+     */
+
+    public UsuarioTemporalPOJO buscarTemporalPorUsuario(int idUsuario) {
+        String sql = """
+        SELECT * FROM UsuarioTemporal
+         WHERE FK_Usuario = ? LIMIT 1
+    """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new UsuarioTemporalPOJO(
+                            rs.getInt("ID_Usuario_Temporal"),
+                            rs.getString("Actividad_Realizar"),
+                            rs.getBlob("Documento_DNI"),
+                            rs.getDate("Fecha_Inicio").toLocalDate(),
+                            rs.getDate("Fecha_Fin").toLocalDate(),
+                            rs.getInt("FK_Usuario")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * Actualiza los campos de UsuarioTemporal (actividad, fechas, blob).
+     */
+    public boolean actualizarUsuarioTemporal(int idUsuarioTemporal,
+                                             String actividad,
+                                             LocalDate inicio,
+                                             LocalDate fin,
+                                             Blob documentoBLOB) {
+        String sql = """
+        UPDATE UsuarioTemporal SET
+          Actividad_Realizar = ?,
+          Documento_DNI      = ?,
+          Fecha_Inicio       = ?,
+          Fecha_Fin          = ?
+        WHERE ID_Usuario_Temporal = ?
+    """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, actividad);
+            ps.setBlob(2, documentoBLOB);
+            ps.setDate(3, Date.valueOf(inicio));
+            ps.setDate(4, Date.valueOf(fin));
+            ps.setInt(5, idUsuarioTemporal);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     // Opcional: buscarPorId, actualizarUsuario, eliminarUsuario...
 }

@@ -215,10 +215,34 @@ public class UsuariosController implements MainAware {
         });
     }
 
-    private void editarUsuario(UsuarioViewDTO u) {
-        // TODO: cargar "agregarUsuarios.fxml" en modo edición
-        // mainController.loadView(...); e initData(u.getId());
+    private void editarUsuario(UsuarioViewDTO uDto) {
+        try {
+            // 1) Carga el FXML
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/placaspt/ui/agregarUsuarios.fxml")
+            );
+            AnchorPane pane = loader.load();
+
+            // 2) Inicializa el controller
+            AgregarUsuarios ctrl = loader.getController();
+            ctrl.setMainController(mainController);
+
+            // 3) Obtiene al usuario y precarga datos
+            UsuariosPOJO existing = usuarioDAO.buscarPorId(uDto.getId());
+            ctrl.initData(existing);
+
+            // 4) Muestra la vista
+            mainController.setContent(pane);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,
+                    "No se pudo abrir la vista de edición de usuario:\n"
+                            + ex.getMessage())
+                    .showAndWait();
+        }
     }
+
 
     private void onAsignarRFID(int idUsuario) {
         // 1) Traduce ID_Usuario -> ID_Usuario_Fijo
