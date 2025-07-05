@@ -251,7 +251,9 @@ public class EstacionamientoController implements MainAware {
 package com.placaspt.ui;
 
 import com.placaspt.database.*;
+import com.placaspt.logic.EstacionamientoService;
 import com.placaspt.logic.RS232RFID;
+import com.placaspt.logic.RaspberryPollingService;
 import com.placaspt.model.AccesoViewDTO;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -268,9 +270,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class EstacionamientoController implements MainAware {
+    // inyección del servico de estacionamiento para SSH
+    private EstacionamientoService estacionamientoService = new EstacionamientoService();
+
+    // // El polling de la Raspberry
+    private RaspberryPollingService pollingService;
+
     private MainController mainController;
     private RS232RFID lector = RS232RFID.getInstance();  // Singleton
 
@@ -321,6 +330,30 @@ public class EstacionamientoController implements MainAware {
 
         // — 3) Carga inicial de la tabla
         recargar();
+
+        // 2) Arrancar el polling de placas
+        //    Ajusta estos parámetros a tu configuración:
+        String host        = "192.168.100.254";
+        String user        = "placasPT";
+        String pass        = "8586";
+        String remotoArchivo = "/home/placasPT/placasPTpi/pruebas-YOLO/output4.json";
+        long periodo       = 5;
+
+        pollingService = new RaspberryPollingService(
+                host,
+                user,
+                pass,
+                remotoArchivo,
+                periodo,
+                TimeUnit.SECONDS,
+                ev -> {
+                    // ev es un EventoPlacaDTO deserializado con Jackson
+                    estacionamientoService.procesarEvento(ev);
+                    // luego refrescamos la tabla en JavaFX
+                    Platform.runLater(this::recargar);
+                }
+        );
+        pollingService.start();
     }
 
     /** Configura las columnas de la tabla */
@@ -485,6 +518,36 @@ public class EstacionamientoController implements MainAware {
             statusCircle.setFill(Color.RED);    // Conexión inactiva
         }
     }
+
+    /*
+    private void procesarEvento(RaspberryPollingService.EventoPlaca ev) {
+        String placa = ev.getPlaca();
+        String gate  = ev.getGate();             // "entrada" o "salida"
+        LocalDateTime ts = ev.getTimestamp();    // parseado de ev.getTime()
+
+        if (gate.equalsIgnoreCase("entrada")) {
+            // 1) Verificar que la placa exista y esté activa
+            if (!PlacasDAO.existePlacaActivaYAsignada(placa)) {
+                // alert de denegado…
+            } else {
+                // 2) Registrar ingreso
+                accesoDAO.insertarAcceso(ts, "PLACA", null, placa, null);
+                // alert de permitido…
+            }
+        }
+        else if (gate.equalsIgnoreCase("salida")) {
+            // 1) Buscar el acceso abierto para esa placa
+            Integer idAcceso = accesoDAO.obtenerUltimoIngresoPorPlaca(placa);
+            if (idAcceso != null) {
+                // 2) Cerrar salida
+                accesoDAO.cerrarSalida(idAcceso);
+                // alert de salida ok…
+            } else {
+                // no había ingreso abierto → error o logging
+            }
+        }
+
+    }*/
 
     @FXML
     private void onBack() {

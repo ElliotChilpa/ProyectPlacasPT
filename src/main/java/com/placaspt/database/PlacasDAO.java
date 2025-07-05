@@ -126,4 +126,28 @@ public class PlacasDAO {
             return false;
         }
     }
+
+    /**
+     * Comprueba si una placa activa existe en la tabla placavehicular.
+     */
+    public boolean existePlaca(String idPlaca) {
+        String sql = """
+            SELECT 1
+              FROM placavehicular
+             WHERE ID_Placa = ?
+               AND Estado_Vigencia = 'true'
+             LIMIT 1
+            """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, idPlaca);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

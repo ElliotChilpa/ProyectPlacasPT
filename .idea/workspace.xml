@@ -4,8 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se implemento Implementar el patrón Singleton en RS232RFID para poder navergar entre pestañas y el puerto siga abierto.">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_08_06_2025_11_39_p__m___Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_08_06_2025_11_39_p_ m__[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_08_06_2025_11_39_p_ m__[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_06_2025_12_33_a__m___Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_06_2025_12_33_a_ m__[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_06_2025_12_33_a_ m__[Changes]1/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/PlacasDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/PlacasDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspSSH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspSSH.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +138,13 @@
       <workItem from="1750706066598" duration="24954000" />
       <workItem from="1750800706130" duration="26191000" />
       <workItem from="1750874598509" duration="12889000" />
+      <workItem from="1751041474851" duration="816000" />
+      <workItem from="1751068168673" duration="1215000" />
+      <workItem from="1751251212725" duration="3575000" />
+      <workItem from="1751498702762" duration="27322000" />
+      <workItem from="1751680534131" duration="3023000" />
+      <workItem from="1751695536233" duration="119000" />
+      <workItem from="1751695799982" duration="70000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -310,6 +328,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Este commit puede que no funciones pero regrese a la versíón estable probemos" />
     <MESSAGE value="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias" />
@@ -333,7 +362,8 @@
     <MESSAGE value="En este commit ya agregamos Vehiculos Y tambien podemos agregar Placas" />
     <MESSAGE value="En este commit ya funciona todo lo que tenga que ver con la vista usuarios editar, agregar, etc" />
     <MESSAGE value="Se implemento Implementar el patrón Singleton en RS232RFID para poder navergar entre pestañas y el puerto siga abierto." />
-    <option name="LAST_COMMIT_MESSAGE" value="Se implemento Implementar el patrón Singleton en RS232RFID para poder navergar entre pestañas y el puerto siga abierto." />
+    <MESSAGE value="Aquí implementamos la lectura de SSH y nos arroja un aviso si detecta un ingreso o un egreso." />
+    <option name="LAST_COMMIT_MESSAGE" value="Aquí implementamos la lectura de SSH y nos arroja un aviso si detecta un ingreso o un egreso." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
