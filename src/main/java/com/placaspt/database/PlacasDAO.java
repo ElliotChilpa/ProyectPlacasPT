@@ -150,4 +150,30 @@ public class PlacasDAO {
             return false;
         }
     }
+
+    /**
+     * Comprueba si una placa existe, está activa (Estado_Vigencia = 'true')
+     * y además está asignada a un vehículo (aparece en FK_ID_Placa de la tabla vehiculo).
+     */
+    public boolean existePlacaActivaYAsignada(String idPlaca) {
+        String sql = """
+        SELECT 1
+          FROM placavehicular p
+          JOIN vehiculo v
+            ON p.ID_Placa = v.FK_ID_Placa
+         WHERE p.ID_Placa = ?
+           AND p.Estado_Vigencia = 'true'
+         LIMIT 1
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, idPlaca);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

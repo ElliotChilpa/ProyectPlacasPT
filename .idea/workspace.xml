@@ -4,18 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_08_06_2025_11_39_p__m___Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_08_06_2025_11_39_p_ m__[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_08_06_2025_11_39_p_ m__[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_06_2025_12_33_a__m___Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_06_2025_12_33_a_ m__[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_06_2025_12_33_a_ m__[Changes]1/shelved.patch" beforeDir="false" />
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Aquí implementamos la lectura de SSH y nos arroja un aviso si detecta un ingreso o un egreso.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/PlacasDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/PlacasDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspSSH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspSSH.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspberryPollingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspberryPollingService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -145,6 +140,9 @@
       <workItem from="1751680534131" duration="3023000" />
       <workItem from="1751695536233" duration="119000" />
       <workItem from="1751695799982" duration="70000" />
+      <workItem from="1751695896865" duration="2004000" />
+      <workItem from="1751698405189" duration="11011000" />
+      <workItem from="1751747846594" duration="1741000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -322,7 +320,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750882338059</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Aquí implementamos la lectura de SSH y nos arroja un aviso si detecta un ingreso o un egreso.">
+      <option name="closed" value="true" />
+      <created>1751695929140</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1751695929140</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

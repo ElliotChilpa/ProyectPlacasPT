@@ -133,42 +133,10 @@ public class RaspberryPollingService {
 
 
     private void poll() {
-        /*
         try {
             String json = RaspSSH.leerArchivoRasp(host, user, pass, remotoArchivo);
             if (json != null && !json.isBlank()) {
-                // 1) Normalizar keys sin comillas: time: → "time":
-                String fixed = json.replaceAll("([\\[{,]\\s*)([a-zA-Z0-9_]+)\\s*:", "$1\"$2\":");
-                // 2) Normalizar valores sin comillas (solo palabras, dígitos, - y :):
-                fixed = fixed.replaceAll(":(\\s*)([A-Za-z0-9\\-:]+)(?=\\s*[,\\}])", ":$1\"$2\"");
-
-                // 3) Deserializar lista de eventos
-                List<EventoPlacaDTO> eventos = mapper.readValue(
-                        fixed,
-                        new TypeReference<List<EventoPlacaDTO>>() {}
-                );
-
-                // 4) Procesar cada evento en JavaFX
-                for (var ev : eventos) {
-                    Platform.runLater(() -> callback.accept(ev));
-                }
-
-                /*
-                // 5) Renombrar el archivo remoto para no reprocesarlo
-                String cmd = "mv " + remotoArchivo + " " + remotoArchivo + ".leido";
-                RaspSSH.ejecutarComando(host, user, pass, cmd);* /
-                // 5) Renombrar solo cambiando '.json' por '.leido.json'
-                String processed = remotoArchivo.replaceFirst("(?i)\\.json$", ".leido.json");
-                String cmd = "mv " + remotoArchivo + " " + processed;
-                RaspSSH.ejecutarComando(host, user, pass, cmd);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
-        try {
-            String json = RaspSSH.leerArchivoRasp(host, user, pass, remotoArchivo);
-            if (json != null && !json.isBlank()) {
-                // 1) Normalizar keys y valores (tu código actual)…
+                // 1) Normalizar keys y valores (tu código actual)
                 String fixed = json
                         .replaceAll("([\\[{,]\\s*)([a-zA-Z0-9_]+)\\s*:", "$1\"$2\":")
                         .replaceAll(":(\\s*)([A-Za-z0-9\\-:]+)(?=\\s*[,\\}])", ":$1\"$2\"");
@@ -179,21 +147,22 @@ public class RaspberryPollingService {
                         new TypeReference<List<EventoPlacaDTO>>() {}
                 );
 
-                // 3) Solo si hay eventos realmente que procesar…
+                // 3) Solo si hay eventos que procesar…
                 if (!eventos.isEmpty()) {
-                    // Procesar cada evento en JavaFX
+                    // Procesar cada evento en el hilo de JavaFX
                     for (EventoPlacaDTO ev : eventos) {
                         Platform.runLater(() -> callback.accept(ev));
                     }
-                    // Y renombrar el fichero solo en este caso
-                    String processed = remotoArchivo.replaceFirst("(?i)\\.json$", ".leido.json");
-                    String cmd = "mv " + remotoArchivo + " " + processed;
+
+                    // 4) Eliminar el JSON remoto para liberar el nombre
+                    String cmd = "rm " + remotoArchivo;
                     RaspSSH.ejecutarComando(host, user, pass, cmd);
                 }
-                // Si 'eventos' está vacío, NO renombramos y esperaremos al próximo poll.
+                // Si 'eventos' está vacío, no borramos nada y esperamos al siguiente ciclo
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
 }

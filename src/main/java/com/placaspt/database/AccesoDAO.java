@@ -183,6 +183,7 @@ public class AccesoDAO {
     }
 }
 */
+
 package com.placaspt.database;
 
 import com.placaspt.model.AccesoViewDTO;
@@ -213,18 +214,20 @@ public class AccesoDAO {
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setTimestamp(1, Timestamp.valueOf(fechaHora));
-            ps.setString   (2, tipoAcceso);
+            ps.setString(   2, tipoAcceso);
 
             if (fkUsuario != null) {
                 ps.setInt(3, fkUsuario);
             } else {
                 ps.setNull(3, Types.INTEGER);
             }
+
             if (fkRegistroPlaca != null) {
                 ps.setInt(4, fkRegistroPlaca);
             } else {
                 ps.setNull(4, Types.INTEGER);
             }
+
             if (fkRegistroRFID != null) {
                 ps.setInt(5, fkRegistroRFID);
             } else {
@@ -312,11 +315,10 @@ public class AccesoDAO {
 
     /**
      * Cierra la salida de un acceso existente:
-     *  - Crea un nuevo evento SALIDA en registroRFID o registroplaca
+     *  - Inserta un nuevo evento SALIDA en registroRFID o registroplaca
      *  - Inserta un nuevo registro en acceso con el mismo usuario y el nuevo FK_Registro
      */
     public boolean cerrarSalida(int idAcceso) {
-        // 1) Recuperar datos del acceso original
         String sqlFetch = "SELECT * FROM acceso WHERE ID_Acceso = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement psFetch = conn.prepareStatement(sqlFetch)) {
@@ -327,38 +329,44 @@ public class AccesoDAO {
 
                 String tipo       = rs.getString("Tipo_Acceso");
                 Integer fkUsuario = rs.getObject("FK_ID_Usuario", Integer.class);
-                Integer fkRegPla  = rs.getObject("FK_ID_RegistroPlaca", Integer.class);
-                Integer fkRegRfid = rs.getObject("FK_ID_RegistroRFID", Integer.class);
 
-                // 2) Registrar evento de SALIDA
-                int newReg;
-                if ("RFID".equals(tipo) && fkRegRfid != null) {
-                    // Tag y registro de SALIDA en RFID
-                    String tag = new RegistroRFIDDAO().buscarTagPorId(fkRegRfid);
-                    newReg = new RegistroRFIDDAO()
+                Integer newRegId;
+                Integer fkPla    = null;
+                Integer fkRfid   = null;
+
+                if ("RFID".equals(tipo)) {
+                    // 1) SALIDA RFID
+                    String tag       = new RegistroRFIDDAO().buscarTagPorId(
+                            rs.getObject("FK_ID_RegistroRFID", Integer.class)
+                    );
+                    newRegId         = new RegistroRFIDDAO()
                             .insertarRegistroRFID(tag, "SALIDA", "Cierre manual");
-                    fkRegPla = null;
-                } else if ("PLACA".equals(tipo) && fkRegPla != null) {
-                    // Placa y registro de SALIDA en placa
-                    String placa = new RegistroPlacaDAO().buscarPlacaPorId(fkRegPla);
-                    newReg = new RegistroPlacaDAO()
+                    fkRfid           = newRegId;
+
+                } else if ("PLACA".equals(tipo)) {
+                    // 1) SALIDA PLACA
+                    String placa     = new RegistroPlacaDAO().buscarPlacaPorId(
+                            rs.getObject("FK_ID_RegistroPlaca", Integer.class)
+                    );
+                    newRegId         = new RegistroPlacaDAO()
                             .insertarRegistroPlaca(placa, "SALIDA", "Cierre manual");
-                    fkRegRfid = null;
+                    fkPla            = newRegId;
+
                 } else {
                     return false;
                 }
 
-                if (newReg < 0) return false;
+                if (newRegId < 0) return false;
 
-                // 3) Insertar nuevo acceso con el registro de SALIDA
-                int idNewAcceso = insertarAcceso(
+                // 2) Insertar nuevo acceso de salida
+                int idNew = insertarAcceso(
                         LocalDateTime.now(),
                         tipo,
                         fkUsuario,
-                        fkRegPla,
-                        fkRegRfid != null ? newReg : null
+                        fkPla,
+                        fkRfid
                 );
-                return idNewAcceso > 0;
+                return idNew > 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -394,4 +402,5 @@ public class AccesoDAO {
             return 0;
         }
     }
+
 }
