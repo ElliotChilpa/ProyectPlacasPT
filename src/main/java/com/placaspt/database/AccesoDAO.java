@@ -77,32 +77,35 @@ public class AccesoDAO {
      */
     public List<AccesoViewDTO> listarAccesosPorFecha(LocalDate fecha) {
         String sql = """
-            SELECT 
-              a.ID_Acceso,
-              a.FechaHora,
-              -- Usuario: primero el RFID, si no, el dueño de la placa
-              COALESCE(
-                CONCAT(u1.Nombres,' ',u1.Apellidos),
-                CONCAT(u2.Nombres,' ',u2.Apellidos),
-                '—'
-              ) AS usuario,
-              -- Placa o tag
-              COALESCE(rpla.FK_ID_Placa, rfid.FK_ID_RFID) AS placa,
-              a.Tipo_Acceso AS metodo,
-              -- Estado_Evento del registro correspondiente
-              COALESCE(rpla.Estado_Evento, rfid.Estado_Evento, 'DENEGADO') AS estado
-              -- COALESCE(rpla.Estado_Evento, rfid.Estado_Evento) AS estado
-            FROM acceso a
-            -- registros RFID
-            LEFT JOIN registrorfid   rfid ON a.FK_ID_RegistroRFID  = rfid.ID_Registro_RFID
-            LEFT JOIN usuario        u1   ON a.FK_ID_Usuario        = u1.ID_Usuario
-            -- registros Placa
-            LEFT JOIN registroplaca  rpla ON a.FK_ID_RegistroPlaca = rpla.ID_RegistroPlaca
-            LEFT JOIN vehiculo       v    ON rpla.FK_ID_Placa       = v.FK_ID_Placa
-            LEFT JOIN usuario        u2   ON v.FK_ID_Usuario_Fijo   = u2.ID_Usuario
-            WHERE DATE(a.FechaHora) = ?
-            ORDER BY a.FechaHora ASC
-        """;
+        SELECT 
+          a.ID_Acceso,
+          a.FechaHora,
+          /* Usuario: primero RFID, luego dueño de placa */
+          COALESCE(
+            CONCAT(u1.Nombres,' ',u1.Apellidos),
+            CONCAT(u2.Nombres,' ',u2.Apellidos),
+            '—'
+          ) AS usuario,
+          /* Placa: si existe FK_ID_Placa, si no Placa_Escaneada, si no el tag RFID */
+          COALESCE(
+            rpla.FK_ID_Placa,
+            rpla.Placa_Escaneada,
+            rfid.FK_ID_RFID
+          ) AS placa,
+          a.Tipo_Acceso AS metodo,
+          /* Estado_Evento del registro correspondiente */
+          COALESCE(rpla.Estado_Evento, rfid.Estado_Evento, 'DENEGADO') AS estado
+        FROM acceso a
+        /* registros RFID */
+        LEFT JOIN registrorfid   rfid ON a.FK_ID_RegistroRFID  = rfid.ID_Registro_RFID
+        LEFT JOIN usuario        u1   ON a.FK_ID_Usuario        = u1.ID_Usuario
+        /* registros Placa */
+        LEFT JOIN registroplaca  rpla ON a.FK_ID_RegistroPlaca = rpla.ID_RegistroPlaca
+        LEFT JOIN vehiculo       v    ON rpla.FK_ID_Placa       = v.FK_ID_Placa
+        LEFT JOIN usuario        u2   ON v.FK_ID_Usuario_Fijo   = u2.ID_Usuario
+        WHERE DATE(a.FechaHora) = ?
+        ORDER BY a.FechaHora ASC
+    """;
 
         List<AccesoViewDTO> lista = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
@@ -127,11 +130,6 @@ public class AccesoDAO {
         return lista;
     }
 
-    /**
-     * Cierra la salida de un acceso existente:
-     *  1) Inserta SALIDA en registroRFID o registroplaca
-     *  2) Genera un nuevo row en acceso con ese SALIDA
-     */
     public boolean cerrarSalida(int idAcceso) {
         String fetch = "SELECT * FROM acceso WHERE ID_Acceso = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -151,15 +149,27 @@ public class AccesoDAO {
                 if ("RFID".equals(tipo)) {
                     String tag = new RegistroRFIDDAO()
                             .buscarTagPorId(rs.getObject("FK_ID_RegistroRFID", Integer.class));
+                    // ahora le pasamos también el tagEscaneado
                     newRegId = new RegistroRFIDDAO()
-                            .insertarRegistroRFID(tag, "SALIDA", "Cierre manual");
+                            .insertarRegistroRFID(
+                                    tag,
+                                    "SALIDA",
+                                    "Cierre manual",
+                                    tag         // <— cuarto parámetro
+                            );
                     fkRfid = newRegId;
 
                 } else if ("PLACA".equals(tipo)) {
                     String placa = new RegistroPlacaDAO()
                             .buscarPlacaPorId(rs.getObject("FK_ID_RegistroPlaca", Integer.class));
+                    // y aquí la placaEscaneada
                     newRegId = new RegistroPlacaDAO()
-                            .insertarRegistroPlaca(placa, "SALIDA", "Cierre manual");
+                            .insertarRegistroPlaca(
+                                    placa,
+                                    "SALIDA",
+                                    "Cierre manual",
+                                    placa       // <— cuarto parámetro
+                            );
                     fkPla = newRegId;
 
                 } else {
@@ -182,6 +192,7 @@ public class AccesoDAO {
             return false;
         }
     }
+
 
     /**
      * Devuelve el ID del último ingreso abierto para un usuario,

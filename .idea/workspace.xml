@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="----- Version ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, falta solucionar los accesos no permitidos por placas vehicularees no reconocidas y Rfid no reconocido">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="----- Version ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, ya imprime accesos no permitidos por placas vehicularees no reconocidas y Rfid no reconocido falta">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/RegistroPlacaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/RegistroPlacaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/RegistroRFIDDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/RegistroRFIDDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,7 +140,7 @@
       <workItem from="1751695799982" duration="70000" />
       <workItem from="1751695896865" duration="2004000" />
       <workItem from="1751698405189" duration="11011000" />
-      <workItem from="1751747846594" duration="17905000" />
+      <workItem from="1751747846594" duration="21100000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -340,7 +342,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751764661582</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="----- Version ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, ya imprime accesos no permitidos por placas vehicularees no reconocidas y Rfid no reconocido falta">
+      <option name="closed" value="true" />
+      <created>1751767554052</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1751767554052</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -358,7 +368,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Este commit puede que no funciones pero regrese a la versíón estable probemos" />
     <MESSAGE value="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias" />
     <MESSAGE value="realizamos un cambio en el workspace.xml para ver como se comporta." />
     <MESSAGE value="Agregamos el RS232RFID funcional, el RFIDController funcional y la vista rfid fxml funcional." />
@@ -383,7 +392,8 @@
     <MESSAGE value="Aquí implementamos la lectura de SSH y nos arroja un aviso si detecta un ingreso o un egreso." />
     <MESSAGE value="Este Commit ya permite el ingreso y egreso de usuarios al estacionamiento, falta solucionar la salida de usuarios con RFID y que la base de datos unicamente permite guardar en acceso un ingreso y una salida para llevar el conteo." />
     <MESSAGE value="----- Version ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, falta solucionar los accesos no permitidos por placas vehicularees no reconocidas y Rfid no reconocido" />
-    <option name="LAST_COMMIT_MESSAGE" value="----- Version ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, falta solucionar los accesos no permitidos por placas vehicularees no reconocidas y Rfid no reconocido" />
+    <MESSAGE value="----- Version ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, ya imprime accesos no permitidos por placas vehicularees no reconocidas y Rfid no reconocido falta" />
+    <option name="LAST_COMMIT_MESSAGE" value="----- Version ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, ya imprime accesos no permitidos por placas vehicularees no reconocidas y Rfid no reconocido falta" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

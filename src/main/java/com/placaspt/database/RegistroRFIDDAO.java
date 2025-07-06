@@ -40,11 +40,11 @@ public class RegistroRFIDDAO {
      * Inserta un evento en registrorfid y devuelve el nuevo ID_Registro_RFID,
      * o -1 si hubo un error.
      */
-    public int insertarRegistroRFID(String idRfid, String estado, String descripcion) {
+    public int insertarRegistroRFID(String idRfid, String estado, String descripcion, String tagEscaneado) {
         String sql = """
             INSERT INTO registrorfid
-              (Fecha_Registro, Estado_Evento, Descripcion_Evento, FK_ID_RFID)
-            VALUES (?, ?, ?, ?)
+              (Fecha_Registro, Estado_Evento, Descripcion_Evento, FK_ID_RFID, Tag_Escaneado)
+            VALUES (?, ?, ?, ?, ?)
         """;
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -53,6 +53,7 @@ public class RegistroRFIDDAO {
             ps.setString   (2, estado);
             ps.setString   (3, descripcion);
             ps.setString   (4, idRfid);
+            ps.setString(5, tagEscaneado);    // <-- asignamos el nuevo campo
 
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
