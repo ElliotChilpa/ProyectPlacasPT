@@ -57,13 +57,6 @@ public class VehiculoDAO {
     /**
      * Retorna el primer VehiculoPOJO (o null) para un usuario fijo.
      */
-    /*
-    public VehiculoPOJO buscarPrimeroPorUsuarioFijo(int idUsuarioFijo) {
-        List<VehiculoPOJO> lista = buscarPorUsuarioFijo(idUsuarioFijo);
-        return lista.isEmpty() ? null : lista.get(0);
-    }*/
-
-    // Esta función permite tener varios vehiculos pero solo devuelve el primer vehiculo
     public VehiculoPOJO buscarPrimeroPorUsuarioFijo(int idUsuarioFijo) {
         List<VehiculoPOJO> lista = buscarPorUsuarioFijo(idUsuarioFijo);
         return lista.isEmpty() ? null : lista.get(0);
@@ -110,6 +103,7 @@ public class VehiculoDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, v.getMarca());
+            ps.setString(1, v.getMarca());
             ps.setString(2, v.getModelo());
             ps.setInt(3, v.getAnio());
             ps.setString(4, v.getColor());
@@ -140,6 +134,84 @@ public class VehiculoDAO {
             return false;
         }
     }
+
+    /**
+     * Busca el primer vehículo cuya placa coincida.
+     * @param placa ID_Placa en la tabla placavehicular
+     * @return VehiculoPOJO o null si no existe
+     */
+    public VehiculoPOJO buscarPorPlaca(String placa) {
+        String sql = """
+            SELECT *
+              FROM vehiculo
+             WHERE FK_ID_Placa = ?
+             LIMIT 1
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, placa);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return extraerVehiculo(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Devuelve el FK_ID_Usuario_Fijo para un vehículo dado su placa,
+     * o null si no encuentra ninguno.
+     */
+    /**
+     * Devuelve el ID_Usuario_Fijo asociado a esta placa,
+     * o null si la placa no pertenece a ningún vehículo de usuario fijo.
+     */
+    public Integer obtenerIdUsuarioFijoPorPlaca(String placa) {
+        String sql = """
+            SELECT FK_ID_Usuario_Fijo
+              FROM vehiculo
+             WHERE FK_ID_Placa = ?
+             LIMIT 1
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, placa);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getObject("FK_ID_Usuario_Fijo", Integer.class);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /*
+    public Integer obtenerIdUsuarioFijoPorPlaca(String placa) {
+        String sql = """
+            SELECT FK_ID_Usuario_Fijo
+              FROM vehiculo
+             WHERE FK_ID_Placa = ?
+             LIMIT 1
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, placa);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("FK_ID_Usuario_Fijo");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }*/
 
     // ═══════════════════════════════════════════════════════════════
 

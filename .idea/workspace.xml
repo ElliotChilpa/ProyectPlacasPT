@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Aquí implementamos la lectura de SSH y nos arroja un aviso si detecta un ingreso o un egreso.">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Este Commit ya permite el ingreso y egreso de usuarios al estacionamiento, falta solucionar la salida de usuarios con RFID y que la base de datos unicamente permite guardar en acceso un ingreso y una salida para llevar el conteo.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/PlacasDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/PlacasDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/VehiculoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/VehiculoDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspSSH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspSSH.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspberryPollingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspberryPollingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/model/VehiculoPOJO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/VehiculoPOJO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +141,7 @@
       <workItem from="1751695799982" duration="70000" />
       <workItem from="1751695896865" duration="2004000" />
       <workItem from="1751698405189" duration="11011000" />
-      <workItem from="1751747846594" duration="1741000" />
+      <workItem from="1751747846594" duration="15147000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -328,7 +327,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751695929140</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Este Commit ya permite el ingreso y egreso de usuarios al estacionamiento, falta solucionar la salida de usuarios con RFID y que la base de datos unicamente permite guardar en acceso un ingreso y una salida para llevar el conteo.">
+      <option name="closed" value="true" />
+      <created>1751749785055</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1751749785055</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -369,7 +376,8 @@
     <MESSAGE value="En este commit ya funciona todo lo que tenga que ver con la vista usuarios editar, agregar, etc" />
     <MESSAGE value="Se implemento Implementar el patrón Singleton en RS232RFID para poder navergar entre pestañas y el puerto siga abierto." />
     <MESSAGE value="Aquí implementamos la lectura de SSH y nos arroja un aviso si detecta un ingreso o un egreso." />
-    <option name="LAST_COMMIT_MESSAGE" value="Aquí implementamos la lectura de SSH y nos arroja un aviso si detecta un ingreso o un egreso." />
+    <MESSAGE value="Este Commit ya permite el ingreso y egreso de usuarios al estacionamiento, falta solucionar la salida de usuarios con RFID y que la base de datos unicamente permite guardar en acceso un ingreso y una salida para llevar el conteo." />
+    <option name="LAST_COMMIT_MESSAGE" value="Este Commit ya permite el ingreso y egreso de usuarios al estacionamiento, falta solucionar la salida de usuarios con RFID y que la base de datos unicamente permite guardar en acceso un ingreso y una salida para llevar el conteo." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
