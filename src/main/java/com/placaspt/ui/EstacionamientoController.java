@@ -82,7 +82,7 @@ public class EstacionamientoController implements MainAware {
         String user          = "placasPT";
         String pass          = "8586";
         String remotoArchivo = "/home/placasPT/placasPTpi/pruebas-YOLO/output.json";
-        long periodo         = 3; // segundos
+        long periodo         = 1; // segundos
 
         pollingService = new RaspberryPollingService(
                 host, user, pass, remotoArchivo,

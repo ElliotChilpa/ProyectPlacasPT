@@ -88,6 +88,85 @@ public class EstacionamientoService {
      */
     public void procesarEvento(EventoPlacaDTO ev) {
         String placa = ev.getPlate();
+        LocalDateTime ahora = LocalDateTime.now();
+        // 0) Averiguamos el usuario fijo asociado (puede ser null)
+        Integer idUsuarioFijo = vehDAO.obtenerIdUsuarioFijoPorPlaca(placa);
+        Integer idUsuario     = null;
+        if (idUsuarioFijo != null) {
+            idUsuario = usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo);
+        }
+
+        switch (ev.getGate()) {
+            case INGRESO -> {
+                // —— INGRESO ——
+                if (idUsuario == null || !placasDAO.existePlacaActivaYAsignada(placa)) {
+                    // placa inválida / sin asignar → DENEGADO
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            placa,
+                            "DENEGADO",
+                            idUsuario == null
+                                    ? "Placa no asignada a usuario fijo"
+                                    : "Placa inactiva o no válida",
+                            placa
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                } else {
+                    // ingreso válido
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            placa,
+                            "INGRESO",
+                            "Detección cámara",
+                            placa
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", idUsuario, idReg, null);
+                }
+            }
+            case SALIDA -> {
+                // —— SALIDA ——
+                if (idUsuario == null) {
+                    // ni siquiera existe la placa
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            placa,
+                            "DENEGADO",
+                            "Salida sin ingreso (placa desconocida)",
+                            placa
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                } else {
+                    // consultamos si hay un ingreso pendiente
+                    Integer idAccesoAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuario);
+                    if (idAccesoAbierto != null) {
+                        // salida legítima: cerramos el acceso
+                        int idReg = regPlaDAO.insertarRegistroPlaca(
+                                placa,
+                                "SALIDA",
+                                "Detección cámara",
+                                placa
+                        );
+                        // insertamos la salida en acceso
+                        accesoDAO.insertarAcceso(ahora, "PLACA", idUsuario, idReg, null);
+                        // marcamos el ingreso original como cerrado
+                        accesoDAO.cerrarSalida(idAccesoAbierto);
+                    } else {
+                        // nunca ingresó → DENEGADO
+                        int idReg = regPlaDAO.insertarRegistroPlaca(
+                                placa,
+                                "DENEGADO",
+                                "Salida sin ingreso abierto",
+                                placa
+                        );
+                        accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                    }
+                }
+            }
+            default -> {
+                // (opcional) manejar otros casos si tu enum tiene más valores
+            }
+        }
+    }
+
+    /*public void procesarEvento(EventoPlacaDTO ev) {
+        String placa = ev.getPlate();
         LocalDateTime ts = LocalDateTime.now();  // usamos marca local
 
         // 1) ¿A qué usuario fijo pertenece esta placa?
@@ -151,6 +230,6 @@ public class EstacionamientoService {
                 accesoDAO.insertarAcceso(ts, "PLACA", idUsuario, idRegPla, null);
             }
         }
-    }
+    }*/
 
 }
