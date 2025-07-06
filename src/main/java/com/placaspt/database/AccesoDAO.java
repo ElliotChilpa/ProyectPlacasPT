@@ -90,7 +90,8 @@ public class AccesoDAO {
               COALESCE(rpla.FK_ID_Placa, rfid.FK_ID_RFID) AS placa,
               a.Tipo_Acceso AS metodo,
               -- Estado_Evento del registro correspondiente
-              COALESCE(rpla.Estado_Evento, rfid.Estado_Evento) AS estado
+              COALESCE(rpla.Estado_Evento, rfid.Estado_Evento, 'DENEGADO') AS estado
+              -- COALESCE(rpla.Estado_Evento, rfid.Estado_Evento) AS estado
             FROM acceso a
             -- registros RFID
             LEFT JOIN registrorfid   rfid ON a.FK_ID_RegistroRFID  = rfid.ID_Registro_RFID
