@@ -67,7 +67,7 @@ public class EstacionamientoController implements MainAware {
 
         // 2) Escuchar lecturas RFID y delegar al servicio
         lector.escuchar(tag -> Platform.runLater(() -> {
-            System.out.println("[RFID] tag leído: " + tag);
+            System.out.println("[RFID] tag: " + tag);
             estacionamientoService.procesarRfid(tag);
             recargar();
         }));
@@ -82,7 +82,7 @@ public class EstacionamientoController implements MainAware {
         String user          = "placasPT";
         String pass          = "8586";
         String remotoArchivo = "/home/placasPT/placasPTpi/pruebas-YOLO/output.json";
-        long periodo         = 5; // segundos
+        long periodo         = 3; // segundos
 
         pollingService = new RaspberryPollingService(
                 host, user, pass, remotoArchivo,

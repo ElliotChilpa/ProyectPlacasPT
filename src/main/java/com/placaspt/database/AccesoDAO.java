@@ -77,36 +77,34 @@ public class AccesoDAO {
      */
     public List<AccesoViewDTO> listarAccesosPorFecha(LocalDate fecha) {
         String sql = """
-        SELECT 
+        SELECT
           a.ID_Acceso,
           a.FechaHora,
-          /* Usuario: primero RFID, luego dueño de placa */
+          -- Usuario: primero RFID, si no, dueño de placa
           COALESCE(
             CONCAT(u1.Nombres,' ',u1.Apellidos),
             CONCAT(u2.Nombres,' ',u2.Apellidos),
             '—'
           ) AS usuario,
-          /* Placa: si existe FK_ID_Placa, si no Placa_Escaneada, si no el tag RFID */
+          -- Aquí elegimos la “placa”:
           COALESCE(
             rpla.FK_ID_Placa,
             rpla.Placa_Escaneada,
-            rfid.FK_ID_RFID
+            rfid.Tag_Escaneado,
+            rfid.FK_ID_RFID,
+            '—'
           ) AS placa,
           a.Tipo_Acceso AS metodo,
-          /* Estado_Evento del registro correspondiente */
           COALESCE(rpla.Estado_Evento, rfid.Estado_Evento, 'DENEGADO') AS estado
         FROM acceso a
-        /* registros RFID */
         LEFT JOIN registrorfid   rfid ON a.FK_ID_RegistroRFID  = rfid.ID_Registro_RFID
         LEFT JOIN usuario        u1   ON a.FK_ID_Usuario        = u1.ID_Usuario
-        /* registros Placa */
         LEFT JOIN registroplaca  rpla ON a.FK_ID_RegistroPlaca = rpla.ID_RegistroPlaca
         LEFT JOIN vehiculo       v    ON rpla.FK_ID_Placa       = v.FK_ID_Placa
         LEFT JOIN usuario        u2   ON v.FK_ID_Usuario_Fijo   = u2.ID_Usuario
         WHERE DATE(a.FechaHora) = ?
         ORDER BY a.FechaHora ASC
     """;
-
         List<AccesoViewDTO> lista = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -130,10 +128,79 @@ public class AccesoDAO {
         return lista;
     }
 
+    /*
     public boolean cerrarSalida(int idAcceso) {
         String fetch = "SELECT * FROM acceso WHERE ID_Acceso = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(fetch)) {
+
+            ps.setInt(1, idAcceso);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return false;
+                }
+
+                String tipo       = rs.getString("Tipo_Acceso");
+                Integer fkUsuario = rs.getObject("FK_ID_Usuario", Integer.class);
+                Integer fkRegPla  = rs.getObject("FK_ID_RegistroPlaca", Integer.class);
+                Integer fkRegRfid = rs.getObject("FK_ID_RegistroRFID", Integer.class);
+
+                Integer nuevaClaveRegistro;
+                Integer nuevoFkPla = null;
+                Integer nuevoFkRfid = null;
+
+                if ("RFID".equalsIgnoreCase(tipo) && fkRegRfid != null) {
+                    // 1) Recuperar el tag real desde el registro previo
+                    String tag = new RegistroRFIDDAO().buscarTagPorId(fkRegRfid);
+
+                    // 2) Insertar el nuevo evento SALIDA en registrorfid
+                    //    Usamos la firma que recibe ID_RFID para FK_ID_RFID correcto
+                    nuevaClaveRegistro = new RegistroRFIDDAO()
+                            .insertarRegistroRFID(fkRegRfid, "SALIDA", "Cierre manual");
+
+                    if (nuevaClaveRegistro < 0) return false;
+                    nuevoFkRfid = nuevaClaveRegistro;
+
+                } else if ("PLACA".equalsIgnoreCase(tipo) && fkRegPla != null) {
+                    // 1) Recuperar la placa real desde el registro previo
+                    String placa = new RegistroPlacaDAO().buscarPlacaPorId(fkRegPla);
+
+                    // 2) Insertar el nuevo evento SALIDA en registroplaca
+                    //    Usamos la firma que recibe placaEscaneada sólo si quieres guardarla,
+                    //    si no, usa la firma normal (tres argumentos) y la FK_ID_Placa quedará correcta.
+                    nuevaClaveRegistro = new RegistroPlacaDAO()
+                            .insertarRegistroPlaca(placa, "SALIDA", "Cierre manual");
+
+                    if (nuevaClaveRegistro < 0) return false;
+                    nuevoFkPla = nuevaClaveRegistro;
+
+                } else {
+                    // Ni RFID ni PLACA válidos
+                    return false;
+                }
+
+                // 3) Insertar la fila de salida en acceso
+                int idNewAcceso = insertarAcceso(
+                        LocalDateTime.now(),
+                        tipo,
+                        fkUsuario,
+                        nuevoFkPla,
+                        nuevoFkRfid
+                );
+                return idNewAcceso > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+     */
+    public boolean cerrarSalida(int idAcceso) {
+        String sqlFetch = "SELECT Tipo_Acceso, FK_ID_Usuario, FK_ID_RegistroRFID, FK_ID_RegistroPlaca "
+                + "FROM acceso WHERE ID_Acceso = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sqlFetch)) {
 
             ps.setInt(1, idAcceso);
             try (ResultSet rs = ps.executeQuery()) {
@@ -146,30 +213,28 @@ public class AccesoDAO {
                 Integer fkPla   = null;
                 Integer fkRfid  = null;
 
-                if ("RFID".equals(tipo)) {
-                    String tag = new RegistroRFIDDAO()
-                            .buscarTagPorId(rs.getObject("FK_ID_RegistroRFID", Integer.class));
-                    // ahora le pasamos también el tagEscaneado
-                    newRegId = new RegistroRFIDDAO()
-                            .insertarRegistroRFID(
-                                    tag,
-                                    "SALIDA",
-                                    "Cierre manual",
-                                    tag         // <— cuarto parámetro
-                            );
+                if ("RFID".equalsIgnoreCase(tipo)) {
+                    // a) Recuperar el tag original
+                    int viejoReg = rs.getInt("FK_ID_RegistroRFID");
+                    String tag   = new RegistroRFIDDAO().buscarTagPorId(viejoReg);
+                    // b) Insertar SALIDA en registrorfid
+                    newRegId = new RegistroRFIDDAO().insertarRegistroRFID(
+                            tag,
+                            "SALIDA",
+                            "Cierre manual",
+                            tag
+                    );
                     fkRfid = newRegId;
 
-                } else if ("PLACA".equals(tipo)) {
-                    String placa = new RegistroPlacaDAO()
-                            .buscarPlacaPorId(rs.getObject("FK_ID_RegistroPlaca", Integer.class));
-                    // y aquí la placaEscaneada
-                    newRegId = new RegistroPlacaDAO()
-                            .insertarRegistroPlaca(
-                                    placa,
-                                    "SALIDA",
-                                    "Cierre manual",
-                                    placa       // <— cuarto parámetro
-                            );
+                } else if ("PLACA".equalsIgnoreCase(tipo)) {
+                    int viejoReg = rs.getInt("FK_ID_RegistroPlaca");
+                    String placa = new RegistroPlacaDAO().buscarPlacaPorId(viejoReg);
+                    newRegId = new RegistroPlacaDAO().insertarRegistroPlaca(
+                            placa,
+                            "SALIDA",
+                            "Cierre manual",
+                            placa
+                    );
                     fkPla = newRegId;
 
                 } else {
@@ -178,6 +243,7 @@ public class AccesoDAO {
 
                 if (newRegId < 0) return false;
 
+                // c) Insertar un nuevo row de SALIDA en acceso
                 int inserted = insertarAcceso(
                         LocalDateTime.now(),
                         tipo,
