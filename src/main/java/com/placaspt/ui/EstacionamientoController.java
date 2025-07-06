@@ -48,7 +48,6 @@ public class EstacionamientoController implements MainAware {
     @FXML private Button      btnRefrescarPuerto;
     @FXML private Circle      statusCircle;
     @FXML private AnchorPane  root;
-    @FXML private Button      btnBack;
 
     @Override
     public void setMainController(MainController main) {
@@ -57,7 +56,7 @@ public class EstacionamientoController implements MainAware {
 
     @FXML
     private void initialize() {
-        // 1) Abrir puerto RFID si no está ya abierto
+        // 1) Abrir puerto RFID sólo si no está ya abierto
         if (!lector.isOpen()) {
             if (!lector.iniciar("COM4")) {
                 System.err.println("[RFID] No se pudo abrir COM4");
@@ -65,20 +64,21 @@ public class EstacionamientoController implements MainAware {
         }
         actualizarStatus();
 
-        // 2) Escuchar lecturas RFID y delegar al servicio
+        // 2) Registra UNA vez el listener RFID
         lector.escuchar(tag -> Platform.runLater(() -> {
             System.out.println("[RFID] tag: " + tag);
             estacionamientoService.procesarRfid(tag);
             recargar();
         }));
 
-        // 3) Configurar tabla y filtros
+        // 3) Tabla y filtros
         setupTableColumns();
         setupFilters();
         recargar();
 
-        // 4) Arrancar polling de placas desde Raspberry
-        String host          = "192.168.100.254";
+        // 4) SSH‐Polling de placas
+        //String host          = "192.168.100.254";
+        String host          = "192.168.0.11";
         String user          = "placasPT";
         String pass          = "8586";
         String remotoArchivo = "/home/placasPT/placasPTpi/pruebas-YOLO/output.json";
@@ -99,7 +99,6 @@ public class EstacionamientoController implements MainAware {
         pollingService.start();
     }
 
-    /** Columnas de la tabla */
     private void setupTableColumns() {
         colFechaHora.setCellValueFactory(new PropertyValueFactory<>("fechaHora"));
         colFechaHora.setCellFactory(col -> new TableCell<>() {
@@ -109,7 +108,6 @@ public class EstacionamientoController implements MainAware {
                 setText(empty || ts==null ? null : ts.format(dtf));
             }
         });
-
         colUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
         colPlaca  .setCellValueFactory(new PropertyValueFactory<>("placa"));
         colMetodo .setCellValueFactory(new PropertyValueFactory<>("metodo"));
@@ -119,7 +117,7 @@ public class EstacionamientoController implements MainAware {
             private final Button btnCerrar = new Button("Cerrar Salida");
             {
                 btnCerrar.setOnAction(e -> {
-                    AccesoViewDTO a = getTableView().getItems().get(getIndex());
+                    var a = getTableView().getItems().get(getIndex());
                     cerrarSalida(a.getIdAcceso());
                 });
             }
@@ -129,7 +127,7 @@ public class EstacionamientoController implements MainAware {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    AccesoViewDTO a = getTableView().getItems().get(getIndex());
+                    var a = getTableView().getItems().get(getIndex());
                     btnCerrar.setDisable(!"INGRESO".equals(a.getEstado()));
                     setGraphic(btnCerrar);
                 }
@@ -137,75 +135,65 @@ public class EstacionamientoController implements MainAware {
         });
     }
 
-    /** Filtros de fecha y texto */
     private void setupFilters() {
         dpFecha.setValue(LocalDate.now());
         dpFecha.valueProperty().addListener((o,oldV,newV)->recargar());
         tfFiltro.textProperty().addListener((o,oldV,newV)->filtrar());
     }
 
-    /** Recarga los accesos desde BD y actualiza contador */
     private void recargar() {
         List<AccesoViewDTO> lista = accesoDAO.listarAccesosPorFecha(dpFecha.getValue());
         var obs = FXCollections.observableArrayList(lista);
         tblAccesos.setItems(obs);
         if (!obs.isEmpty()) tblAccesos.scrollTo(obs.size()-1);
 
-        long dentro = lista.stream()
-                .filter(a->"INGRESO".equals(a.getEstado()))
-                .count();
+        long dentro = lista.stream().filter(a->"INGRESO".equals(a.getEstado())).count();
         lblOcupados.setText("Espacios ocupados: " + dentro + " de " + CAPACIDAD_TOTAL);
     }
 
-    /** Filtra la tabla por usuario o placa */
     private void filtrar() {
         String txt = tfFiltro.getText().toLowerCase().trim();
         if (txt.isEmpty()) {
             recargar();
         } else {
             var filtered = tblAccesos.getItems().stream()
-                    .filter(a ->
-                            a.getUsuario().toLowerCase().contains(txt) ||
-                                    a.getPlaca().toLowerCase().contains(txt)
-                    )
+                    .filter(a -> a.getUsuario().toLowerCase().contains(txt)
+                            || a.getPlaca().toLowerCase().contains(txt))
                     .toList();
             tblAccesos.setItems(FXCollections.observableArrayList(filtered));
         }
     }
 
-    /** Cerrar manualmente la salida de un acceso abierto */
     private void cerrarSalida(int idAcceso) {
-        boolean ok = accesoDAO.cerrarSalida(idAcceso);
-        if (!ok) {
+        if (!accesoDAO.cerrarSalida(idAcceso)) {
             new Alert(Alert.AlertType.ERROR, "No se pudo cerrar la salida").showAndWait();
         }
         recargar();
     }
 
-    /** Muestra una alerta breve cuando llega un evento de placa */
     private void showEventoAlert(EventoPlacaDTO ev) {
         String mensaje;
         Alert.AlertType tipo;
         switch(ev.getGate()) {
             case INGRESO -> {
                 mensaje = "Ingreso detectado: " + ev.getPlate();
-                tipo = Alert.AlertType.INFORMATION;
+                tipo    = Alert.AlertType.INFORMATION;
             }
             case SALIDA -> {
                 mensaje = "Salida detectada: " + ev.getPlate();
-                tipo = Alert.AlertType.INFORMATION;
+                tipo    = Alert.AlertType.INFORMATION;
             }
             default -> {
                 mensaje = "Acceso DENEGADO: " + ev.getPlate();
-                tipo = Alert.AlertType.ERROR;
+                tipo    = Alert.AlertType.ERROR;
             }
         }
         // mostramos sin bloquear el hilo de polling
-        Platform.runLater(() -> new Alert(tipo, mensaje).show());
+        new Alert(tipo, mensaje).show();
     }
 
-    /** Botón “Refrescar puerto” */
     @FXML private void refrescarPuerto() {
+        // sólo para debug, no obligatorio
         if (lector.isOpen()) lector.cerrar();
         boolean ok = lector.iniciar("COM4");
         actualizarStatus();
@@ -215,15 +203,13 @@ public class EstacionamientoController implements MainAware {
                 .showAndWait();
     }
 
-    /** Actualiza el color del círculo según estado del puerto */
     private void actualizarStatus() {
         statusCircle.setFill(lector.isOpen() ? Color.GREEN : Color.RED);
     }
 
-    /** Al volver atrás: detenemos polling y cerramos puerto */
     @FXML private void onBack() {
+        // Sólo detenemos el polling de placas; NO cerramos el RFID
         if (pollingService != null) pollingService.stop();
-        lector.cerrar();
         mainController.goBack();
     }
 }
