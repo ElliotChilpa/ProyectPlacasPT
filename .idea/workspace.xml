@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Ultimo Commit con Estacionamiento Controller para hacer push">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="-- Este es el commit mas estable --">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
@@ -142,7 +142,7 @@
       <workItem from="1751747846594" duration="21419000" />
       <workItem from="1751776124483" duration="17776000" />
       <workItem from="1751819255129" duration="890000" />
-      <workItem from="1751901444257" duration="17565000" />
+      <workItem from="1751901444257" duration="21620000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -392,7 +392,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751920241410</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="-- Este es el commit mas estable --">
+      <option name="closed" value="true" />
+      <created>1751927643736</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1751927643738</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -410,7 +418,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Se creo la rama rfid-integracion" />
     <MESSAGE value="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100" />
     <MESSAGE value="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos" />
     <MESSAGE value="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar." />
@@ -435,7 +442,8 @@
     <MESSAGE value="----- Version ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, ya imprime accesos no permitidos por placas vehicularees y agrega la placa no reconocidas y Rfid aún no detecta tags no reconocidos." />
     <MESSAGE value="----- Version MAS ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, ya imprime accesos no permitidos por placas vehiculares y RFID no reconocidas." />
     <MESSAGE value="Ultimo Commit con Estacionamiento Controller para hacer push" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ultimo Commit con Estacionamiento Controller para hacer push" />
+    <MESSAGE value="-- Este es el commit mas estable --" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Este es el commit mas estable --" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

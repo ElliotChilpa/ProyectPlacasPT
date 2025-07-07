@@ -1,6 +1,7 @@
 package com.placaspt.logic;
 
 import com.placaspt.database.*;
+import com.placaspt.model.EventoEstado;
 import com.placaspt.model.EventoPlacaDTO;
 
 import java.time.LocalDateTime;
@@ -22,35 +23,39 @@ public class EstacionamientoService {
      * Procesa un tag RFID recibido:
      *  - alterna INGRESO/SALIDA según último estado
      *  - registra en registrorfid y en acceso
+     * @param tag el identificador del tag leído
+     * @return el estado final del evento (INGRESO, SALIDA o DENEGADO)
      */
-    public void procesarRfid(String tag) {
+    public EventoEstado procesarRfid(String tag) {
         LocalDateTime ahora = LocalDateTime.now();
+        EventoEstado resultado;
 
         // 1) ¿Ese tag está asignado a un usuario fijo?
         int idUsuarioFijo = tarjetaDAO.obtenerIdUsuarioFijoPorTag(tag);
         if (idUsuarioFijo <= 0) {
-            // tarjeta desconocida → sólo acceso DENEGADO
+            resultado = EventoEstado.DENEGADO;
             int idReg = regRfidDAO.insertarRegistroRFID(
                     tag,
-                    "DENEGADO",
+                    resultado.name(),
                     "Tag no registrado",
-                    tag  // guardamos el raw leído en Tag_Escaneado
+                    tag
             );
             accesoDAO.insertarAcceso(ahora, "RFID", null, null, idReg);
-            return;
+            return resultado;
         }
 
         // 2) Convertir a ID_Usuario “base”
         Integer idUsuario = usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo);
         if (idUsuario == null || idUsuario < 0) {
+            resultado = EventoEstado.DENEGADO;
             int idReg = regRfidDAO.insertarRegistroRFID(
                     tag,
-                    "DENEGADO",
+                    resultado.name(),
                     "Usuario no encontrado",
                     tag
             );
             accesoDAO.insertarAcceso(ahora, "RFID", null, null, idReg);
-            return;
+            return resultado;
         }
 
         // 3) Último estado de este usuario
@@ -58,15 +63,15 @@ public class EstacionamientoService {
         boolean estabaDentro = "INGRESO".equalsIgnoreCase(ultimo);
 
         // 4) Definimos INGRESO vs SALIDA
-        String nuevoEstado = estabaDentro ? "SALIDA" : "INGRESO";
-        String descripcion = estabaDentro
+        resultado = estabaDentro ? EventoEstado.SALIDA : EventoEstado.INGRESO;
+        String descripcion = (resultado == EventoEstado.SALIDA)
                 ? "Salida detección RFID"
                 : "Detección RFID";
 
         // 5) Insertamos en registrorfid (con Tag_Escaneado)
         int idRegRfid = regRfidDAO.insertarRegistroRFID(
                 tag,
-                nuevoEstado,
+                resultado.name(),
                 descripcion,
                 tag
         );
@@ -79,14 +84,14 @@ public class EstacionamientoService {
                 null,
                 idRegRfid
         );
+
+        return resultado;
     }
 
     /**
-     * Procesa un evento de placa llegado por JSON:
-     *  - si ya hay un INGRESO abierto → SALIDA
-     *  - si no hay INGRESO abierto → INGRESO (si placa válida) o DENEGADO
+     * Procesa un evento de placa llegado por JSON y devuelve el estado final.
      */
-    public void procesarEvento(EventoPlacaDTO ev) {
+    public EventoEstado procesarEvento(EventoPlacaDTO ev) {
         String placa = ev.getPlate();
         LocalDateTime ahora = LocalDateTime.now();
 
@@ -96,24 +101,26 @@ public class EstacionamientoService {
                 ? usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo)
                 : null;
 
+        EventoEstado resultado = null;
+
         switch (ev.getGate()) {
             case INGRESO -> {
                 if (idUsuario == null || !placasDAO.existePlacaActivaYAsignada(placa)) {
-                    // — DENEGADO: no toques FK_ID_Placa, pásale null
+                    resultado = EventoEstado.DENEGADO;
                     int idReg = regPlaDAO.insertarRegistroPlaca(
-                            /* FK_ID_Placa = */    null,
-                            /* Estado */           "DENEGADO",
-                            /* Descripción */      idUsuario == null
+                            null,
+                            resultado.name(),
+                            idUsuario == null
                                     ? "Placa no asignada a usuario fijo"
                                     : "Placa inactiva o no válida",
-                            /* Placa_Escaneada */  placa
+                            placa
                     );
                     accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
                 } else {
-                    // — INGRESO válido —
+                    resultado = EventoEstado.INGRESO;
                     int idReg = regPlaDAO.insertarRegistroPlaca(
-                            placa,                   // FK_ID_Placa sí válido
-                            "INGRESO",
+                            placa,
+                            resultado.name(),
                             "Detección cámara",
                             placa
                     );
@@ -122,10 +129,10 @@ public class EstacionamientoService {
             }
             case SALIDA -> {
                 if (idUsuario == null) {
-                    // — DENEGADO porque ni existe esa placa —
+                    resultado = EventoEstado.DENEGADO;
                     int idReg = regPlaDAO.insertarRegistroPlaca(
                             null,
-                            "DENEGADO",
+                            resultado.name(),
                             "Salida sin ingreso (placa desconocida)",
                             placa
                     );
@@ -133,20 +140,20 @@ public class EstacionamientoService {
                 } else {
                     Integer idAccesoAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuario);
                     if (idAccesoAbierto != null) {
-                        // — SALIDA válido —
+                        resultado = EventoEstado.SALIDA;
                         int idReg = regPlaDAO.insertarRegistroPlaca(
                                 placa,
-                                "SALIDA",
+                                resultado.name(),
                                 "Detección cámara",
                                 placa
                         );
                         accesoDAO.insertarAcceso(ahora, "PLACA", idUsuario, idReg, null);
                         accesoDAO.cerrarSalida(idAccesoAbierto);
                     } else {
-                        // — DENEGADO porque nunca ingresó —
+                        resultado = EventoEstado.DENEGADO;
                         int idReg = regPlaDAO.insertarRegistroPlaca(
                                 null,
-                                "DENEGADO",
+                                resultado.name(),
                                 "Salida sin ingreso abierto",
                                 placa
                         );
@@ -155,9 +162,13 @@ public class EstacionamientoService {
                 }
             }
             default -> {
-                // no hay más casos
+                resultado = EventoEstado.DENEGADO;
             }
         }
+
+        // Actualizamos el DTO por si alguien lo lee después
+        ev.setGate(resultado);
+        return resultado;
     }
 
 }

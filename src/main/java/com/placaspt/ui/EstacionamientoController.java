@@ -3,6 +3,7 @@ package com.placaspt.ui;
 import com.placaspt.database.AccesoDAO;
 import com.placaspt.logic.AppEventListener;
 import com.placaspt.logic.AppService;
+import com.placaspt.model.EventoEstado;
 import com.placaspt.logic.EstacionamientoService;
 import com.placaspt.logic.RS232RFID;
 import com.placaspt.model.AccesoViewDTO;
@@ -55,25 +56,30 @@ public class EstacionamientoController implements MainAware, AppEventListener {
     @Override
     public void onRfidTag(String tag) {
         Platform.runLater(() -> {
-            estacionamientoService.procesarRfid(tag);
+            EventoEstado estado = estacionamientoService.procesarRfid(tag);
             recargar();
-            // Si quieres alerta de RFID también:
-            // showIngresoAlert(tag);
+            switch (estado) {
+                case INGRESO -> showIngresoAlert(tag);
+                case SALIDA  -> showSalidaAlert(tag);
+                case DENEGADO-> showDenegadoAlert(tag);
+            }
         });
     }
+
 
     @Override
     public void onPlacaEvent(EventoPlacaDTO ev) {
         Platform.runLater(() -> {
-            estacionamientoService.procesarEvento(ev);
+            EventoEstado estado = estacionamientoService.procesarEvento(ev);
             recargar();
-            switch (ev.getGate()) {
+            switch (estado) {
                 case INGRESO -> showIngresoAlert(ev.getPlate());
                 case SALIDA  -> showSalidaAlert(ev.getPlate());
-                default      -> showDenegadoAlert(ev.getPlate());
+                case DENEGADO-> showDenegadoAlert(ev.getPlate());
             }
         });
     }
+
 
     @FXML
     private void initialize() {
