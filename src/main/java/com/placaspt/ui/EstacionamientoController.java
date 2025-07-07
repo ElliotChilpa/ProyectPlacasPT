@@ -24,27 +24,27 @@ import java.util.List;
 public class EstacionamientoController implements MainAware, AppEventListener {
     // — Servicios y utilidades —
     private final EstacionamientoService estacionamientoService = new EstacionamientoService();
-    private final AccesoDAO accesoDAO = new AccesoDAO();
-    private final RS232RFID lector = RS232RFID.getInstance();
+    private final AccesoDAO            accesoDAO               = new AccesoDAO();
+    private final RS232RFID            lector                  = RS232RFID.getInstance();
 
-    private MainController mainController;
+    private MainController   mainController;
     private static final int CAPACIDAD_TOTAL = 30;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     // —– FXML inyectados —–
-    @FXML private Label lblOcupados;
+    @FXML private Label      lblOcupados;
     @FXML private DatePicker dpFecha;
-    @FXML private TextField tfFiltro;
-    @FXML private TableView<AccesoViewDTO> tblAccesos;
+    @FXML private TextField  tfFiltro;
+    @FXML private TableView<AccesoViewDTO>    tblAccesos;
     @FXML private TableColumn<AccesoViewDTO, LocalDateTime> colFechaHora;
     @FXML private TableColumn<AccesoViewDTO, String> colUsuario;
     @FXML private TableColumn<AccesoViewDTO, String> colPlaca;
     @FXML private TableColumn<AccesoViewDTO, String> colMetodo;
     @FXML private TableColumn<AccesoViewDTO, String> colEstado;
-    @FXML private TableColumn<AccesoViewDTO, Void> colAccion;
-    @FXML private Button btnRefrescarPuerto;
-    @FXML private Circle statusCircle;
-    @FXML private AnchorPane root;
+    @FXML private TableColumn<AccesoViewDTO, Void>   colAccion;
+    @FXML private Button      btnRefrescarPuerto;
+    @FXML private Circle      statusCircle;
+    @FXML private AnchorPane  root;
 
     @Override
     public void setMainController(MainController main) {
@@ -57,6 +57,8 @@ public class EstacionamientoController implements MainAware, AppEventListener {
         Platform.runLater(() -> {
             estacionamientoService.procesarRfid(tag);
             recargar();
+            // Si quieres alerta de RFID también:
+            // showIngresoAlert(tag);
         });
     }
 
@@ -65,38 +67,27 @@ public class EstacionamientoController implements MainAware, AppEventListener {
         Platform.runLater(() -> {
             estacionamientoService.procesarEvento(ev);
             recargar();
-            showEventoAlert(ev);
+            switch (ev.getGate()) {
+                case INGRESO -> showIngresoAlert(ev.getPlate());
+                case SALIDA  -> showSalidaAlert(ev.getPlate());
+                default      -> showDenegadoAlert(ev.getPlate());
+            }
         });
     }
 
     @FXML
     private void initialize() {
-        // 1) Registrar este controller en AppService
-        /*AppService app = AppService.getInstance();
-        app.registerListener(this);
+        // 1) registro para recibir eventos desde AppService
+        AppService.getInstance().registerListener(this);
 
-        // 2) Arrancar RFID si no está abierto aún
-        if (!lector.isOpen()) {
-            if (!app.startRfid("COM4")) {
-                System.err.println("[AppService] No se pudo abrir COM4");
-            }
-        }*/
-        // **ya no registramos aquí**
-        // sólo inicializamos la UI (tablas, filtros, estado del lector, etc).
+        // 2) UI → tablas, filtros, estado
         setupTableColumns();
         setupFilters();
         recargar();
-        //actualizarStatus();
-
         actualizarStatus();
-
-        // 3) Configurar la tabla y filtros
-        setupTableColumns();
-        setupFilters();
-        recargar();
     }
 
-    /** Configura columnas y botón de "Cerrar Salida" */
+    /** Columnas y botón “Cerrar Salida” */
     private void setupTableColumns() {
         colFechaHora.setCellValueFactory(new PropertyValueFactory<>("fechaHora"));
         colFechaHora.setCellFactory(col -> new TableCell<>() {
@@ -106,7 +97,6 @@ public class EstacionamientoController implements MainAware, AppEventListener {
                 setText(empty || ts == null ? null : ts.format(dtf));
             }
         });
-
         colUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
         colPlaca  .setCellValueFactory(new PropertyValueFactory<>("placa"));
         colMetodo .setCellValueFactory(new PropertyValueFactory<>("metodo"));
@@ -116,18 +106,17 @@ public class EstacionamientoController implements MainAware, AppEventListener {
             private final Button btnCerrar = new Button("Cerrar Salida");
             {
                 btnCerrar.setOnAction(e -> {
-                    AccesoViewDTO a = getTableView().getItems().get(getIndex());
+                    var a = getTableView().getItems().get(getIndex());
                     cerrarSalida(a.getIdAcceso());
                 });
             }
-
             @Override
             protected void updateItem(Void v, boolean empty) {
                 super.updateItem(v, empty);
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    AccesoViewDTO a = getTableView().getItems().get(getIndex());
+                    var a = getTableView().getItems().get(getIndex());
                     btnCerrar.setDisable(!"INGRESO".equals(a.getEstado()));
                     setGraphic(btnCerrar);
                 }
@@ -135,69 +124,73 @@ public class EstacionamientoController implements MainAware, AppEventListener {
         });
     }
 
-    /** Configura filtros de fecha y texto */
+    /** Filtros de fecha y texto */
     private void setupFilters() {
         dpFecha.setValue(LocalDate.now());
-        dpFecha.valueProperty().addListener((o, oldV, newV) -> recargar());
-        tfFiltro.textProperty().addListener((o, oldV, newV) -> filtrar());
+        dpFecha.valueProperty().addListener((o,oldV,newV)-> recargar());
+        tfFiltro.textProperty().addListener((o,oldV,newV)-> filtrar());
     }
 
-    /** Recarga datos y actualiza contador de ocupados */
+    /** Recarga la tabla y actualiza el contador */
     private void recargar() {
         List<AccesoViewDTO> lista = accesoDAO.listarAccesosPorFecha(dpFecha.getValue());
         var obs = FXCollections.observableArrayList(lista);
         tblAccesos.setItems(obs);
-        if (!obs.isEmpty()) tblAccesos.scrollTo(obs.size() - 1);
+        if (!obs.isEmpty()) tblAccesos.scrollTo(obs.size()-1);
 
-        long dentro = lista.stream().filter(a -> "INGRESO".equals(a.getEstado())).count();
+        long dentro = lista.stream()
+                .filter(a->"INGRESO".equals(a.getEstado()))
+                .count();
         lblOcupados.setText("Espacios ocupados: " + dentro + " de " + CAPACIDAD_TOTAL);
     }
 
-    /** Aplica filtro de texto en usuario o placa */
+    /** Filtra por texto en usuario o placa */
     private void filtrar() {
         String txt = tfFiltro.getText().toLowerCase().trim();
         if (txt.isEmpty()) {
             recargar();
         } else {
             var filtered = tblAccesos.getItems().stream()
-                    .filter(a ->
-                            a.getUsuario().toLowerCase().contains(txt) ||
-                                    a.getPlaca().toLowerCase().contains(txt))
+                    .filter(a-> a.getUsuario().toLowerCase().contains(txt)
+                            || a.getPlaca() .toLowerCase().contains(txt))
                     .toList();
             tblAccesos.setItems(FXCollections.observableArrayList(filtered));
         }
     }
 
-    /** Cierra manualmente una salida abierta */
+    /** Cierra manualmente una salida */
     private void cerrarSalida(int idAcceso) {
         if (!accesoDAO.cerrarSalida(idAcceso)) {
-            new Alert(Alert.AlertType.ERROR, "No se pudo cerrar la salida").showAndWait();
+            new Alert(Alert.AlertType.ERROR, "No se pudo cerrar la salida")
+                    .showAndWait();
         }
         recargar();
     }
 
-    /** Muestra alerta breve para eventos de placa */
-    private void showEventoAlert(EventoPlacaDTO ev) {
-        String mensaje;
-        Alert.AlertType tipo;
-        switch (ev.getGate()) {
-            case INGRESO -> {
-                mensaje = "Ingreso detectado: " + ev.getPlate();
-                tipo    = Alert.AlertType.INFORMATION;
-            }
-            case SALIDA -> {
-                mensaje = "Salida detectada: " + ev.getPlate();
-                tipo    = Alert.AlertType.INFORMATION;
-            }
-            default -> {
-                mensaje = "Acceso DENEGADO: " + ev.getPlate();
-                tipo    = Alert.AlertType.ERROR;
-            }
-        }
-        new Alert(tipo, mensaje).show();
+    // ———  Tres métodos de alerta  ———
+
+    /** Alerta de ingreso permitido */
+    private void showIngresoAlert(String id) {
+        new Alert(Alert.AlertType.INFORMATION,
+                "Ingreso permitido: " + id)
+                .show();
     }
 
-    /** Botón “Refrescar puerto” (solo para debug) */
+    /** Alerta de salida registrada */
+    private void showSalidaAlert(String id) {
+        new Alert(Alert.AlertType.INFORMATION,
+                "Salida registrada: " + id)
+                .show();
+    }
+
+    /** Alerta de acceso denegado */
+    private void showDenegadoAlert(String id) {
+        new Alert(Alert.AlertType.ERROR,
+                "Acceso DENEGADO: " + id)
+                .show();
+    }
+
+    /** Refrescar manual del puerto RFID (debug) */
     @FXML private void refrescarPuerto() {
         if (lector.isOpen()) lector.cerrar();
         boolean ok = RS232RFID.getInstance().iniciar("COM4");
@@ -209,16 +202,14 @@ public class EstacionamientoController implements MainAware, AppEventListener {
         ).showAndWait();
     }
 
-    /** Actualiza el círculo de estado del puerto RFID */
+    /** Actualiza indicador del lector */
     private void actualizarStatus() {
         statusCircle.setFill(lector.isOpen() ? Color.GREEN : Color.RED);
     }
 
-    /** Al volver atrás, damos de baja los listeners y regresamos */
+    /** Al volver atrás, me desregistro y regreso */
     @FXML private void onBack() {
-        AppService app = AppService.getInstance();
-        app.unregisterListener(this);
-        // no cerramos el RFID ni el polling aquí: lo maneja el MainController
+        AppService.getInstance().unregisterListener(this);
         mainController.goBack();
     }
 }

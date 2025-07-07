@@ -89,31 +89,30 @@ public class EstacionamientoService {
     public void procesarEvento(EventoPlacaDTO ev) {
         String placa = ev.getPlate();
         LocalDateTime ahora = LocalDateTime.now();
-        // 0) Averiguamos el usuario fijo asociado (puede ser null)
+
+        // 0) ¿A qué usuario fijo pertenece esta placa?
         Integer idUsuarioFijo = vehDAO.obtenerIdUsuarioFijoPorPlaca(placa);
-        Integer idUsuario     = null;
-        if (idUsuarioFijo != null) {
-            idUsuario = usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo);
-        }
+        Integer idUsuario = (idUsuarioFijo != null)
+                ? usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo)
+                : null;
 
         switch (ev.getGate()) {
             case INGRESO -> {
-                // —— INGRESO ——
                 if (idUsuario == null || !placasDAO.existePlacaActivaYAsignada(placa)) {
-                    // placa inválida / sin asignar → DENEGADO
+                    // — DENEGADO: no toques FK_ID_Placa, pásale null
                     int idReg = regPlaDAO.insertarRegistroPlaca(
-                            placa,
-                            "DENEGADO",
-                            idUsuario == null
+                            /* FK_ID_Placa = */    null,
+                            /* Estado */           "DENEGADO",
+                            /* Descripción */      idUsuario == null
                                     ? "Placa no asignada a usuario fijo"
                                     : "Placa inactiva o no válida",
-                            placa
+                            /* Placa_Escaneada */  placa
                     );
                     accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
                 } else {
-                    // ingreso válido
+                    // — INGRESO válido —
                     int idReg = regPlaDAO.insertarRegistroPlaca(
-                            placa,
+                            placa,                   // FK_ID_Placa sí válido
                             "INGRESO",
                             "Detección cámara",
                             placa
@@ -122,35 +121,31 @@ public class EstacionamientoService {
                 }
             }
             case SALIDA -> {
-                // —— SALIDA ——
                 if (idUsuario == null) {
-                    // ni siquiera existe la placa
+                    // — DENEGADO porque ni existe esa placa —
                     int idReg = regPlaDAO.insertarRegistroPlaca(
-                            placa,
+                            null,
                             "DENEGADO",
                             "Salida sin ingreso (placa desconocida)",
                             placa
                     );
                     accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
                 } else {
-                    // consultamos si hay un ingreso pendiente
                     Integer idAccesoAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuario);
                     if (idAccesoAbierto != null) {
-                        // salida legítima: cerramos el acceso
+                        // — SALIDA válido —
                         int idReg = regPlaDAO.insertarRegistroPlaca(
                                 placa,
                                 "SALIDA",
                                 "Detección cámara",
                                 placa
                         );
-                        // insertamos la salida en acceso
                         accesoDAO.insertarAcceso(ahora, "PLACA", idUsuario, idReg, null);
-                        // marcamos el ingreso original como cerrado
                         accesoDAO.cerrarSalida(idAccesoAbierto);
                     } else {
-                        // nunca ingresó → DENEGADO
+                        // — DENEGADO porque nunca ingresó —
                         int idReg = regPlaDAO.insertarRegistroPlaca(
-                                placa,
+                                null,
                                 "DENEGADO",
                                 "Salida sin ingreso abierto",
                                 placa
@@ -160,76 +155,9 @@ public class EstacionamientoService {
                 }
             }
             default -> {
-                // (opcional) manejar otros casos si tu enum tiene más valores
+                // no hay más casos
             }
         }
     }
-
-    /*public void procesarEvento(EventoPlacaDTO ev) {
-        String placa = ev.getPlate();
-        LocalDateTime ts = LocalDateTime.now();  // usamos marca local
-
-        // 1) ¿A qué usuario fijo pertenece esta placa?
-        Integer idUsuarioFijo = vehDAO.obtenerIdUsuarioFijoPorPlaca(placa);
-        if (idUsuarioFijo == null) {
-            // placa desconocida → sólo acceso DENEGADO
-            int idRegPla = regPlaDAO.insertarRegistroPlaca(
-                    null,
-                    "DENEGADO",
-                    "Placa no asignada a usuario fijo",
-                    placa    // guardamos la cadena escaneada
-            );
-            accesoDAO.insertarAcceso(ts, "PLACA", null, idRegPla, null);
-            return;
-        }
-
-        // 2) Convertir a usuario base
-        Integer idUsuario = usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo);
-        if (idUsuario == null || idUsuario < 0) {
-            int idRegPla = regPlaDAO.insertarRegistroPlaca(
-                    null,
-                    "DENEGADO",
-                    "Usuario fijo no encontrado",
-                    placa
-            );
-            accesoDAO.insertarAcceso(ts, "PLACA", null, idRegPla, null);
-            return;
-        }
-
-        // 3) ¿Tiene ya un ingreso abierto?
-        Integer idAccesoAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuario);
-        if (idAccesoAbierto != null) {
-            // === SALIDA automática ===
-            int idRegPla = regPlaDAO.insertarRegistroPlaca(
-                    placa,
-                    "SALIDA",
-                    "Detección cámara (auto-salida)",
-                    placa
-            );
-            // insertamos la SALIDA en acceso
-            accesoDAO.insertarAcceso(ts, "PLACA", idUsuario, idRegPla, null);
-        } else {
-            // === INGRESO o DENEGADO ===
-            if (!placasDAO.existePlacaActivaYAsignada(placa)) {
-                // placa inactiva → acceso DENEGADO
-                int idRegPla = regPlaDAO.insertarRegistroPlaca(
-                        null,
-                        "DENEGADO",
-                        "Placa no válida o inactiva",
-                        placa
-                );
-                accesoDAO.insertarAcceso(ts, "PLACA", null, idRegPla, null);
-            } else {
-                // INGRESO válido
-                int idRegPla = regPlaDAO.insertarRegistroPlaca(
-                        placa,
-                        "INGRESO",
-                        "Detección cámara",
-                        placa
-                );
-                accesoDAO.insertarAcceso(ts, "PLACA", idUsuario, idRegPla, null);
-            }
-        }
-    }*/
 
 }

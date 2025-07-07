@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Ultimo Commit con Estacionamiento Controller para hacer push">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AppEventListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/AppService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspberryPollingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/RaspberryPollingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +142,7 @@
       <workItem from="1751747846594" duration="21419000" />
       <workItem from="1751776124483" duration="17776000" />
       <workItem from="1751819255129" duration="890000" />
-      <workItem from="1751901444257" duration="10483000" />
+      <workItem from="1751901444257" duration="17565000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -387,7 +384,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751828473256</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Ultimo Commit con Estacionamiento Controller para hacer push">
+      <option name="closed" value="true" />
+      <created>1751920241410</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1751920241410</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
