@@ -8,6 +8,7 @@ import com.placaspt.logic.EstacionamientoService;
 import com.placaspt.logic.RS232RFID;
 import com.placaspt.model.AccesoViewDTO;
 import com.placaspt.model.EventoPlacaDTO;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,6 +34,11 @@ public class EstacionamientoController implements MainAware, AppEventListener {
     private static final int CAPACIDAD_TOTAL = 30;
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    // —– Panel de avisos —–
+    @FXML private Rectangle statusRect;
+    @FXML private Label     statusLabel;
+    // Para temporizar la vuelta a blanco
+    private PauseTransition avisoPause;
     // —– FXML inyectados —–
     @FXML private Label      lblOcupados;
     @FXML private DatePicker dpFecha;
@@ -72,10 +79,11 @@ public class EstacionamientoController implements MainAware, AppEventListener {
         Platform.runLater(() -> {
             EventoEstado estado = estacionamientoService.procesarEvento(ev);
             recargar();
+            String id = ev.getPlate();
             switch (estado) {
-                case INGRESO -> showIngresoAlert(ev.getPlate());
-                case SALIDA  -> showSalidaAlert(ev.getPlate());
-                case DENEGADO-> showDenegadoAlert(ev.getPlate());
+                case INGRESO -> showIngresoAlert(id);
+                case SALIDA  -> showSalidaAlert(id);
+                case DENEGADO-> showDenegadoAlert(id);
             }
         });
     }
@@ -177,23 +185,21 @@ public class EstacionamientoController implements MainAware, AppEventListener {
 
     /** Alerta de ingreso permitido */
     private void showIngresoAlert(String id) {
-        new Alert(Alert.AlertType.INFORMATION,
-                "Ingreso permitido: " + id)
-                .show();
+        new Alert(Alert.AlertType.INFORMATION, "Ingreso permitido: " + id).show();
+        //mostrarAviso("green", "Acceso permitido\nUsuario: " + id, 5.0);// dura 5 segundos
+
     }
 
     /** Alerta de salida registrada */
     private void showSalidaAlert(String id) {
-        new Alert(Alert.AlertType.INFORMATION,
-                "Salida registrada: " + id)
-                .show();
+        new Alert(Alert.AlertType.INFORMATION, "Salida registrada: " + id).show();
+        //mostrarAviso("dodgerblue", "Salida permitida\nUsuario: " + id, 5.0);
     }
 
     /** Alerta de acceso denegado */
     private void showDenegadoAlert(String id) {
-        new Alert(Alert.AlertType.ERROR,
-                "Acceso DENEGADO: " + id)
-                .show();
+        new Alert(Alert.AlertType.ERROR, "Acceso DENEGADO: " + id).show();
+        //mostrarAviso("crimson", "Acceso DENEGADO\nTag/Placa: " + id, 2.0);    // dura 2 segundos
     }
 
     /** Refrescar manual del puerto RFID (debug) */

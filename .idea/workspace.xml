@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="-- Este es el commit mas estable --">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/model/VehiculoPOJO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/VehiculoPOJO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/UsuariosController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +62,7 @@
     "Application.MainPlacasPT.executor": "Run",
     "Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "6d1a8d35",
+    "git-widget-placeholder": "fbd84593",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "list.type.of.created.stylesheet": "CSS",
@@ -401,7 +402,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751927643738</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo">
+      <option name="closed" value="true" />
+      <created>1752021714631</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1752021714631</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -419,7 +428,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add controladores de la base de datos, en particular DAO Files que permiten hacer consultas. El DAO RFID aún no funciona al 100" />
     <MESSAGE value="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos" />
     <MESSAGE value="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar." />
     <MESSAGE value="add configuración ventanaRFID" />
@@ -444,7 +452,8 @@
     <MESSAGE value="----- Version MAS ESTABLE ----&#10;Permite imprimir ingresos y salidas al Estacionamiento, ya imprime accesos no permitidos por placas vehiculares y RFID no reconocidas." />
     <MESSAGE value="Ultimo Commit con Estacionamiento Controller para hacer push" />
     <MESSAGE value="-- Este es el commit mas estable --" />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Este es el commit mas estable --" />
+    <MESSAGE value="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo" />
+    <option name="LAST_COMMIT_MESSAGE" value="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

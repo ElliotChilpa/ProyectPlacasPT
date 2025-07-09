@@ -10,8 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane fx:id="rootPane" prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.EstacionamientoController">
+<AnchorPane fx:id="rootPane" prefHeight="601.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.EstacionamientoController">
    <children>
       <VBox spacing="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
          <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Estacionamiento" />
@@ -23,17 +24,23 @@
             <TextField fx:id="tfFiltro" promptText="ID, placa o nombre" />
             <Button fx:id="btnRefrescarPuerto" mnemonicParsing="false" onAction="#refrescarPuerto" text="Refrescar COM" />
             <Circle fx:id="statusCircle" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label text="Evento" />
          </HBox>
       </VBox>
-      <TableView fx:id="tblAccesos" layoutX="11.2" layoutY="95.2" prefHeight="495.0" prefWidth="879.0" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="95.0">
-         <columns>
-            <TableColumn fx:id="colFechaHora" prefWidth="150" text="FechaHora" />
-            <TableColumn fx:id="colUsuario" prefWidth="150" text="Usuario" />
-            <TableColumn fx:id="colPlaca" prefWidth="100" text="Placa" />
-            <TableColumn fx:id="colMetodo" prefWidth="100" text="Método" />
-            <TableColumn fx:id="colEstado" prefWidth="100" text="Estado" />
-            <TableColumn fx:id="colAccion" prefWidth="120" text="Acción" />
-         </columns>
-      </TableView>
+      <HBox layoutX="629.0" layoutY="101.0" prefHeight="499.0" prefWidth="271.0" spacing="15.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="95.0">
+         <children>
+            <TableView fx:id="tblAccesos" prefHeight="494.0" prefWidth="850.0" HBox.hgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="colFechaHora" prefWidth="150" text="FechaHora" />
+                  <TableColumn fx:id="colUsuario" prefWidth="150" text="Usuario" />
+                  <TableColumn fx:id="colPlaca" prefWidth="100" text="Placa" />
+                  <TableColumn fx:id="colMetodo" prefWidth="100" text="Método" />
+                  <TableColumn fx:id="colEstado" prefWidth="100" text="Estado" />
+                  <TableColumn fx:id="colAccion" prefWidth="120" text="Acción" />
+               </columns>
+            </TableView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="494.0" stroke="BLACK" strokeType="INSIDE" width="139.0" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

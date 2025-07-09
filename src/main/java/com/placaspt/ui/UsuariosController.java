@@ -75,63 +75,6 @@ public class UsuariosController implements MainAware {
         cargarUsuariosDesdeBD();
     }
 
-    /*
-    private void cargarUsuariosDesdeBD() {
-        listaUsuariosView.clear();
-        List<UsuariosPOJO> usuarios = usuarioDAO.listarUsuarios();
-
-        for (UsuariosPOJO u : usuarios) {
-            int id = u.getId();
-            String nombre = u.getNombres() + " " + u.getApellidos();
-            String correo = u.getCorreo();
-
-            // LLenado de columnas tabla Usuarios
-            boolean esFijo = usuarioDAO.existeUsuarioFijo(id);
-            String tipo = esFijo ? "Fijo" : "Temporal";
-
-            String rfid = "";
-            if (esFijo) {
-                TarjetaRFIDPOJO t = rfidDAO.buscarPorUsuarioFijo(
-                        usuarioDAO.obtenerIdUsuarioFijo(id)
-                );
-                if (t != null) rfid = t.getIdRfid();
-            }
-
-            // Para una implementación futura de placavehicular
-            String placa = "";
-            if (esFijo) {
-                /*
-                VehiculoPOJO v = vehDAO.buscarPorUsuarioFijo(
-                        usuarioDAO.obtenerIdUsuarioFijo(id)
-                );
-                if (v != null) placa = v.getPlaca();* /
-                VehiculoPOJO v = vehDAO.buscarPrimeroPorUsuarioFijo(usuarioDAO.obtenerIdUsuarioFijo(id));
-                if (v != null && v.getFkIdPlaca() != null) {
-                    placa = v.getFkIdPlaca();
-                }
-            }
-
-            // 3) Vehículo (marca + modelo)
-            String vehiculo = "";
-            if (esFijo) {
-                // llamamos al helper, no al método que devuelve lista
-                VehiculoPOJO v = vehDAO.buscarPrimeroPorUsuarioFijo(
-                        usuarioDAO.obtenerIdUsuarioFijo(id)
-                );
-                if (v != null) {
-                    vehiculo = v.getMarca() + " " + v.getModelo();
-                }
-            }
-
-
-
-
-            listaUsuariosView.add(new UsuarioViewDTO(
-                    id, nombre, correo, tipo, rfid, placa, vehiculo
-            ));
-        }
-    }*/
-
     private void cargarUsuariosDesdeBD() {
         listaUsuariosView.clear();
         List<UsuariosPOJO> usuarios = usuarioDAO.listarUsuarios();
