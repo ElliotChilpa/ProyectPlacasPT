@@ -285,5 +285,23 @@ public class UsuariosDAO {
         return -1;
     }
 
+    public boolean existeUsuarioTemporal(int idUsuario) {
+        String sql = """
+            SELECT COUNT(*) 
+              FROM usuariotemporal 
+             WHERE FK_ID_Usuario = ?
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // Opcional: buscarPorId, actualizarUsuario, eliminarUsuario...
 }

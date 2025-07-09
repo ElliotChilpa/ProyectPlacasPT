@@ -75,6 +75,7 @@ public class UsuariosController implements MainAware {
         cargarUsuariosDesdeBD();
     }
 
+    /*
     private void cargarUsuariosDesdeBD() {
         listaUsuariosView.clear();
         List<UsuariosPOJO> usuarios = usuarioDAO.listarUsuarios();
@@ -103,7 +104,7 @@ public class UsuariosController implements MainAware {
                 VehiculoPOJO v = vehDAO.buscarPorUsuarioFijo(
                         usuarioDAO.obtenerIdUsuarioFijo(id)
                 );
-                if (v != null) placa = v.getPlaca();*/
+                if (v != null) placa = v.getPlaca();* /
                 VehiculoPOJO v = vehDAO.buscarPrimeroPorUsuarioFijo(usuarioDAO.obtenerIdUsuarioFijo(id));
                 if (v != null && v.getFkIdPlaca() != null) {
                     placa = v.getFkIdPlaca();
@@ -122,25 +123,63 @@ public class UsuariosController implements MainAware {
                 }
             }
 
-            /*
-            String vehiculo = "";
+
+
+
+            listaUsuariosView.add(new UsuarioViewDTO(
+                    id, nombre, correo, tipo, rfid, placa, vehiculo
+            ));
+        }
+    }*/
+
+    private void cargarUsuariosDesdeBD() {
+        listaUsuariosView.clear();
+        List<UsuariosPOJO> usuarios = usuarioDAO.listarUsuarios();
+
+        for (UsuariosPOJO u : usuarios) {
+            int id = u.getId();
+            String nombre = u.getNombres() + " " + u.getApellidos();
+            String correo = u.getCorreo();
+
+            boolean esFijo = usuarioDAO.existeUsuarioFijo(id);
+            String tipo    = esFijo ? "Fijo" : "Temporal";
+
+            // 1) RFID solo para fijos
+            String rfid = "";
             if (esFijo) {
-                /*
-                VehiculoPOJO v = vehDAO.buscarPorUsuarioFijo(
-                        usuarioDAO.obtenerIdUsuarioFijo(id)
-                );
-                if (v != null) placa = v.getPlaca();* /
-                VehiculoPOJO v = vehDAO.buscarPrimeroPorUsuarioFijo(usuarioDAO.obtenerIdUsuarioFijo(id));
-                if (v != null && v.getFkIdPlaca() != null) {
+                int idRegFijo = usuarioDAO.obtenerIdUsuarioFijo(id);
+                TarjetaRFIDPOJO t = rfidDAO.buscarPorUsuarioFijo(idRegFijo);
+                if (t != null) rfid = t.getIdRfid();
+            }
+
+            // 2) Vehículo y placa para ambos tipos
+            String placa    = "";
+            String vehiculo = "";
+
+            int idRegistro = esFijo
+                    ? usuarioDAO.obtenerIdUsuarioFijo(id)
+                    : usuarioDAO.obtenerIdUsuarioTemporal(id);
+
+            // Busca todos los vehículos de este registro
+            List<VehiculoPOJO> vehs = esFijo
+                    ? vehDAO.buscarPorUsuarioFijo(idRegistro)
+                    : vehDAO.buscarPorUsuarioTemporal(idRegistro);
+
+            if (!vehs.isEmpty()) {
+                // Tomamos el primero
+                VehiculoPOJO v = vehs.get(0);
+                if (v.getFkIdPlaca() != null) {
                     placa = v.getFkIdPlaca();
                 }
-            }*/
+                vehiculo = v.getMarca() + " " + v.getModelo();
+            }
 
             listaUsuariosView.add(new UsuarioViewDTO(
                     id, nombre, correo, tipo, rfid, placa, vehiculo
             ));
         }
     }
+
 
     private void montarCellFactoryAcciones() {
         colAccion.setCellFactory(col -> new TableCell<UsuarioViewDTO, Void>() {
@@ -279,63 +318,6 @@ public class UsuariosController implements MainAware {
         }
     }
 
-    /*
-    @FXML
-    private void onAsignarVehiculo(int idUsuario) {
-        // 1) Determinar si es usuario fijo o temporal
-        boolean esFijo = usuarioDAO.existeUsuarioFijo(idUsuario);
-        int idRegistro;
-        String tipoUsuario;
-        if (esFijo) {
-            idRegistro   = usuarioDAO.obtenerIdUsuarioFijo(idUsuario);
-            tipoUsuario  = "Fijo";
-        } else {
-            // Necesitas añadir este método en UsuariosDAO:
-            // public int obtenerIdUsuarioTemporal(int idUsuario) { ... }
-            idRegistro   = usuarioDAO.obtenerIdUsuarioTemporal(idUsuario);
-            tipoUsuario  = "Temporal";
-        }
-
-        // 2) Cargar FXML
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/com/placaspt/ui/AddVehiculoDialog.fxml")
-            );
-            AnchorPane pane = loader.load();
-
-            // 3) Inicializar el controller
-            AddVehiculoDialogController ctrl = loader.getController();
-            ctrl.setMainController(mainController);
-
-            // 4) Buscar vehículo existente (tomamos el primero si hay varios)
-            List<VehiculoPOJO> vehiculos = esFijo
-                    ? vehDAO.buscarPorUsuarioFijo(idRegistro)
-                    : vehDAO.buscarPorUsuarioTemporal(idRegistro);
-
-            VehiculoPOJO existente = vehiculos.isEmpty() ? null : vehiculos.get(0);
-
-            // 5) Pasar todos los datos a initData:
-            //     idUsuarioRegistro = PK en UsuarioFijo o UsuarioTemporal
-            //     tipoUsuario      = "Fijo" o "Temporal"
-            //     idAdministrador  = quien hace la acción (aquí lo dejamos en 1, o puedes obtenerlo de tu MainController)
-            //     existente        = objeto para modo edición, o null para alta
-            ctrl.initData(
-                    idRegistro,
-                    tipoUsuario,
-                    1,
-                    existente
-            );
-
-            // 6) Mostrar la vista
-            mainController.setContent(pane);
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,
-                    "No se pudo abrir la vista de Vehículo:\n" + ex.getMessage())
-                    .showAndWait();
-        }
-    }*/
     @FXML
     private void onAsignarVehiculo(int idUsuario) {
         // 1) Determinar si es usuario fijo o temporal
