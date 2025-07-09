@@ -114,7 +114,27 @@ public class EstacionamientoController implements MainAware, AppEventListener {
         colUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
         colPlaca  .setCellValueFactory(new PropertyValueFactory<>("placa"));
         colMetodo .setCellValueFactory(new PropertyValueFactory<>("metodo"));
-        colEstado .setCellValueFactory(new PropertyValueFactory<>("estado"));
+        //colEstado .setCellValueFactory(new PropertyValueFactory<>("estado"));
+        // Columna Estado
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+        colEstado.setCellFactory(col -> new TableCell<AccesoViewDTO, String>() {
+            @Override
+            protected void updateItem(String estado, boolean empty) {
+                super.updateItem(estado, empty);
+                if (empty || estado == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(estado);
+                    String color = switch (estado) {
+                        case "INGRESO"  -> "green";
+                        case "SALIDA"   -> "dodgerblue";
+                        default         -> "crimson";   // DENEGADO
+                    };
+                    setStyle("-fx-text-fill: " + color + "; -fx-font-weight: bold;");
+                }
+            }
+        });
 
         colAccion.setCellFactory(col -> new TableCell<>() {
             private final Button btnCerrar = new Button("Cerrar Salida");
