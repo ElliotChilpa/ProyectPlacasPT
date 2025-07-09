@@ -4,6 +4,7 @@ import com.placaspt.database.*;
 import com.placaspt.model.EventoEstado;
 import com.placaspt.model.EventoPlacaDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -91,6 +92,7 @@ public class EstacionamientoService {
     /**
      * Procesa un evento de placa llegado por JSON y devuelve el estado final.
      */
+    /*
     public EventoEstado procesarEvento(EventoPlacaDTO ev) {
         String placa = ev.getPlate();
         LocalDateTime ahora = LocalDateTime.now();
@@ -169,6 +171,209 @@ public class EstacionamientoService {
         // Actualizamos el DTO por si alguien lo lee después
         ev.setGate(resultado);
         return resultado;
+    }*/
+
+    /**
+     * Procesa un evento de placa llegado por JSON y devuelve el estado final.
+     */
+    /*
+    public EventoEstado procesarEvento(EventoPlacaDTO ev) {
+        String placa = ev.getPlate();
+        LocalDateTime ahora = LocalDateTime.now();
+
+        // 0) ¿A qué usuario fijo pertenece esta placa?
+        Integer idUsuarioFijo = vehDAO.obtenerIdUsuarioFijoPorPlaca(placa);
+        Integer idUsuario = (idUsuarioFijo != null)
+                ? usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo)
+                : null;
+
+        EventoEstado resultado;
+
+        switch (ev.getGate()) {
+            case INGRESO -> {
+                // —— INGRESO ——
+                if (idUsuario == null || !placasDAO.existePlacaActivaYAsignada(placa)) {
+                    // placa inválida o sin asignar → DENEGADO
+                    resultado = EventoEstado.DENEGADO;
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            null,                                // FK_ID_Placa = NULL
+                            resultado.name(),                    // "DENEGADO"
+                            idUsuario == null
+                                    ? "Placa no asignada a usuario fijo"
+                                    : "Placa inactiva o no válida",
+                            placa                                // Placa_Escaneada
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+
+                } else {
+                    // ingreso válido → INGRESO
+                    resultado = EventoEstado.INGRESO;
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            placa,                               // FK_ID_Placa
+                            resultado.name(),                    // "INGRESO"
+                            "Detección cámara",
+                            placa                                // Placa_Escaneada
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", idUsuario, idReg, null);
+                }
+            }
+            case SALIDA -> {
+                // —— SALIDA ——
+                if (idUsuario == null) {
+                    // ni siquiera existe la placa → DENEGADO
+                    resultado = EventoEstado.DENEGADO;
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            null,                                // FK_ID_Placa = NULL
+                            resultado.name(),                    // "DENEGADO"
+                            "Salida sin ingreso (placa desconocida)",
+                            placa                                // Placa_Escaneada
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+
+                } else {
+                    Integer idAccesoAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuario);
+                    if (idAccesoAbierto != null) {
+                        // salida legítima → SALIDA
+                        resultado = EventoEstado.SALIDA;
+                        int idReg = regPlaDAO.insertarRegistroPlaca(
+                                placa,                           // FK_ID_Placa
+                                resultado.name(),                // "SALIDA"
+                                "Detección cámara",
+                                placa                            // Placa_Escaneada
+                        );
+                        accesoDAO.insertarAcceso(ahora, "PLACA", idUsuario, idReg, null);
+                        accesoDAO.cerrarSalida(idAccesoAbierto);
+
+                    } else {
+                        // nunca ingresó → DENEGADO
+                        resultado = EventoEstado.DENEGADO;
+                        int idReg = regPlaDAO.insertarRegistroPlaca(
+                                null,                            // FK_ID_Placa = NULL
+                                resultado.name(),                // "DENEGADO"
+                                "Salida sin ingreso abierto",
+                                placa                            // Placa_Escaneada
+                        );
+                        accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                    }
+                }
+            }
+            default -> {
+                // por seguridad, cualquier otro valor se trata como DENEGADO
+                resultado = EventoEstado.DENEGADO;
+            }
+        }
+
+        // Actualizamos el DTO por si alguien lo lee después
+        ev.setGate(resultado);
+        return resultado;
+    }*/
+
+    /**
+     * Procesa un evento de placa llegado por JSON y devuelve el estado final.
+     * Ahora soporta:
+     *  - Usuarios fijos (como antes).
+     *  - Usuarios temporales, sólo si están dentro de su rango de fechas.
+     */
+    // En EstacionamientoService.java
+
+    public EventoEstado procesarEvento(EventoPlacaDTO ev) {
+        String placa = ev.getPlate();
+        LocalDateTime ahora = LocalDateTime.now();
+        LocalDate hoy = ahora.toLocalDate();
+
+        // 0) Intentamos usuario fijo
+        Integer idUsuarioFijo = vehDAO.obtenerIdUsuarioFijoPorPlaca(placa);
+        Integer idUsuarioBase = null;
+
+        if (idUsuarioFijo != null) {
+            idUsuarioBase = usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo);
+
+        } else {
+            // 0b) Si no hay fijo, intentamos **temporal** usando VehiculoDAO
+            Integer idUsuarioTemp = vehDAO.obtenerIdUsuarioTemporalPorPlaca(placa);
+            if (idUsuarioTemp != null) {
+                // comprobamos fechas
+                LocalDate inicio = usuariosDAO.obtenerFechaInicioTemporal(idUsuarioTemp);
+                LocalDate fin    = usuariosDAO.obtenerFechaFinTemporal(   idUsuarioTemp);
+                if ((inicio == null || !hoy.isBefore(inicio))
+                        && (fin    == null || !hoy.isAfter(fin))) {
+                    // dentro del periodo, mapeamos a usuario base
+                    idUsuarioBase = usuariosDAO.obtenerUsuarioBasePorTemporal(idUsuarioTemp);
+                }
+                // si está fuera del periodo, idUsuarioBase queda null → será DENEGADO
+            }
+        }
+
+        EventoEstado resultado;
+
+        switch (ev.getGate()) {
+            case INGRESO -> {
+                if (idUsuarioBase == null || !placasDAO.existePlacaActivaYAsignada(placa)) {
+                    resultado = EventoEstado.DENEGADO;
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            null,
+                            resultado.name(),
+                            idUsuarioBase == null
+                                    ? "Placa no asignada o fuera de periodo"
+                                    : "Placa inactiva",
+                            placa
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+
+                } else {
+                    resultado = EventoEstado.INGRESO;
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            placa,
+                            resultado.name(),
+                            "Detección cámara",
+                            placa
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", idUsuarioBase, idReg, null);
+                }
+            }
+            case SALIDA -> {
+                if (idUsuarioBase == null) {
+                    resultado = EventoEstado.DENEGADO;
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            null,
+                            resultado.name(),
+                            "Salida inválida (usuario desconocido o fuera de periodo)",
+                            placa
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+
+                } else {
+                    Integer idAccAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuarioBase);
+                    if (idAccAbierto != null) {
+                        resultado = EventoEstado.SALIDA;
+                        int idReg = regPlaDAO.insertarRegistroPlaca(
+                                placa,
+                                resultado.name(),
+                                "Detección cámara",
+                                placa
+                        );
+                        accesoDAO.insertarAcceso(ahora, "PLACA", idUsuarioBase, idReg, null);
+                        accesoDAO.cerrarSalida(idAccAbierto);
+                    } else {
+                        resultado = EventoEstado.DENEGADO;
+                        int idReg = regPlaDAO.insertarRegistroPlaca(
+                                null,
+                                resultado.name(),
+                                "Salida sin ingreso abierto",
+                                placa
+                        );
+                        accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                    }
+                }
+            }
+            default -> {
+                resultado = EventoEstado.DENEGADO;
+            }
+        }
+
+        ev.setGate(resultado);
+        return resultado;
     }
+
 
 }

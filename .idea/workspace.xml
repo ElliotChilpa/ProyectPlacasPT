@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="__ Aquí Regresamos a una vesrión estable en el que podemos asignar vehiculos a usuarios temporales y agregamos color a las columna de estado ingreso, salida, denegado, falta agregar las propiedades al rectanguno y label para quitar avisos">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/ConfigService.java" afterDir="false" />
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se agrego funciones a la vista de configuraciones para poder cambiar parametros, como el COM del puerto seríal, el host de la raspberry y la IP.&#10;&#10;Funcional todo hasta el momento.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/ConfiguracionesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/ConfiguracionesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/VehiculoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/VehiculoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/model/EventoEstado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/EventoEstado.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/configuracionesView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/configuracionesView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,28 +58,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainPlacasPT.executor": "Run",
-    "Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "rfid-integracion",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainPlacasPT.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ProyectPlacasPT [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;rfid-integracion&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ellio\OneDrive\Escritorio\UPIITA\placasPT\ProyectPlacasPT\src\main\resources\com\placaspt\ui" />
@@ -147,6 +146,7 @@
       <workItem from="1751776124483" duration="17776000" />
       <workItem from="1751819255129" duration="890000" />
       <workItem from="1751901444257" duration="21620000" />
+      <workItem from="1752082246227" duration="8050000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -420,7 +420,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752040325501</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Se agrego funciones a la vista de configuraciones para poder cambiar parametros, como el COM del puerto seríal, el host de la raspberry y la IP.&#10;&#10;Funcional todo hasta el momento.">
+      <option name="closed" value="true" />
+      <created>1752045938301</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1752045938301</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -438,7 +446,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar." />
     <MESSAGE value="add configuración ventanaRFID" />
     <MESSAGE value="Add sub-controladores en configuracionescontroller para poder abrir RFIDController" />
     <MESSAGE value="Add controladores para crear nuevo usuario administrador y poder regresar al loggin" />
@@ -463,7 +470,8 @@
     <MESSAGE value="-- Este es el commit mas estable --" />
     <MESSAGE value="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo" />
     <MESSAGE value="__ Aquí Regresamos a una vesrión estable en el que podemos asignar vehiculos a usuarios temporales y agregamos color a las columna de estado ingreso, salida, denegado, falta agregar las propiedades al rectanguno y label para quitar avisos" />
-    <option name="LAST_COMMIT_MESSAGE" value="__ Aquí Regresamos a una vesrión estable en el que podemos asignar vehiculos a usuarios temporales y agregamos color a las columna de estado ingreso, salida, denegado, falta agregar las propiedades al rectanguno y label para quitar avisos" />
+    <MESSAGE value="Se agrego funciones a la vista de configuraciones para poder cambiar parametros, como el COM del puerto seríal, el host de la raspberry y la IP.&#10;&#10;Funcional todo hasta el momento." />
+    <option name="LAST_COMMIT_MESSAGE" value="Se agrego funciones a la vista de configuraciones para poder cambiar parametros, como el COM del puerto seríal, el host de la raspberry y la IP.&#10;&#10;Funcional todo hasta el momento." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

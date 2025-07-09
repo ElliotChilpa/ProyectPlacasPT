@@ -162,10 +162,7 @@ public class VehiculoDAO {
         return null;
     }
 
-    /**
-     * Devuelve el FK_ID_Usuario_Fijo para un vehículo dado su placa,
-     * o null si no encuentra ninguno.
-     */
+
     /**
      * Devuelve el ID_Usuario_Fijo asociado a esta placa,
      * o null si la placa no pertenece a ningún vehículo de usuario fijo.
@@ -190,10 +187,14 @@ public class VehiculoDAO {
         }
         return null;
     }
-    /*
-    public Integer obtenerIdUsuarioFijoPorPlaca(String placa) {
+
+    /**
+     * Devuelve el ID_Usuario_Temporal (PK en usuariotemporal)
+     * asociado a esta placa, o null si no existe.
+     */
+    public Integer obtenerIdUsuarioTemporalPorPlaca(String placa) {
         String sql = """
-            SELECT FK_ID_Usuario_Fijo
+            SELECT FK_ID_Usuario_Temporal
               FROM vehiculo
              WHERE FK_ID_Placa = ?
              LIMIT 1
@@ -204,14 +205,16 @@ public class VehiculoDAO {
             ps.setString(1, placa);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt("FK_ID_Usuario_Fijo");
+                    // puede devolver null si está en la BD como NULL
+                    return rs.getObject("FK_ID_Usuario_Temporal", Integer.class);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-    }*/
+    }
+
 
     // ═══════════════════════════════════════════════════════════════
 

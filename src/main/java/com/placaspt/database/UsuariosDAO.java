@@ -303,5 +303,82 @@ public class UsuariosDAO {
         }
     }
 
+    /**
+     * Dado un ID_Usuario_Temporal devuelve el ID_Usuario (FK_Usuario),
+     * o -1 si no existe.
+     */
+    public int obtenerUsuarioBasePorTemporal(int idUsuarioTemporal) {
+        String sql = """
+            SELECT FK_Usuario
+              FROM usuariotemporal
+             WHERE ID_Usuario_Temporal = ?
+             LIMIT 1
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuarioTemporal);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("FK_Usuario");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
+     * Devuelve la Fecha_Inicio del permiso temporal,
+     * o null si no existe.
+     */
+    public LocalDate obtenerFechaInicioTemporal(int idUsuarioTemporal) {
+        String sql = """
+            SELECT Fecha_Inicio
+              FROM usuariotemporal
+             WHERE ID_Usuario_Temporal = ?
+             LIMIT 1
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuarioTemporal);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Date d = rs.getDate("Fecha_Inicio");
+                    return (d != null ? d.toLocalDate() : null);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Devuelve la Fecha_Fin del permiso temporal,
+     * o null si no existe.
+     */
+    public LocalDate obtenerFechaFinTemporal(int idUsuarioTemporal) {
+        String sql = """
+            SELECT Fecha_Fin
+              FROM usuariotemporal
+             WHERE ID_Usuario_Temporal = ?
+             LIMIT 1
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuarioTemporal);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Date d = rs.getDate("Fecha_Fin");
+                    return (d != null ? d.toLocalDate() : null);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // Opcional: buscarPorId, actualizarUsuario, eliminarUsuario...
 }
