@@ -1,21 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.placaspt.ui.ConfiguracionesController"
+      spacing="10">
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.ConfiguracionesController">
-   <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@icons/icon_usuariol.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="100.0" layoutY="38.0" mnemonicParsing="false" onAction="#abrirRFID" text="Conexión RFID" />
-      <Label fx:id="estadoRFID" layoutX="354.0" layoutY="42.0" text="Estado" />
-      <Label layoutX="354.0" layoutY="106.0" text="Estado" />
-   </children>
-</AnchorPane>
+   <padding>
+      <Insets top="10" right="10" bottom="10" left="10"/>
+   </padding>
+
+   <Label text="Configuración de Conexiones"
+          style="-fx-font-size:18px;"/>
+
+   <GridPane hgap="8" vgap="8">
+      <columnConstraints>
+         <ColumnConstraints minWidth="120"/>
+         <ColumnConstraints hgrow="ALWAYS"/>
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+         <RowConstraints/>
+      </rowConstraints>
+
+      <children>
+         <Label text="Puerto RFID:"           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+         <TextField fx:id="tfSerialPort"      GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+         <Label text="SSH Host:"             GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+         <TextField fx:id="tfSshHost"         GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+         <Label text="SSH Usuario:"          GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+         <TextField fx:id="tfSshUser"         GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+         <Label text="SSH Contraseña:"       GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+         <PasswordField fx:id="pfSshPass"    GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+         <Label text="Archivo remoto:"       GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+         <TextField fx:id="tfRemoteFile"     GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+         <Label text="Polling SSH (s):"      GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+         <Spinner fx:id="spPolling"
+                  GridPane.rowIndex="5"
+                  GridPane.columnIndex="1"
+                  prefWidth="80"/>
+      </children>
+   </GridPane>
+
+   <HBox spacing="10" alignment="CENTER_RIGHT">
+      <Button text="Guardar" onAction="#onSave"/>
+      <Button text="Cancelar" onAction="#onCancel"/>
+   </HBox>
+</VBox>

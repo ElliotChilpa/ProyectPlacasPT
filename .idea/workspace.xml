@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="__ Aquí Regresamos a una vesrión estable en el que podemos asignar vehiculos a usuarios temporales y agregamos color a las columna de estado ingreso, salida, denegado, falta agregar las propiedades al rectanguno y label para quitar avisos">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/ConfigService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/ConfiguracionesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/ConfiguracionesController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/configuracionesView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/configuracionesView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/estacionamientoView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -408,7 +412,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752021714631</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="__ Aquí Regresamos a una vesrión estable en el que podemos asignar vehiculos a usuarios temporales y agregamos color a las columna de estado ingreso, salida, denegado, falta agregar las propiedades al rectanguno y label para quitar avisos">
+      <option name="closed" value="true" />
+      <created>1752040325501</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1752040325501</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -426,7 +438,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add style a login, se agregaron carpetas para darle orden a los estilos css y los iconos" />
     <MESSAGE value="Add nuevas ventanas laterales, Configuraciones, Estacionamiento y sus controladores, tambien se agrego el menu css que mejoro la calidad de la vista, falta mejorar." />
     <MESSAGE value="add configuración ventanaRFID" />
     <MESSAGE value="Add sub-controladores en configuracionescontroller para poder abrir RFIDController" />
@@ -451,7 +462,8 @@
     <MESSAGE value="Ultimo Commit con Estacionamiento Controller para hacer push" />
     <MESSAGE value="-- Este es el commit mas estable --" />
     <MESSAGE value="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo" />
-    <option name="LAST_COMMIT_MESSAGE" value="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo" />
+    <MESSAGE value="__ Aquí Regresamos a una vesrión estable en el que podemos asignar vehiculos a usuarios temporales y agregamos color a las columna de estado ingreso, salida, denegado, falta agregar las propiedades al rectanguno y label para quitar avisos" />
+    <option name="LAST_COMMIT_MESSAGE" value="__ Aquí Regresamos a una vesrión estable en el que podemos asignar vehiculos a usuarios temporales y agregamos color a las columna de estado ingreso, salida, denegado, falta agregar las propiedades al rectanguno y label para quitar avisos" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

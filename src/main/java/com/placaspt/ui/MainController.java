@@ -1,9 +1,6 @@
 package com.placaspt.ui;
 
-import com.placaspt.logic.AppEventListener;
-import com.placaspt.logic.AppService;
-import com.placaspt.logic.RaspberryPollingService;
-import com.placaspt.logic.RS232RFID;
+import com.placaspt.logic.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +33,7 @@ public class MainController {
 
     @FXML
     private void initialize() {
+        /*
         // 1) Arrancamos el servicio de fondo una sola vez.
         if (!app.startRfid("COM4")) {
             System.err.println("[AppService] No se pudo abrir COM4");
@@ -46,6 +44,21 @@ public class MainController {
                 "8586",
                 "/home/placasPT/placasPTpi/pruebas-YOLO/output.json",
                 5,
+                java.util.concurrent.TimeUnit.SECONDS
+        );*/
+        // 1) RFID
+        String port = ConfigService.getSerialPort();
+        if (!app.startRfid(port)) {
+            System.err.println("[AppService] No se pudo abrir " + port);
+        }
+
+        // 2) SSH
+        app.startPlacaPolling(
+                ConfigService.getSshHost(),
+                ConfigService.getSshUser(),
+                ConfigService.getSshPassword(),
+                ConfigService.getSshRemoteFile(),
+                ConfigService.getSshPeriodSec(),
                 java.util.concurrent.TimeUnit.SECONDS
         );
 
@@ -127,6 +140,9 @@ public class MainController {
         }
     }
 
+    public AppService getAppService() {
+        return app;
+    }
     public void goBack() {
         if (!history.isEmpty()) {
             Node previous = history.pop();

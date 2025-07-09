@@ -9,9 +9,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane fx:id="rootPane" prefHeight="601.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.placaspt.ui.EstacionamientoController">
    <children>
@@ -25,7 +25,6 @@
             <TextField fx:id="tfFiltro" promptText="ID, placa o nombre" />
             <Button fx:id="btnRefrescarPuerto" mnemonicParsing="false" onAction="#refrescarPuerto" text="Refrescar COM" />
             <Circle fx:id="statusCircle" fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label text="Evento" />
          </HBox>
       </VBox>
       <HBox layoutX="629.0" layoutY="101.0" prefHeight="499.0" prefWidth="271.0" spacing="15.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="95.0">
@@ -46,10 +45,11 @@
                   <Insets bottom="1.0" />
                </HBox.margin>
             </TableView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="494.0" stroke="BLACK" strokeType="INSIDE" width="139.0">
-               <HBox.margin>
-                  <Insets bottom="1.0" right="5.0" />
-               </HBox.margin></Rectangle>
+            <Pane fx:id="statusRect" prefHeight="200.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="statusLabel" layoutX="15.0" layoutY="171.0" text="Evento" />
+               </children>
+            </Pane>
          </children>
       </HBox>
    </children>

@@ -15,9 +15,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,7 +38,7 @@ public class EstacionamientoController implements MainAware, AppEventListener {
     private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     // —– Panel de avisos —–
-    @FXML private Rectangle statusRect;
+    @FXML private Pane statusRect;
     @FXML private Label     statusLabel;
     // Para temporizar la vuelta a blanco
     private PauseTransition avisoPause;
@@ -93,6 +96,7 @@ public class EstacionamientoController implements MainAware, AppEventListener {
     private void initialize() {
         // 1) registro para recibir eventos desde AppService
         AppService.getInstance().registerListener(this);
+        // Hacemos que el Rectangle siga siempre la altura de la tabla
 
         // 2) UI → tablas, filtros, estado
         setupTableColumns();
@@ -205,21 +209,43 @@ public class EstacionamientoController implements MainAware, AppEventListener {
 
     /** Alerta de ingreso permitido */
     private void showIngresoAlert(String id) {
-        new Alert(Alert.AlertType.INFORMATION, "Ingreso permitido: " + id).show();
-        //mostrarAviso("green", "Acceso permitido\nUsuario: " + id, 5.0);// dura 5 segundos
-
+        if (avisoPause != null) avisoPause.stop();
+        mostrarAviso("green", "Acceso permitido\nUsuario: " + id);
+        avisoPause = new PauseTransition(Duration.seconds(5));
+        avisoPause.setOnFinished(e -> mostrarAviso("WHITE", ""));
+        avisoPause.play();
     }
 
     /** Alerta de salida registrada */
     private void showSalidaAlert(String id) {
-        new Alert(Alert.AlertType.INFORMATION, "Salida registrada: " + id).show();
-        //mostrarAviso("dodgerblue", "Salida permitida\nUsuario: " + id, 5.0);
+        if (avisoPause != null) avisoPause.stop();
+        mostrarAviso("dodgerblue", "Salida permitida\nUsuario: " + id);
+        avisoPause = new PauseTransition(Duration.seconds(5));
+        avisoPause.setOnFinished(e -> mostrarAviso("WHITE", ""));
+        avisoPause.play();
     }
-
     /** Alerta de acceso denegado */
     private void showDenegadoAlert(String id) {
-        new Alert(Alert.AlertType.ERROR, "Acceso DENEGADO: " + id).show();
-        //mostrarAviso("crimson", "Acceso DENEGADO\nTag/Placa: " + id, 2.0);    // dura 2 segundos
+        if (avisoPause != null) avisoPause.stop();
+        mostrarAviso("crimson", "Acceso DENEGADO\nTag/Placa: " + id);
+        avisoPause = new PauseTransition(Duration.seconds(2));
+        avisoPause.setOnFinished(e -> mostrarAviso("WHITE", ""));
+        avisoPause.play();
+    }
+
+    /**
+     * Muestra un aviso en el recuadro: pinta el rectángulo y pone el texto.
+     *
+     * @param mensaje    texto a mostrar junto al rectángulo
+     */
+    private void mostrarAviso(String colorCss, String mensaje) {
+        // colorCss puede ser "green", "#FFFFFF", etc.
+        statusRect.setStyle(
+                "-fx-background-color: " + colorCss + ";" +
+                        "-fx-border-color: #333;" +
+                        "-fx-border-width: 1;"
+        );
+        statusLabel.setText(mensaje);
     }
 
     /** Refrescar manual del puerto RFID (debug) */
