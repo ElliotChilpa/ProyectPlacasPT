@@ -4,11 +4,16 @@ import com.placaspt.database.UsuariosDAO;
 import com.placaspt.model.UsuarioTemporalPOJO;
 import com.placaspt.model.UsuariosPOJO;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;    // para paneCamposComunes
 import javafx.stage.FileChooser;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -22,27 +27,28 @@ import java.time.LocalDate;
 public class AgregarUsuarios implements MainAware {
 
     // ——— FXML controls ———
-    @FXML private RadioButton rbUsuarioFijo;
-    @FXML private RadioButton rbUsuarioTemporal;
-    @FXML private HBox paneUsuarioTemporal;
-    @FXML private TextField  usuarioNombreTf;
-    @FXML private TextField  usuarioApellidosTf;
-    @FXML private TextField  usuarioCorreoTf;
-    @FXML private TextField  usuarioTelefonoTf;
-    @FXML private TextField  usuarioTempActividad;
-    @FXML private DatePicker fechaInicio;
-    @FXML private DatePicker fechaFin;
-    @FXML private Button     btnCargarFoto;
-    @FXML private ImageView  dniPreview;
-    @FXML private Button     btnAgregar;
+    @FXML private ToggleButton rbUsuarioFijo;
+    @FXML private ToggleButton rbUsuarioTemporal;
+    @FXML private HBox         paneCamposComunes;     // envuelve Nombre/Apellido/Correo/Teléfono
+    @FXML private HBox         paneUsuarioTemporal;   // campos de actividad, fechas, foto
+    @FXML private TextField    usuarioNombreTf;
+    @FXML private TextField    usuarioApellidosTf;
+    @FXML private TextField    usuarioCorreoTf;
+    @FXML private TextField    usuarioTelefonoTf;
+    @FXML private TextField    usuarioTempActividad;
+    @FXML private DatePicker   fechaInicio;
+    @FXML private DatePicker   fechaFin;
+    @FXML private Button       btnCargarFoto;
+    @FXML private ImageView    dniPreview;
+    @FXML private Button       btnAgregar;
 
-    private MainController     mainController;
-    private File               dniFile;
-    private final UsuariosDAO  dao = new UsuariosDAO();
+    private MainController    mainController;
+    private File              dniFile;
+    private final UsuariosDAO dao = new UsuariosDAO();
 
     // ——— Modo edición ———
-    private UsuariosPOJO existingUser;    // null = alta, no-null = edición
-    private int          existingTempId;  // PK de UsuarioTemporal (si aplica)
+    private UsuariosPOJO existingUser;   // null = alta, no-null = edición
+    private int          existingTempId; // PK de UsuarioTemporal (si aplica)
 
     @Override
     public void setMainController(MainController main) {
@@ -51,37 +57,44 @@ public class AgregarUsuarios implements MainAware {
 
     @FXML
     public void initialize() {
+        // 1) Creamos y asignamos el ToggleGroup
         ToggleGroup group = new ToggleGroup();
         rbUsuarioFijo.setToggleGroup(group);
         rbUsuarioTemporal.setToggleGroup(group);
 
-        paneUsuarioTemporal.managedProperty().bind(rbUsuarioTemporal.selectedProperty());
-        paneUsuarioTemporal.visibleProperty().bind(rbUsuarioTemporal.selectedProperty());
+        // 2) Ocultamos TODO hasta que selecciones
+        paneCamposComunes.managedProperty()
+                .bind(rbUsuarioFijo.selectedProperty().or(rbUsuarioTemporal.selectedProperty()));
+        paneCamposComunes.visibleProperty()
+                .bind(rbUsuarioFijo.selectedProperty().or(rbUsuarioTemporal.selectedProperty()));
 
+        // 3) El bloque temporal solo cuando rbUsuarioTemporal esté seleccionado
+        paneUsuarioTemporal.managedProperty()
+                .bind(rbUsuarioTemporal.selectedProperty());
+        paneUsuarioTemporal.visibleProperty()
+                .bind(rbUsuarioTemporal.selectedProperty());
+
+        // 4) Acción para cargar la foto de DNI
         btnCargarFoto.setOnAction(e -> {
-            FileChooser ch = new FileChooser();
-            ch.setTitle("Selecciona foto de credencial");
-            ch.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("Imágenes", "*.png","*.jpg","*.jpeg")
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Selecciona foto de credencial");
+            chooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
             );
-            File f = ch.showOpenDialog(btnCargarFoto.getScene().getWindow());
+            File f = chooser.showOpenDialog(btnCargarFoto.getScene().getWindow());
             if (f != null) {
                 dniFile = f;
                 dniPreview.setImage(new Image(f.toURI().toString()));
             }
         });
+
+        // 5) Opcional: que al inicio no esté ninguno seleccionado
+        rbUsuarioFijo.setSelected(false);
+        rbUsuarioTemporal.setSelected(false);
     }
 
     /**
      * Modo edición completo: precarga usuario base y subregistro temporal.
-     *
-     * @param userBase             datos de la tabla Usuario
-     * @param isFijo               true si es usuario fijo
-     * @param actividad            actividad de UsuarioTemporal
-     * @param inicio               fecha de inicio
-     * @param fin                  fecha de fin
-     * @param documento            blob del DNI
-     * @param idUsuarioTemporal    PK de UsuarioTemporal
      */
     public void initData(UsuariosPOJO userBase,
                          boolean isFijo,
@@ -90,20 +103,20 @@ public class AgregarUsuarios implements MainAware {
                          LocalDate fin,
                          Blob documento,
                          int idUsuarioTemporal) {
-        this.existingUser    = userBase;
-        this.existingTempId  = idUsuarioTemporal;
+        this.existingUser   = userBase;
+        this.existingTempId = idUsuarioTemporal;
 
-        // 1) Precarga campos base
+        // 1) Campos base
         usuarioNombreTf.setText(userBase.getNombres());
         usuarioApellidosTf.setText(userBase.getApellidos());
         usuarioCorreoTf.setText(userBase.getCorreo());
         usuarioTelefonoTf.setText(userBase.getTelefono());
 
-        // 2) Tipo de usuario
+        // 2) Selecciona el tipo de usuario
         rbUsuarioFijo.setSelected(isFijo);
         rbUsuarioTemporal.setSelected(!isFijo);
 
-        // 3) Subregistro temporal
+        // 3) Si es temporal, precarga subregistro
         if (!isFijo) {
             usuarioTempActividad.setText(actividad != null ? actividad : "");
             fechaInicio.setValue(inicio);
@@ -111,9 +124,9 @@ public class AgregarUsuarios implements MainAware {
             if (documento != null) {
                 try {
                     byte[] data = documento.getBytes(1, (int) documento.length());
-                    File tmp = File.createTempFile("dni", ".tmp");
+                    File tmp   = File.createTempFile("dni", ".tmp");
                     Files.write(tmp.toPath(), data);
-                    dniFile = tmp;
+                    dniFile    = tmp;
                     dniPreview.setImage(new Image(tmp.toURI().toString()));
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -121,13 +134,11 @@ public class AgregarUsuarios implements MainAware {
             }
         }
 
-        // Cambiar texto del botón
         btnAgregar.setText("Guardar cambios");
     }
 
     /**
-     * Sobrecarga para llamada sencilla desde UsuariosController:
-     * solo pasa el UsuariosPOJO y el formulario resuelve el resto.
+     * Sobrecarga para llamada sencilla desde UsuariosController.
      */
     public void initData(UsuariosPOJO userBase) {
         boolean isFijo = dao.existeUsuarioFijo(userBase.getId());
@@ -148,28 +159,38 @@ public class AgregarUsuarios implements MainAware {
 
     @FXML
     private void onBack() {
-        //mainController.goBack();
         mainController.loadView("/com/placaspt/ui/UsuariosView.fxml");
     }
 
     @FXML
     private void onGuardar() {
-        // 1) Lectura y validación de campos
+        // 1) Validar que hayas elegido fijo o temporal
+        if (!rbUsuarioFijo.isSelected() && !rbUsuarioTemporal.isSelected()) {
+            new Alert(Alert.AlertType.ERROR,
+                    "Debes seleccionar si es Usuario Fijo o Usuario Temporal.")
+                    .showAndWait();
+            return;
+        }
+
+        // 2) Validación campos obligatorios
         String nom = usuarioNombreTf.getText().trim();
         String ape = usuarioApellidosTf.getText().trim();
         String cor = usuarioCorreoTf.getText().trim();
-        String tel = usuarioTelefonoTf.getText().trim();
         if (nom.isEmpty() || ape.isEmpty() || cor.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Nombre, Apellidos y Correo son obligatorios")
+            new Alert(Alert.AlertType.ERROR,
+                    "Nombre, Apellidos y Correo son obligatorios.")
                     .showAndWait();
             return;
         }
 
         try {
             if (existingUser == null) {
-                // ——— MODO ALTA ———
+                // —— MODO ALTA ——
                 UsuariosPOJO u = new UsuariosPOJO(
-                        nom, ape, cor, tel,
+                        nom,
+                        ape,
+                        cor,
+                        usuarioTelefonoTf.getText().trim(),
                         LocalDate.now(),
                         1  // idAdministrador
                 );
@@ -188,46 +209,46 @@ public class AgregarUsuarios implements MainAware {
                     );
                     if (!ok) throw new SQLException("No pudo crear Usuario Temporal");
                 } else {
-                    boolean okF = dao.insertarUsuarioFijo(newId);
-                    if (!okF) throw new SQLException("No pudo crear Usuario Fijo");
+                    if (!dao.insertarUsuarioFijo(newId))
+                        throw new SQLException("No pudo crear Usuario Fijo");
                 }
 
-                new Alert(Alert.AlertType.INFORMATION, "Usuario creado").showAndWait();
+                new Alert(Alert.AlertType.INFORMATION, "Usuario creado")
+                        .showAndWait();
+
             } else {
-                // ——— MODO EDICIÓN ———
-                // 1) Actualizar datos de Usuario
+                // —— MODO EDICIÓN ——
                 existingUser.setNombres(nom);
                 existingUser.setApellidos(ape);
                 existingUser.setCorreo(cor);
-                existingUser.setTelefono(tel);
-                boolean ok = dao.actualizarUsuario(existingUser);
-                if (!ok) throw new SQLException("No pudo actualizar Usuario");
+                existingUser.setTelefono(usuarioTelefonoTf.getText().trim());
+                if (!dao.actualizarUsuario(existingUser))
+                    throw new SQLException("No pudo actualizar Usuario");
 
-                // 2) Actualizar subregistro temporal si aplica
                 if (rbUsuarioTemporal.isSelected()) {
                     byte[] data = dniFile != null
                             ? Files.readAllBytes(dniFile.toPath())
                             : null;
                     Blob doc = data != null ? new SerialBlob(data) : null;
-                    boolean okTmp = dao.actualizarUsuarioTemporal(
+                    if (!dao.actualizarUsuarioTemporal(
                             existingTempId,
                             usuarioTempActividad.getText().trim(),
                             fechaInicio.getValue(),
                             fechaFin.getValue(),
-                            doc
-                    );
-                    if (!okTmp) throw new SQLException("No pudo actualizar Usuario Temporal");
+                            doc))
+                        throw new SQLException("No pudo actualizar Usuario Temporal");
                 }
 
-                new Alert(Alert.AlertType.INFORMATION, "Usuario actualizado").showAndWait();
+                new Alert(Alert.AlertType.INFORMATION, "Usuario actualizado")
+                        .showAndWait();
             }
 
-            //mainController.goBack();
             mainController.loadView("/com/placaspt/ui/UsuariosView.fxml");
 
         } catch (IOException | SQLException ex) {
             ex.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error al guardar:\n" + ex.getMessage())
+            new Alert(Alert.AlertType.ERROR,
+                    "Error al guardar:\n" + ex.getMessage())
                     .showAndWait();
         }
     }
