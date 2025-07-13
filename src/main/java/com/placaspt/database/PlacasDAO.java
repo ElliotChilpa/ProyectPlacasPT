@@ -3,6 +3,8 @@ package com.placaspt.database;
 
 import com.placaspt.model.PlacasPOJO;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlacasDAO {
 
@@ -176,4 +178,28 @@ public class PlacasDAO {
             return false;
         }
     }
+
+    /**
+     * Devuelve todas las ID_Placa que estén activas (Estado_Vigencia = 'true').
+     */
+    public List<String> listarTodasLasPlacasActivas() {
+        List<String> placas = new ArrayList<>();
+        String sql = """
+        SELECT ID_Placa
+          FROM placavehicular
+         WHERE Estado_Vigencia = 'true'
+        """;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                placas.add(rs.getString("ID_Placa"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return placas;
+    }
+
 }

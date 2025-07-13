@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Se agrego funciones a la vista de configuraciones para poder cambiar parametros, como el COM del puerto seríal, el host de la raspberry y la IP.&#10;&#10;Funcional todo hasta el momento.">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="Commit Mas estable que tenemos tanto usuario fijo como usario temporal están funcionando al 100">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/util/FuzzyMatch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/UsuariosDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/VehiculoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/VehiculoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/PlacasDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/PlacasDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/model/EventoEstado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/model/EventoEstado.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +145,8 @@
       <workItem from="1751776124483" duration="17776000" />
       <workItem from="1751819255129" duration="890000" />
       <workItem from="1751901444257" duration="21620000" />
-      <workItem from="1752082246227" duration="8050000" />
+      <workItem from="1752082246227" duration="8569000" />
+      <workItem from="1752351722098" duration="7871000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -428,7 +428,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752045938301</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Commit Mas estable que tenemos tanto usuario fijo como usario temporal están funcionando al 100">
+      <option name="closed" value="true" />
+      <created>1752090856093</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1752090856095</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -446,7 +454,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add configuración ventanaRFID" />
     <MESSAGE value="Add sub-controladores en configuracionescontroller para poder abrir RFIDController" />
     <MESSAGE value="Add controladores para crear nuevo usuario administrador y poder regresar al loggin" />
     <MESSAGE value="Modificación de loadview y goback para poder tener historial de navegación y poder regresar a una vista anterior." />
@@ -471,7 +478,8 @@
     <MESSAGE value="--- Este es el commit mas estable.&#10;Ya avisamos cuando es un acceso Denegado y cuando es un Ingreso, Salida tanto para tarjetas RFID y SSH Usuarios temporales ya tienen asignado vehiculo" />
     <MESSAGE value="__ Aquí Regresamos a una vesrión estable en el que podemos asignar vehiculos a usuarios temporales y agregamos color a las columna de estado ingreso, salida, denegado, falta agregar las propiedades al rectanguno y label para quitar avisos" />
     <MESSAGE value="Se agrego funciones a la vista de configuraciones para poder cambiar parametros, como el COM del puerto seríal, el host de la raspberry y la IP.&#10;&#10;Funcional todo hasta el momento." />
-    <option name="LAST_COMMIT_MESSAGE" value="Se agrego funciones a la vista de configuraciones para poder cambiar parametros, como el COM del puerto seríal, el host de la raspberry y la IP.&#10;&#10;Funcional todo hasta el momento." />
+    <MESSAGE value="Commit Mas estable que tenemos tanto usuario fijo como usario temporal están funcionando al 100" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit Mas estable que tenemos tanto usuario fijo como usario temporal están funcionando al 100" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
