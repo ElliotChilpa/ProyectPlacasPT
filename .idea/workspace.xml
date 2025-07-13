@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="---- Versión Estable, se implemento correción de errores con el metodo - LEVENSHTEIN y permite 2 errores en la placa vehicular. se agrego en FuzzyMatch">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="---- Versión mas Estable, se implemento correción de errores y ahora solo permite un ingreso por placas y una salida por placas">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/newAdmin.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/AgregarUsuarios.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/agregarUsuarios.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/agregarUsuarios.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/newUserAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/placaspt/ui/newUserAdmin.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +21,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="FxmlFile" />
         <option value="Class" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -145,7 +148,9 @@
       <workItem from="1751819255129" duration="890000" />
       <workItem from="1751901444257" duration="21620000" />
       <workItem from="1752082246227" duration="8569000" />
-      <workItem from="1752351722098" duration="10511000" />
+      <workItem from="1752351722098" duration="10564000" />
+      <workItem from="1752414571564" duration="3862000" />
+      <workItem from="1752423376210" duration="959000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -443,7 +448,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752389543487</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="---- Versión mas Estable, se implemento correción de errores y ahora solo permite un ingreso por placas y una salida por placas">
+      <option name="closed" value="true" />
+      <created>1752392199215</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1752392199215</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -461,7 +474,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add controladores para crear nuevo usuario administrador y poder regresar al loggin" />
     <MESSAGE value="Modificación de loadview y goback para poder tener historial de navegación y poder regresar a una vista anterior." />
     <MESSAGE value="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral" />
     <MESSAGE value="Se modifico estructura del codigo RFIDController para limpiarlo de basura antigua.&#10;Se agrgo la vista agregarusuarios y su controladro y está funcional con boton de regreso.&#10;Tambien se modifico el codigo de UsuariosController para comentar el codigo" />
@@ -486,7 +498,8 @@
     <MESSAGE value="Se agrego funciones a la vista de configuraciones para poder cambiar parametros, como el COM del puerto seríal, el host de la raspberry y la IP.&#10;&#10;Funcional todo hasta el momento." />
     <MESSAGE value="Commit Mas estable que tenemos tanto usuario fijo como usario temporal están funcionando al 100" />
     <MESSAGE value="---- Versión Estable, se implemento correción de errores con el metodo - LEVENSHTEIN y permite 2 errores en la placa vehicular. se agrego en FuzzyMatch" />
-    <option name="LAST_COMMIT_MESSAGE" value="---- Versión Estable, se implemento correción de errores con el metodo - LEVENSHTEIN y permite 2 errores en la placa vehicular. se agrego en FuzzyMatch" />
+    <MESSAGE value="---- Versión mas Estable, se implemento correción de errores y ahora solo permite un ingreso por placas y una salida por placas" />
+    <option name="LAST_COMMIT_MESSAGE" value="---- Versión mas Estable, se implemento correción de errores y ahora solo permite un ingreso por placas y una salida por placas" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

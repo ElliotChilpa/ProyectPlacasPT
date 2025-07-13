@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,7 +19,7 @@
    </padding>
 
    <!-- Título -->
-   <Label fx:id="messageLabel" styleClass="label_titulo" text="INICIO DE SESIÓN" />
+   <Label styleClass="label_titulo" text="INICIO DE SESIÓN" />
 
    <!-- Icono centrado -->
    <ImageView fitHeight="92.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
@@ -27,18 +28,14 @@
       </image>
    </ImageView>
 
-   <!-- Etiqueta + campo Usuario -->
-   <Label text="Usuario:">
+         <!-- Etiqueta + campo Usuario -->
+   <Label fx:id="messageLabel" styleClass="label_notas" text="Ingresa tus datos">
       <font>
          <Font size="18.0" />
-      </font></Label>
+      </font>
+   </Label>
    <TextField id="login_text_usuario" fx:id="userField" promptText="Usuario" />
-
-   <!-- Etiqueta + campo Contraseña -->
-   <Label text="Contraseña:">
-      <font>
-         <Font size="18.0" />
-      </font></Label>
+   <HBox prefHeight="8.0" prefWidth="554.0" />
    <PasswordField id="login_text_pass" fx:id="passField" promptText="Contraseña" styleClass="password-field" />
    <Button id="login_bt" onAction="#onLoginClick" prefHeight="34.0" prefWidth="115.0" styleClass="button" text="Ingresar" />
    <Button id="crear_login_bt" onAction="#crearAdmin" styleClass="button" text="Crear Usuario" />

@@ -1,7 +1,7 @@
 /* login.css */
 
 /* Fondo degradado para el contenedor raíz */
-.fondo_login {
+.fondo_newAdmin {
     -fx-background-color: linear-gradient(
             from 0% 0% to 100% 100%,
             #1f3b6f,
@@ -11,7 +11,7 @@
 
 /* Título grande y blanco */
 .label_titulo {
-    -fx-font-size: 24px;
+    -fx-font-size: 34px;
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
