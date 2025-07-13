@@ -90,20 +90,7 @@ public class EstacionamientoController implements MainAware, AppEventListener {
             }
         });
     }
-    /*
-    @Override
-    public void onPlacaEvent(EventoPlacaDTO ev) {
-        Platform.runLater(() -> {
-            EventoEstado estado = estacionamientoService.procesarEvento(ev);
-            recargar();
-            String id = ev.getPlate();
-            switch (estado) {
-                case INGRESO -> showIngresoAlert(id);
-                case SALIDA  -> showSalidaAlert(id);
-                case DENEGADO-> showDenegadoAlert(id);
-            }
-        });
-    }*/
+
 
 
     @FXML

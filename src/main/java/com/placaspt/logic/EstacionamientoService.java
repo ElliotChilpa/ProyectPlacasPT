@@ -1,203 +1,3 @@
-/*package com.placaspt.logic;
-
-import com.placaspt.database.*;
-import com.placaspt.model.EventoEstado;
-import com.placaspt.model.EventoPlacaDTO;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-/**
- * Servicio de negocio para gestionar accesos por RFID o por placa.
- * /
-public class EstacionamientoService {
-
-    private final TarjetaRFIDDAO   tarjetaDAO   = new TarjetaRFIDDAO();
-    private final RegistroRFIDDAO  regRfidDAO   = new RegistroRFIDDAO();
-    private final PlacasDAO        placasDAO    = new PlacasDAO();
-    private final RegistroPlacaDAO regPlaDAO    = new RegistroPlacaDAO();
-    private final AccesoDAO        accesoDAO    = new AccesoDAO();
-    private final UsuariosDAO      usuariosDAO  = new UsuariosDAO();
-    private final VehiculoDAO      vehDAO       = new VehiculoDAO();
-
-    /**
-     * Procesa un tag RFID recibido:
-     *  - alterna INGRESO/SALIDA según último estado
-     *  - registra en registrorfid y en acceso
-     * @param tag el identificador del tag leído
-     * @return el estado final del evento (INGRESO, SALIDA o DENEGADO)
-     * /
-    public EventoEstado procesarRfid(String tag) {
-        LocalDateTime ahora = LocalDateTime.now();
-        EventoEstado resultado;
-
-        // 1) ¿Ese tag está asignado a un usuario fijo?
-        int idUsuarioFijo = tarjetaDAO.obtenerIdUsuarioFijoPorTag(tag);
-        if (idUsuarioFijo <= 0) {
-            resultado = EventoEstado.DENEGADO;
-            int idReg = regRfidDAO.insertarRegistroRFID(
-                    tag,
-                    resultado.name(),
-                    "Tag no registrado",
-                    tag
-            );
-            accesoDAO.insertarAcceso(ahora, "RFID", null, null, idReg);
-            return resultado;
-        }
-
-        // 2) Convertir a ID_Usuario “base”
-        Integer idUsuario = usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo);
-        if (idUsuario == null || idUsuario < 0) {
-            resultado = EventoEstado.DENEGADO;
-            int idReg = regRfidDAO.insertarRegistroRFID(
-                    tag,
-                    resultado.name(),
-                    "Usuario no encontrado",
-                    tag
-            );
-            accesoDAO.insertarAcceso(ahora, "RFID", null, null, idReg);
-            return resultado;
-        }
-
-        // 3) Último estado de este usuario
-        String ultimo = accesoDAO.obtenerUltimoEstadoPorUsuario(idUsuario);
-        boolean estabaDentro = "INGRESO".equalsIgnoreCase(ultimo);
-
-        // 4) Definimos INGRESO vs SALIDA
-        resultado = estabaDentro ? EventoEstado.SALIDA : EventoEstado.INGRESO;
-        String descripcion = (resultado == EventoEstado.SALIDA)
-                ? "Salida detección RFID"
-                : "Detección RFID";
-
-        // 5) Insertamos en registrorfid (con Tag_Escaneado)
-        int idRegRfid = regRfidDAO.insertarRegistroRFID(
-                tag,
-                resultado.name(),
-                descripcion,
-                tag
-        );
-
-        // 6) Finalmente el acceso
-        accesoDAO.insertarAcceso(
-                ahora,
-                "RFID",
-                idUsuario,
-                null,
-                idRegRfid
-        );
-
-        return resultado;
-    }
-
-
-    /**
-     * Procesa un evento de placa llegado por JSON y devuelve el estado final.
-     * Ahora soporta:
-     *  - Usuarios fijos (como antes).
-     *  - Usuarios temporales, sólo si están dentro de su rango de fechas.
-     * /
-    // En EstacionamientoService.java
-
-    public EventoEstado procesarEvento(EventoPlacaDTO ev) {
-        String placa = ev.getPlate();
-        LocalDateTime ahora = LocalDateTime.now();
-        LocalDate hoy = ahora.toLocalDate();
-
-        // 0) Intentamos usuario fijo
-        Integer idUsuarioFijo = vehDAO.obtenerIdUsuarioFijoPorPlaca(placa);
-        Integer idUsuarioBase = null;
-
-        if (idUsuarioFijo != null) {
-            idUsuarioBase = usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo);
-
-        } else {
-            // 0b) Si no hay fijo, intentamos **temporal** usando VehiculoDAO
-            Integer idUsuarioTemp = vehDAO.obtenerIdUsuarioTemporalPorPlaca(placa);
-            if (idUsuarioTemp != null) {
-                // comprobamos fechas
-                LocalDate inicio = usuariosDAO.obtenerFechaInicioTemporal(idUsuarioTemp);
-                LocalDate fin    = usuariosDAO.obtenerFechaFinTemporal(   idUsuarioTemp);
-                if ((inicio == null || !hoy.isBefore(inicio))
-                        && (fin    == null || !hoy.isAfter(fin))) {
-                    // dentro del periodo, mapeamos a usuario base
-                    idUsuarioBase = usuariosDAO.obtenerUsuarioBasePorTemporal(idUsuarioTemp);
-                }
-                // si está fuera del periodo, idUsuarioBase queda null → será DENEGADO
-            }
-        }
-
-        EventoEstado resultado;
-
-        switch (ev.getGate()) {
-            case INGRESO -> {
-                if (idUsuarioBase == null || !placasDAO.existePlacaActivaYAsignada(placa)) {
-                    resultado = EventoEstado.DENEGADO;
-                    int idReg = regPlaDAO.insertarRegistroPlaca(
-                            null,
-                            resultado.name(),
-                            idUsuarioBase == null
-                                    ? "Placa no asignada o fuera de periodo"
-                                    : "Placa inactiva",
-                            placa
-                    );
-                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
-
-                } else {
-                    resultado = EventoEstado.INGRESO;
-                    int idReg = regPlaDAO.insertarRegistroPlaca(
-                            placa,
-                            resultado.name(),
-                            "Detección cámara",
-                            placa
-                    );
-                    accesoDAO.insertarAcceso(ahora, "PLACA", idUsuarioBase, idReg, null);
-                }
-            }
-            case SALIDA -> {
-                if (idUsuarioBase == null) {
-                    resultado = EventoEstado.DENEGADO;
-                    int idReg = regPlaDAO.insertarRegistroPlaca(
-                            null,
-                            resultado.name(),
-                            "Salida inválida (usuario desconocido o fuera de periodo)",
-                            placa
-                    );
-                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
-
-                } else {
-                    Integer idAccAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuarioBase);
-                    if (idAccAbierto != null) {
-                        resultado = EventoEstado.SALIDA;
-                        int idReg = regPlaDAO.insertarRegistroPlaca(
-                                placa,
-                                resultado.name(),
-                                "Detección cámara",
-                                placa
-                        );
-                        accesoDAO.insertarAcceso(ahora, "PLACA", idUsuarioBase, idReg, null);
-                        accesoDAO.cerrarSalida(idAccAbierto);
-                    } else {
-                        resultado = EventoEstado.DENEGADO;
-                        int idReg = regPlaDAO.insertarRegistroPlaca(
-                                null,
-                                resultado.name(),
-                                "Salida sin ingreso abierto",
-                                placa
-                        );
-                        accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
-                    }
-                }
-            }
-            default -> {
-                resultado = EventoEstado.DENEGADO;
-            }
-        }
-
-        ev.setGate(resultado);
-        return resultado;
-    }
-}
-*/
 package com.placaspt.logic;
 
 import com.placaspt.database.*;
@@ -221,19 +21,16 @@ public class EstacionamientoService {
     // umbral de Levenshtein máximo (≤1 carácter de diferencia)
     private static final int LEVENSHTEIN_UMBRAL = 2;
 
+
     /**
-     * Procesa un evento de placa llegado por JSON y devuelve el estado final.
-     * Ahora soporta:
-     *  - Corrección por Levenshtein a ≤1 carácter
-     *  - Usuarios fijos
-     *  - Usuarios temporales (si están dentro de su periodo)
+     * Procesa un evento de placa y decide INGRESO/SALIDA/DENEGADO,
+     * aplicando corrección Levenshtein y evitando dobles registros.
      */
     public EventoEstado procesarEvento(EventoPlacaDTO ev) {
         // ————————————————
         // 0) CORRECCIÓN FUZZY
         // ————————————————
         String leida = ev.getPlate();
-        // traemos todas las placas activas para comparar
         List<String> placasActivas = placasDAO.listarTodasLasPlacasActivas();
         String corregida = null;
         for (String p : placasActivas) {
@@ -245,11 +42,10 @@ public class EstacionamientoService {
         if (corregida != null) {
             ev.setPlate(corregida);
         }
-        // de aquí en adelante usamos la placa (tal vez corregida)
         String placa = ev.getPlate();
 
         // ————————————————
-        // resto de tu método tal cual estaba
+        // resto de tu método
         // ————————————————
         LocalDateTime ahora = LocalDateTime.now();
         LocalDate hoy       = ahora.toLocalDate();
@@ -265,7 +61,7 @@ public class EstacionamientoService {
             Integer idUsuarioTemp = vehDAO.obtenerIdUsuarioTemporalPorPlaca(placa);
             if (idUsuarioTemp != null) {
                 LocalDate inicio = usuariosDAO.obtenerFechaInicioTemporal(idUsuarioTemp);
-                LocalDate fin    = usuariosDAO.obtenerFechaFinTemporal(   idUsuarioTemp);
+                LocalDate fin    = usuariosDAO.obtenerFechaFinTemporal(idUsuarioTemp);
                 if ((inicio == null || !hoy.isBefore(inicio))
                         && (fin    == null || !hoy.isAfter(fin))) {
                     idUsuarioBase = usuariosDAO.obtenerUsuarioBasePorTemporal(idUsuarioTemp);
@@ -276,7 +72,16 @@ public class EstacionamientoService {
         EventoEstado resultado;
         switch (ev.getGate()) {
             case INGRESO -> {
-                if (idUsuarioBase == null || !placasDAO.existePlacaActivaYAsignada(placa)) {
+                // evitar doble INGRESO
+                String ultimo = accesoDAO.obtenerUltimoEstadoPorUsuario(idUsuarioBase);
+                if ("INGRESO".equalsIgnoreCase(ultimo)) {
+                    resultado = EventoEstado.INGRESO;
+                    break;
+                }
+
+                if (idUsuarioBase == null
+                        || !placasDAO.existePlacaActivaYAsignada(placa)) {
+
                     resultado = EventoEstado.DENEGADO;
                     int idReg = regPlaDAO.insertarRegistroPlaca(
                             null,
@@ -286,7 +91,12 @@ public class EstacionamientoService {
                                     : "Placa inactiva",
                             placa
                     );
-                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                    accesoDAO.insertarAcceso(ahora,
+                            "PLACA",
+                            null,
+                            idReg,
+                            null);
+
                 } else {
                     resultado = EventoEstado.INGRESO;
                     int idReg = regPlaDAO.insertarRegistroPlaca(
@@ -295,10 +105,22 @@ public class EstacionamientoService {
                             "Detección cámara",
                             placa
                     );
-                    accesoDAO.insertarAcceso(ahora, "PLACA", idUsuarioBase, idReg, null);
+                    accesoDAO.insertarAcceso(ahora,
+                            "PLACA",
+                            idUsuarioBase,
+                            idReg,
+                            null);
                 }
             }
+
             case SALIDA -> {
+                // evitar doble SALIDA
+                String ultimo = accesoDAO.obtenerUltimoEstadoPorUsuario(idUsuarioBase);
+                if ("SALIDA".equalsIgnoreCase(ultimo)) {
+                    resultado = EventoEstado.SALIDA;
+                    break;
+                }
+
                 if (idUsuarioBase == null) {
                     resultado = EventoEstado.DENEGADO;
                     int idReg = regPlaDAO.insertarRegistroPlaca(
@@ -307,7 +129,12 @@ public class EstacionamientoService {
                             "Salida inválida (usuario desconocido o fuera de periodo)",
                             placa
                     );
-                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                    accesoDAO.insertarAcceso(ahora,
+                            "PLACA",
+                            null,
+                            idReg,
+                            null);
+
                 } else {
                     Integer idAccAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuarioBase);
                     if (idAccAbierto != null) {
@@ -318,8 +145,14 @@ public class EstacionamientoService {
                                 "Detección cámara",
                                 placa
                         );
-                        accesoDAO.insertarAcceso(ahora, "PLACA", idUsuarioBase, idReg, null);
-                        accesoDAO.cerrarSalida(idAccAbierto);
+                        accesoDAO.insertarAcceso(ahora,
+                                "PLACA",
+                                idUsuarioBase,
+                                idReg,
+                                null);
+
+                        // ** ya no llamamos cerrarSalida() **
+                        // esto elimina el "Cierre manual"
                     } else {
                         resultado = EventoEstado.DENEGADO;
                         int idReg = regPlaDAO.insertarRegistroPlaca(
@@ -328,16 +161,22 @@ public class EstacionamientoService {
                                 "Salida sin ingreso abierto",
                                 placa
                         );
-                        accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                        accesoDAO.insertarAcceso(ahora,
+                                "PLACA",
+                                null,
+                                idReg,
+                                null);
                     }
                 }
             }
+
             default -> resultado = EventoEstado.DENEGADO;
         }
 
         ev.setGate(resultado);
         return resultado;
     }
+
 
     /**
      * Procesa un tag RFID recibido:
