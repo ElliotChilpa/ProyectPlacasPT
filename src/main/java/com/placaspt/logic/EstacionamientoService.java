@@ -22,10 +22,6 @@ public class EstacionamientoService {
     private static final int LEVENSHTEIN_UMBRAL = 2;
 
 
-    /**
-     * Procesa un evento de placa y decide INGRESO/SALIDA/DENEGADO,
-     * aplicando corrección Levenshtein y evitando dobles registros.
-     */
     public EventoEstado procesarEvento(EventoPlacaDTO ev) {
         // ————————————————
         // 0) CORRECCIÓN FUZZY
@@ -45,19 +41,16 @@ public class EstacionamientoService {
         String placa = ev.getPlate();
 
         // ————————————————
-        // resto de tu método
+        // 1) Identificar usuario
         // ————————————————
         LocalDateTime ahora = LocalDateTime.now();
         LocalDate hoy       = ahora.toLocalDate();
 
-        // 1) Intentamos usuario fijo
-        Integer idUsuarioFijo = vehDAO.obtenerIdUsuarioFijoPorPlaca(placa);
         Integer idUsuarioBase = null;
-
+        Integer idUsuarioFijo = vehDAO.obtenerIdUsuarioFijoPorPlaca(placa);
         if (idUsuarioFijo != null) {
             idUsuarioBase = usuariosDAO.obtenerUsuarioBasePorFijo(idUsuarioFijo);
         } else {
-            // 1b) intentamos temporal
             Integer idUsuarioTemp = vehDAO.obtenerIdUsuarioTemporalPorPlaca(placa);
             if (idUsuarioTemp != null) {
                 LocalDate inicio = usuariosDAO.obtenerFechaInicioTemporal(idUsuarioTemp);
@@ -69,19 +62,15 @@ public class EstacionamientoService {
             }
         }
 
+        // ————————————————
+        // 2) Procesar segun gate
+        // ————————————————
         EventoEstado resultado;
         switch (ev.getGate()) {
-            case INGRESO -> {
-                // evitar doble INGRESO
-                String ultimo = accesoDAO.obtenerUltimoEstadoPorUsuario(idUsuarioBase);
-                if ("INGRESO".equalsIgnoreCase(ultimo)) {
-                    resultado = EventoEstado.INGRESO;
-                    break;
-                }
 
-                if (idUsuarioBase == null
-                        || !placasDAO.existePlacaActivaYAsignada(placa)) {
-
+            case INGRESO: {
+                // Primero: ausencia de usuario o placa inactiva → DENEGADO
+                if (idUsuarioBase == null || !placasDAO.existePlacaActivaYAsignada(placa)) {
                     resultado = EventoEstado.DENEGADO;
                     int idReg = regPlaDAO.insertarRegistroPlaca(
                             null,
@@ -91,36 +80,31 @@ public class EstacionamientoService {
                                     : "Placa inactiva",
                             placa
                     );
-                    accesoDAO.insertarAcceso(ahora,
-                            "PLACA",
-                            null,
-                            idReg,
-                            null);
-
-                } else {
-                    resultado = EventoEstado.INGRESO;
-                    int idReg = regPlaDAO.insertarRegistroPlaca(
-                            placa,
-                            resultado.name(),
-                            "Detección cámara",
-                            placa
-                    );
-                    accesoDAO.insertarAcceso(ahora,
-                            "PLACA",
-                            idUsuarioBase,
-                            idReg,
-                            null);
-                }
-            }
-
-            case SALIDA -> {
-                // evitar doble SALIDA
-                String ultimo = accesoDAO.obtenerUltimoEstadoPorUsuario(idUsuarioBase);
-                if ("SALIDA".equalsIgnoreCase(ultimo)) {
-                    resultado = EventoEstado.SALIDA;
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
                     break;
                 }
 
+                // Sólo ahora sabemos que idUsuarioBase != null, podemos chequear duplicados
+                String ultimo = accesoDAO.obtenerUltimoEstadoPorUsuario(idUsuarioBase);
+                if ("INGRESO".equalsIgnoreCase(ultimo)) {
+                    resultado = EventoEstado.INGRESO;
+                    break;
+                }
+
+                // Finalmente: ingreso válido
+                resultado = EventoEstado.INGRESO;
+                int idReg = regPlaDAO.insertarRegistroPlaca(
+                        placa,
+                        resultado.name(),
+                        "Detección cámara",
+                        placa
+                );
+                accesoDAO.insertarAcceso(ahora, "PLACA", idUsuarioBase, idReg, null);
+                break;
+            }
+
+            case SALIDA: {
+                // Primero: ausencia de usuario → DENEGADO
                 if (idUsuarioBase == null) {
                     resultado = EventoEstado.DENEGADO;
                     int idReg = regPlaDAO.insertarRegistroPlaca(
@@ -129,53 +113,59 @@ public class EstacionamientoService {
                             "Salida inválida (usuario desconocido o fuera de periodo)",
                             placa
                     );
-                    accesoDAO.insertarAcceso(ahora,
-                            "PLACA",
-                            null,
-                            idReg,
-                            null);
-
-                } else {
-                    Integer idAccAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuarioBase);
-                    if (idAccAbierto != null) {
-                        resultado = EventoEstado.SALIDA;
-                        int idReg = regPlaDAO.insertarRegistroPlaca(
-                                placa,
-                                resultado.name(),
-                                "Detección cámara",
-                                placa
-                        );
-                        accesoDAO.insertarAcceso(ahora,
-                                "PLACA",
-                                idUsuarioBase,
-                                idReg,
-                                null);
-
-                        // ** ya no llamamos cerrarSalida() **
-                        // esto elimina el "Cierre manual"
-                    } else {
-                        resultado = EventoEstado.DENEGADO;
-                        int idReg = regPlaDAO.insertarRegistroPlaca(
-                                null,
-                                resultado.name(),
-                                "Salida sin ingreso abierto",
-                                placa
-                        );
-                        accesoDAO.insertarAcceso(ahora,
-                                "PLACA",
-                                null,
-                                idReg,
-                                null);
-                    }
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                    break;
                 }
+
+                // Ahora sabemos que idUsuarioBase != null, checamos duplicados
+                String ultimo = accesoDAO.obtenerUltimoEstadoPorUsuario(idUsuarioBase);
+                if ("SALIDA".equalsIgnoreCase(ultimo)) {
+                    resultado = EventoEstado.SALIDA;
+                    break;
+                }
+
+                // Lógica original de SALIDA
+                Integer idAccAbierto = accesoDAO.obtenerUltimoIngresoPorUsuario(idUsuarioBase);
+                if (idAccAbierto != null) {
+                    resultado = EventoEstado.SALIDA;
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            placa,
+                            resultado.name(),
+                            "Detección cámara",
+                            placa
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", idUsuarioBase, idReg, null);
+                } else {
+                    resultado = EventoEstado.DENEGADO;
+                    int idReg = regPlaDAO.insertarRegistroPlaca(
+                            null,
+                            resultado.name(),
+                            "Salida sin ingreso abierto",
+                            placa
+                    );
+                    accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                }
+                break;
             }
 
-            default -> resultado = EventoEstado.DENEGADO;
+            default: {
+                // Cualquier otro gate lo marcamos DENEGADO
+                resultado = EventoEstado.DENEGADO;
+                int idReg = regPlaDAO.insertarRegistroPlaca(
+                        null,
+                        resultado.name(),
+                        "Gate inválido: " + ev.getGate(),
+                        placa
+                );
+                accesoDAO.insertarAcceso(ahora, "PLACA", null, idReg, null);
+                break;
+            }
         }
 
         ev.setGate(resultado);
         return resultado;
     }
+
 
 
     /**
