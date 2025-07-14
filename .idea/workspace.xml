@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="---- Versión mas Estable, se implemento una mejora en la vista agregar usuarios y editar usuarios.">
+    <list default="true" id="96dc9882-1c9b-40eb-8014-c47f43195929" name="Changes" comment="---- Versión mas Estable, se implemento una mejora en el estacionamiento ya que ahora no registra accesos denegados">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/logic/EstacionamientoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/database/AccesoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/placaspt/ui/EstacionamientoController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +147,7 @@
       <workItem from="1752351722098" duration="10564000" />
       <workItem from="1752414571564" duration="3862000" />
       <workItem from="1752423376210" duration="959000" />
-      <workItem from="1752455817452" duration="1914000" />
+      <workItem from="1752455817452" duration="4468000" />
     </task>
     <task id="LOCAL-00002" summary="Agregamos EL RS232RFID el controlador del puerto RS232, - Agregamos RFIDController controlador de la vista fxml rfid y en el pom add dependencias">
       <option name="closed" value="true" />
@@ -460,7 +461,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752444077748</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="---- Versión mas Estable, se implemento una mejora en el estacionamiento ya que ahora no registra accesos denegados">
+      <option name="closed" value="true" />
+      <created>1752468426768</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1752468426768</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -478,7 +487,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Se modifico el menu de navegación, se elimino el error de autofocus en el menu lateral" />
     <MESSAGE value="Se modifico estructura del codigo RFIDController para limpiarlo de basura antigua.&#10;Se agrgo la vista agregarusuarios y su controladro y está funcional con boton de regreso.&#10;Tambien se modifico el codigo de UsuariosController para comentar el codigo" />
     <MESSAGE value="Modificación de funciones primarias, para abrir siempre pantalla completa, modificación de vista de UsuariosView.fxml por el momento todo esta funcionando muy bien.." />
     <MESSAGE value="Modificación de vista y controlador para agregara Usuarios." />
@@ -503,7 +511,8 @@
     <MESSAGE value="---- Versión Estable, se implemento correción de errores con el metodo - LEVENSHTEIN y permite 2 errores en la placa vehicular. se agrego en FuzzyMatch" />
     <MESSAGE value="---- Versión mas Estable, se implemento correción de errores y ahora solo permite un ingreso por placas y una salida por placas" />
     <MESSAGE value="---- Versión mas Estable, se implemento una mejora en la vista agregar usuarios y editar usuarios." />
-    <option name="LAST_COMMIT_MESSAGE" value="---- Versión mas Estable, se implemento una mejora en la vista agregar usuarios y editar usuarios." />
+    <MESSAGE value="---- Versión mas Estable, se implemento una mejora en el estacionamiento ya que ahora no registra accesos denegados" />
+    <option name="LAST_COMMIT_MESSAGE" value="---- Versión mas Estable, se implemento una mejora en el estacionamiento ya que ahora no registra accesos denegados" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -171,6 +171,7 @@ public class EstacionamientoController implements MainAware, AppEventListener {
     }
 
     /** Recarga la tabla y actualiza el contador */
+    /*
     private void recargar() {
         List<AccesoViewDTO> lista = accesoDAO.listarAccesosPorFecha(dpFecha.getValue());
         var obs = FXCollections.observableArrayList(lista);
@@ -181,7 +182,21 @@ public class EstacionamientoController implements MainAware, AppEventListener {
                 .filter(a->"INGRESO".equals(a.getEstado()))
                 .count();
         lblOcupados.setText("Espacios ocupados: " + dentro + " de " + CAPACIDAD_TOTAL);
+    }*/
+    private void recargar() {
+        // 1) Refrescar la tabla con los accesos del día
+        List<AccesoViewDTO> lista = accesoDAO.listarAccesosPorFecha(dpFecha.getValue());
+        var obs = FXCollections.observableArrayList(lista);
+        tblAccesos.setItems(obs);
+        if (!obs.isEmpty()) tblAccesos.scrollTo(obs.size() - 1);
+
+        // 2) PEDIR a la base de datos el número neto de ocupados
+        int dentro = accesoDAO.contarOcupadosActuales();
+
+        // 3) Actualizar la etiqueta con: “Espacios ocupados: X de TOTAL”
+        lblOcupados.setText("Espacios ocupados: " + dentro + " de " + CAPACIDAD_TOTAL);
     }
+
 
     /** Filtra por texto en usuario o placa */
     private void filtrar() {

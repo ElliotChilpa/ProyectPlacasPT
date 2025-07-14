@@ -129,66 +129,6 @@ public class AccesoDAO {
     }
 
     public boolean cerrarSalida(int idAcceso) {
-        /*String sqlFetch = "SELECT Tipo_Acceso, FK_ID_Usuario, FK_ID_RegistroRFID, FK_ID_RegistroPlaca "
-                + "FROM acceso WHERE ID_Acceso = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sqlFetch)) {
-
-            ps.setInt(1, idAcceso);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) return false;
-
-                String tipo       = rs.getString("Tipo_Acceso");
-                Integer fkUsuario = rs.getObject("FK_ID_Usuario", Integer.class);
-
-                Integer newRegId;
-                Integer fkPla   = null;
-                Integer fkRfid  = null;
-
-                if ("RFID".equalsIgnoreCase(tipo)) {
-                    // a) Recuperar el tag original
-                    int viejoReg = rs.getInt("FK_ID_RegistroRFID");
-                    String tag   = new RegistroRFIDDAO().buscarTagPorId(viejoReg);
-                    // b) Insertar SALIDA en registrorfid
-                    newRegId = new RegistroRFIDDAO().insertarRegistroRFID(
-                            tag,
-                            "SALIDA",
-                            "Cierre manual",
-                            tag
-                    );
-                    fkRfid = newRegId;
-
-                } else if ("PLACA".equalsIgnoreCase(tipo)) {
-                    int viejoReg = rs.getInt("FK_ID_RegistroPlaca");
-                    String placa = new RegistroPlacaDAO().buscarPlacaPorId(viejoReg);
-                    newRegId = new RegistroPlacaDAO().insertarRegistroPlaca(
-                            placa,
-                            "SALIDA",
-                            "Cierre manual",
-                            placa
-                    );
-                    fkPla = newRegId;
-
-                } else {
-                    return false;
-                }
-
-                if (newRegId < 0) return false;
-
-                // c) Insertar un nuevo row de SALIDA en acceso
-                int inserted = insertarAcceso(
-                        LocalDateTime.now(),
-                        tipo,
-                        fkUsuario,
-                        fkPla,
-                        fkRfid
-                );
-                return inserted > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }*/
         return true;
     }
 
@@ -276,5 +216,52 @@ public class AccesoDAO {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    /**
+     * Cuenta cuántos vehículos están actualmente dentro del estacionamiento,
+     * sumando +1 por cada INGRESO y −1 por cada SALIDA, tanto de PLACA como de RFID.
+     */
+    public int contarOcupadosActuales() {
+        String sql = """
+        SELECT COALESCE(SUM(delta), 0) AS ocupados
+          FROM (
+            -- Eventos de placa
+            SELECT CASE
+                     WHEN rp.Estado_Evento = 'INGRESO' THEN  1
+                     WHEN rp.Estado_Evento = 'SALIDA'  THEN -1
+                     ELSE 0
+                   END AS delta
+              FROM acceso a
+              JOIN registroplaca rp
+                ON a.FK_ID_RegistroPlaca = rp.ID_RegistroPlaca
+             WHERE a.Tipo_Acceso = 'PLACA'
+            
+            UNION ALL
+            
+            -- Eventos de RFID
+            SELECT CASE
+                     WHEN rf.Estado_Evento = 'INGRESO' THEN  1
+                     WHEN rf.Estado_Evento = 'SALIDA'  THEN -1
+                     ELSE 0
+                   END AS delta
+              FROM acceso a
+              JOIN registrorfid rf
+                ON a.FK_ID_RegistroRFID = rf.ID_Registro_RFID
+             WHERE a.Tipo_Acceso = 'RFID'
+          ) sub;
+    """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("ocupados");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
